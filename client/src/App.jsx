@@ -1,13 +1,15 @@
-import AppNavbar from './navbar'
+import { Outlet } from "react-router-dom";
+import AppNavbar from "./navbar";
 
 function App() {
   return (
     <>
-      <div>
-        <AppNavbar></AppNavbar>
+      <AppNavbar />
+      <div className="container mt-3">
+        <Outlet />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
