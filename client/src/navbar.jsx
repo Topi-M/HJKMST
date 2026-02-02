@@ -21,8 +21,8 @@ const AppNavbar = () => {
               Palapeli
             </Nav.Link>
 
-            <Nav.Link as={NavLink} to="/placeholder2">
-              placeholder2
+            <Nav.Link as={NavLink} to="/sudoku">
+              Sudoku
             </Nav.Link>
 
             <Nav.Link as={NavLink} to="/placeholder3">
