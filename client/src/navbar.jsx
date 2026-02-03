@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import RBNavbar from 'react-bootstrap/Navbar';
@@ -7,8 +6,8 @@ import { NavLink } from 'react-router-dom';
 
 const AppNavbar = () => {
   return (
-    <RBNavbar bg="primary" variant="dark" expand="lg" className="mb-4">
-      <Container>
+    <RBNavbar bg="primary" variant="dark" expand="lg">
+      <Container fluid>
         <RBNavbar.Brand as={NavLink} to="/">
           Minipelialusta
         </RBNavbar.Brand>
@@ -16,19 +15,15 @@ const AppNavbar = () => {
         <RBNavbar.Toggle aria-controls="main-navbar" />
         <RBNavbar.Collapse id="main-navbar">
           <Nav className="me-auto">
-
             <Nav.Link as={NavLink} to="/palapeli">
               Palapeli
             </Nav.Link>
-
             <Nav.Link as={NavLink} to="/placeholder2">
-              placeholder2
+              Sudoku
             </Nav.Link>
-
             <Nav.Link as={NavLink} to="/placeholder3">
-              placeholder3
+              Nonogram
             </Nav.Link>
-
           </Nav>
         </RBNavbar.Collapse>
       </Container>
@@ -37,3 +32,4 @@ const AppNavbar = () => {
 };
 
 export default AppNavbar;
+
