@@ -27,7 +27,7 @@ export default function Etusivu() {
         marginRight: 'calc(-50vw + 50%)'
       }}
     >
-      <h1 className="display-4 fw-bold mb-5 text-center">Minipelisivu</h1>
+      <h1 className="display-4 fw-bold mb-5 text-center">Valitse peli</h1>
       
       <div className="container">
         <div className="row justify-content-center g-4">
