@@ -6,7 +6,7 @@ export default function Etusivu() {
 
   const games = [
     { name: 'Palapeli', img: '/puzzle.png', route: '/palapeli' },
-    { name: 'Sudoku', img: '/sudoku.png', route: '/placeholder2' },
+    { name: 'Sudoku', img: '/sudoku.png', route: '/sudoku' },
     { name: 'Nonogram', img: '/nonogram.png', route: '/placeholder3' }
   ];
 
