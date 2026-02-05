@@ -5,7 +5,16 @@ import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
 
 export default function Palapeli() {
-  const IMAGE_SRC = testikuva;
+
+  const [IMAGE_SRC, setImageSrc] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/testikuva")
+      .then((res) => res.blob())
+      .then((blob) => {
+        setImageSrc(URL.createObjectURL(blob));
+      });
+  }, []);
 
   const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
