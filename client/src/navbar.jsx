@@ -18,7 +18,8 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/palapeli">
               Palapeli
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/placeholder2">
+
+            <Nav.Link as={NavLink} to="/sudoku">
               Sudoku
             </Nav.Link>
             <Nav.Link as={NavLink} to="/placeholder3">
