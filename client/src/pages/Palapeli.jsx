@@ -1,40 +1,39 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "../css/palapeli.css";
-import testikuva from "../assets/testikuva.png";
 import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
+import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
+import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
+import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
 
 export default function Palapeli() {
+  // Default kuvan hakeminen
+  const [IMAGE_SRC, setImageSrc] = useState(
+    "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/public/kuvat/testikuva.png"
+  );
 
-  const [IMAGE_SRC, setImageSrc] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/testikuva")
-      .then((res) => res.blob())
-      .then((blob) => {
-        setImageSrc(URL.createObjectURL(blob));
-      });
-  }, []);
+  // Menu, jossa kuva valitaan, kuvat haetaan supabasesta
+  const [kuvaValintaAuki, setKuvaValintaAuki] = useState(false);
 
   const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
-  // Oikean valikon valinta (ei vielä aktiivinen ennen nappia)
   const [menuGridSize, setMenuGridSize] = useState(3);
-  // Aktiivinen palapelin koko
   const [gridSize, setGridSize] = useState(3);
 
-  // Palat varastossa ja lauta
   const [pieces, setPieces] = useState([]);
   const [board, setBoard] = useState(Array(3 * 3).fill(null));
   const [imageReady, setImageReady] = useState(false);
 
   useEffect(() => {
+    if (!IMAGE_SRC) return;
     const img = new Image();
     img.onload = () => setImageReady(true);
     img.src = IMAGE_SRC;
+    return () => {
+      setImageReady(false);
+    };
   }, [IMAGE_SRC]);
 
-  // Luo/luo uudelleen palapeli aina kun gridSize muuttuu
   useEffect(() => {
     const total = gridSize * gridSize;
     setBoard(Array(total).fill(null));
@@ -42,13 +41,11 @@ export default function Palapeli() {
     setPieces(shuffle(newPieces));
   }, [gridSize]);
 
-  // Yläpalkin valmis-indikaattori
   const isSolved = useMemo(() => {
     if (!board || board.length === 0) return false;
     return board.every((pieceId, idx) => pieceId !== null && pieceId === idx);
   }, [board]);
 
-  // Luo palapeli valikosta valitulla koolla
   function handleCreateClick() {
     setGridSize(menuGridSize);
   }
@@ -141,7 +138,6 @@ export default function Palapeli() {
     }
   }
 
-  // Dynaaminen grid-tyyli varastolle ja laudalle
   const gridStyle = {
     gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
     gridTemplateRows: `repeat(${gridSize}, 1fr)`,
@@ -149,7 +145,7 @@ export default function Palapeli() {
 
   return (
     <>
-      {/* Yläpalkki keskitettyine solved-tekstillä */}
+      {/* Yläpalkki */}
       <div className="puzzle-topbar">
         <div className="puzzle-topbar__content puzzle-topbar__content--centered">
           <div className="topbar-left" />
@@ -181,7 +177,6 @@ export default function Palapeli() {
                   draggable
                   onDragStart={(e) => handleDragStart(e, id, "storage")}
                 >
-                  {/* Käytä AKTIIVISTA gridSizea */}
                   <PuzzlePiece id={id} size={gridSize} image={IMAGE_SRC} />
                 </div>
               ))}
@@ -200,11 +195,8 @@ export default function Palapeli() {
                   <div
                     style={{ width: "100%", height: "100%" }}
                     draggable
-                    onDragStart={(e) =>
-                      handleDragStart(e, pieceId, "board", idx)
-                    }
+                    onDragStart={(e) => handleDragStart(e, pieceId, "board", idx)}
                   >
-                    {/* Käytä AKTIIVISTA gridSizea */}
                     <PuzzlePiece id={pieceId} size={gridSize} image={IMAGE_SRC} />
                   </div>
                 )}
@@ -216,19 +208,28 @@ export default function Palapeli() {
         {/* Oikea paneeli: valikko + nappi */}
         <div className="puzzle-right">
           <div className="side-panel">
+            <PalapeliFetchKuvaButton onClick={() => setKuvaValintaAuki(true)} />
             <PalapeliSizeMenu
               selectedSize={menuGridSize}
               onSelectSize={setMenuGridSize}
             />
             <div style={{ marginTop: 12 }}>
-              <PalapeliCreateButton
-                size={menuGridSize}
-                onClick={handleCreateClick}
-              />
+              <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
+            <PalapeliLeaderboard/>
           </div>
         </div>
       </div>
+
+      {/* Kuvavalinta overlay */}
+      <PalapeliKuvaValinta
+        visible={kuvaValintaAuki}
+        onClose={() => setKuvaValintaAuki(false)}
+        onSelect={(url) => {
+          setImageSrc(url); // Päivitä kuva
+          setKuvaValintaAuki(false);
+        }}
+      />
     </>
   );
 }
