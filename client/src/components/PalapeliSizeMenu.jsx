@@ -1,11 +1,11 @@
-// PalaPeliSizeMenu.jsx
-import React from "react";
 import { Dropdown } from "react-bootstrap";
 
 const SIZES = [3, 5, 7];
 
 const PalaPeliSizeMenu = ({ selectedSize, onSelectSize }) => {
-  const label = selectedSize ? `${selectedSize}x${selectedSize}` : "Valitse koko";
+  const label = selectedSize
+  ? `Valitse koko: ${selectedSize}x${selectedSize}`
+  : "Valitse koko";
 
   return (
     <Dropdown onSelect={(eventKey) => onSelectSize(Number(eventKey))}>
