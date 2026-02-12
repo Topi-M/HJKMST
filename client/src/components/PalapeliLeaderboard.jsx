@@ -21,10 +21,9 @@ export default function PalapeliLeaderboard() {
           throw new Error("SUPABASE URL tai ANON KEY puuttuu (.env.local).");
         }
 
-        const table = "test_ranking";
+        const table = "minigame1_leaderboard";
         const url = new URL(`${baseUrl}/rest/v1/${table}`);
-        url.searchParams.set("select", "Nimi,Ranking");
-        url.searchParams.set("order", "Ranking.asc");
+        url.searchParams.set("select", "username,best_time,rank");
         url.searchParams.set("limit", "10");
 
         const resp = await fetch(url.toString(), {
@@ -45,8 +44,9 @@ export default function PalapeliLeaderboard() {
         if (!mounted) return;
 
         const list = (Array.isArray(data) ? data : []).map((row) => ({
-          name: row.Nimi,
-          score: row.Ranking,
+          name: row.username,
+          score: row.best_time,
+          rank: row.rank
         }));
 
         setEntries(list);
