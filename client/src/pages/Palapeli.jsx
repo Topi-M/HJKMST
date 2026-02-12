@@ -5,6 +5,7 @@ import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
 import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
 import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
+import PelienTimer from "../components/PelienTimer.jsx";
 
 export default function Palapeli() {
   // Default kuvan hakeminen
@@ -23,6 +24,7 @@ export default function Palapeli() {
   const [pieces, setPieces] = useState([]);
   const [board, setBoard] = useState(Array(3 * 3).fill(null));
   const [imageReady, setImageReady] = useState(false);
+  const [isGameActive, setIsGameActive] = useState(false);
 
   useEffect(() => {
     if (!IMAGE_SRC) return;
@@ -48,6 +50,7 @@ export default function Palapeli() {
 
   function handleCreateClick() {
     setGridSize(menuGridSize);
+    setIsGameActive(true);
   }
 
   function handleDragStart(e, pieceId, source, fromIndex = null) {
@@ -138,6 +141,16 @@ export default function Palapeli() {
     }
   }
 
+  // Lisää tämä muiden useState-kohtien joukkoon
+const [finalTime, setFinalTime] = useState(null);
+
+// Funktio, joka ottaa sekunnit vastaan
+const handleGameFinish = (usedTime) => {
+  setFinalTime(usedTime);
+  console.log("Viimeinen aika tallennettu muuttujaan:", usedTime);
+  // Tässä on usedTime, jonka voi sitten tallentaa tietokantaan leaderboardin ajaksi.
+};
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
     gridTemplateRows: `repeat(${gridSize}, 1fr)`,
@@ -150,6 +163,12 @@ export default function Palapeli() {
         <div className="puzzle-topbar__content puzzle-topbar__content--centered">
           <div className="topbar-left" />
           <div className="topbar-center">
+            <PelienTimer 
+              isRunning={isGameActive && !isSolved && imageReady} 
+              resetTrigger={gridSize + IMAGE_SRC} // Nollaa kello jos koko TAI kuva muuttuu
+              onFinish={handleGameFinish} // Kutsu funktiota pelin päättyessä
+              isGameActive={false}
+            />
             {isSolved && (
               <span className="solved-badge" aria-live="polite" role="status">
                 Oikein ratkaistu 🎉
@@ -228,6 +247,7 @@ export default function Palapeli() {
         onSelect={(url) => {
           setImageSrc(url); // Päivitä kuva
           setKuvaValintaAuki(false);
+          setIsGameActive(true); // Käynnistää pelin, jotta kello toimii uuden kuvan kanssa
         }}
       />
     </>
