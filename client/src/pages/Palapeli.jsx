@@ -1,115 +1,276 @@
-import React, { useState, useEffect } from "react";
-
-const IMG_PATH = "/src/assets/testikuva.png"; 
-const GRID_SIZE = 3; // 3x3
-const TILE_SIZE = 512 / GRID_SIZE; // 170.666...
+import React, { useState, useEffect, useMemo } from "react";
+import "../css/palapeli.css";
+import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
+import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
+import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
+import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
+import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
+import PelienTimer from "../components/PelienTimer.jsx";
 
 export default function Palapeli() {
-  const [tiles, setTiles] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [isSolved, setIsSolved] = useState(false);
+  // Default kuvan hakeminen
+  const [IMAGE_SRC, setImageSrc] = useState(
+    "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/public/kuvat/testikuva.png"
+  );
 
-  // Luo 3x3 palat
+  // Menu, jossa kuva valitaan, kuvat haetaan supabasesta
+  const [kuvaValintaAuki, setKuvaValintaAuki] = useState(false);
+
+  const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
+
+  const [menuGridSize, setMenuGridSize] = useState(3);
+  const [gridSize, setGridSize] = useState(3);
+
+  const [pieces, setPieces] = useState([]);
+  const [board, setBoard] = useState(Array(3 * 3).fill(null));
+  const [imageReady, setImageReady] = useState(false);
+  const [isGameActive, setIsGameActive] = useState(false);
+
   useEffect(() => {
-    const arr = [];
-    for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
-      arr.push(i);
-    }
-    // Sekoita palat
-    const shuffled = arr
-      .map((n) => ({ n, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map((o) => o.n);
+    if (!IMAGE_SRC) return;
+    const img = new Image();
+    img.onload = () => setImageReady(true);
+    img.src = IMAGE_SRC;
+    return () => {
+      setImageReady(false);
+    };
+  }, [IMAGE_SRC]);
 
-    setTiles(shuffled);
-  }, []);
-
-  // Tarkista onko ratkaistu
   useEffect(() => {
-    const solved = tiles.every((value, index) => value === index);
-    setIsSolved(solved);
-  }, [tiles]);
+    const total = gridSize * gridSize;
+    setBoard(Array(total).fill(null));
+    const newPieces = Array.from({ length: total }, (_, i) => i);
+    setPieces(shuffle(newPieces));
+  }, [gridSize]);
 
-  const handleTileClick = (index) => {
-    if (selected === null) {
-      setSelected(index);
+  const isSolved = useMemo(() => {
+    if (!board || board.length === 0) return false;
+    return board.every((pieceId, idx) => pieceId !== null && pieceId === idx);
+  }, [board]);
+
+  function handleCreateClick() {
+    setGridSize(menuGridSize);
+    setIsGameActive(true);
+  }
+
+  function handleDragStart(e, pieceId, source, fromIndex = null) {
+    const payload = JSON.stringify({ pieceId, source, fromIndex });
+    e.dataTransfer.setData("text/plain", payload);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function handleDropToBoard(e, targetIndex) {
+    e.preventDefault();
+    const raw = e.dataTransfer.getData("text/plain");
+    if (!raw) return;
+
+    let payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
       return;
     }
 
-    // Vaihda kahden palan paikka
-    const newTiles = [...tiles];
-    [newTiles[selected], newTiles[index]] = [newTiles[index], newTiles[selected]];
+    const { pieceId, source, fromIndex } = payload;
+    if (typeof pieceId !== "number") return;
+    if (source === "board" && fromIndex === targetIndex) return;
 
-    setTiles(newTiles);
-    setSelected(null);
-  };
+    const targetHas = board[targetIndex];
 
-  // Laske taustaposition koordinaatit
-  const getBackgroundPosition = (tileIndex) => {
-    const x = (tileIndex % GRID_SIZE) * (100 / (GRID_SIZE - 1));
-    const y = Math.floor(tileIndex / GRID_SIZE) * (100 / (GRID_SIZE - 1));
-    return `${x}% ${y}%`;
+    if (source === "storage") {
+      if (board[targetIndex] !== null) {
+        setBoard((prev) => {
+          const next = [...prev];
+          next[targetIndex] = pieceId;
+          return next;
+        });
+        setPieces((prev) => {
+          const withoutDragged = prev.filter((p) => p !== pieceId);
+          return [...withoutDragged, targetHas];
+        });
+      } else {
+        setBoard((prev) => {
+          const next = [...prev];
+          next[targetIndex] = pieceId;
+          return next;
+        });
+        setPieces((prev) => prev.filter((p) => p !== pieceId));
+      }
+    } else if (source === "board") {
+      if (board[targetIndex] === null) {
+        setBoard((prev) => {
+          const next = [...prev];
+          next[fromIndex] = null;
+          next[targetIndex] = pieceId;
+          return next;
+        });
+      } else {
+        setBoard((prev) => {
+          const next = [...prev];
+          const tmp = next[targetIndex];
+          next[targetIndex] = pieceId;
+          next[fromIndex] = tmp;
+          return next;
+        });
+      }
+    }
+  }
+
+  function handleDropToStorage(e) {
+    e.preventDefault();
+    const raw = e.dataTransfer.getData("text/plain");
+    if (!raw) return;
+
+    let payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      return;
+    }
+
+    const { pieceId, source, fromIndex } = payload;
+    if (typeof pieceId !== "number") return;
+
+    if (source === "board") {
+      setBoard((prev) => {
+        const next = [...prev];
+        if (fromIndex != null) next[fromIndex] = null;
+        return next;
+      });
+      setPieces((prev) => (prev.includes(pieceId) ? prev : [...prev, pieceId]));
+    }
+  }
+
+  // Lisää tämä muiden useState-kohtien joukkoon
+const [finalTime, setFinalTime] = useState(null);
+
+// Funktio, joka ottaa sekunnit vastaan
+const handleGameFinish = (usedTime) => {
+  setFinalTime(usedTime);
+  console.log("Viimeinen aika tallennettu muuttujaan:", usedTime);
+  // Tässä on usedTime, jonka voi sitten tallentaa tietokantaan leaderboardin ajaksi.
+};
+
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+    gridTemplateRows: `repeat(${gridSize}, 1fr)`,
   };
 
   return (
-    <div style={containerStyle}>
-      <h2>3x3 Palapeli</h2>
-
-      <div style={boardStyle}>
-        {tiles.map((tile, index) => (
-          <div
-            key={index}
-            onClick={() => handleTileClick(index)}
-            style={{
-              ...tileStyle,
-              border:
-                selected === index ? "3px solid #0f0" : "2px solid #222",
-              backgroundImage: `url(${IMG_PATH})`,
-              backgroundSize: "300% 300%",
-              backgroundPosition: getBackgroundPosition(tile),
-            }}
-          ></div>
-        ))}
+    <>
+      {/* Yläpalkki */}
+      <div className="puzzle-topbar">
+        <div className="puzzle-topbar__content puzzle-topbar__content--centered">
+          <div className="topbar-left" />
+          <div className="topbar-center">
+            <PelienTimer 
+              isRunning={isGameActive && !isSolved && imageReady} 
+              resetTrigger={gridSize + IMAGE_SRC} // Nollaa kello jos koko TAI kuva muuttuu
+              onFinish={handleGameFinish} // Kutsu funktiota pelin päättyessä
+              isGameActive={false}
+            />
+            {isSolved && (
+              <span className="solved-badge" aria-live="polite" role="status">
+                Oikein ratkaistu 🎉
+              </span>
+            )}
+          </div>
+          <div className="topbar-right" />
+        </div>
       </div>
 
-      {isSolved && (
-        <div style={solvedStyle}>
-          ✔ Palapeli ratkaistu!
+      {/* 80% / 20% layout */}
+      <div className="puzzle-shell">
+        {/* Vasen paneeli: varasto + lauta */}
+        <div className="puzzle-left">
+          <div
+            className="piece-storage"
+            onDrop={handleDropToStorage}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            <div className="storage-grid" style={gridStyle}>
+              {pieces.map((id) => (
+                <div
+                  key={id}
+                  className="stored-piece"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, id, "storage")}
+                >
+                  <PuzzlePiece id={id} size={gridSize} image={IMAGE_SRC} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="board" style={gridStyle}>
+            {board.map((pieceId, idx) => (
+              <div
+                key={idx}
+                className="cell"
+                onDrop={(e) => handleDropToBoard(e, idx)}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                {pieceId !== null && (
+                  <div
+                    style={{ width: "100%", height: "100%" }}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, pieceId, "board", idx)}
+                  >
+                    <PuzzlePiece id={pieceId} size={gridSize} image={IMAGE_SRC} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* Oikea paneeli: valikko + nappi */}
+        <div className="puzzle-right">
+          <div className="side-panel">
+            <PalapeliFetchKuvaButton onClick={() => setKuvaValintaAuki(true)} />
+            <PalapeliSizeMenu
+              selectedSize={menuGridSize}
+              onSelectSize={setMenuGridSize}
+            />
+            <div style={{ marginTop: 12 }}>
+              <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
+            </div>
+            <PalapeliLeaderboard/>
+          </div>
+        </div>
+      </div>
+
+      {/* Kuvavalinta overlay */}
+      <PalapeliKuvaValinta
+        visible={kuvaValintaAuki}
+        onClose={() => setKuvaValintaAuki(false)}
+        onSelect={(url) => {
+          setImageSrc(url); // Päivitä kuva
+          setKuvaValintaAuki(false);
+          setIsGameActive(true); // Käynnistää pelin, jotta kello toimii uuden kuvan kanssa
+        }}
+      />
+    </>
   );
 }
 
-/* --- Tyylit JS‑objekteina --- */
+function PuzzlePiece({ id, size, image, ...props }) {
+  const col = id % size;
+  const row = Math.floor(id / size);
 
-const containerStyle = {
-  textAlign: "center",
-  color: "white",
-  fontFamily: "Arial",
-};
+  const offsetX = (col / (size - 1)) * 100;
+  const offsetY = (row / (size - 1)) * 100;
 
-const boardStyle = {
-  width: "512px",
-  height: "512px",
-  margin: "20px auto",
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gridTemplateRows: "repeat(3, 1fr)",
-  gap: "4px",
-  background: "#111",
-  padding: "4px",
-};
-
-const tileStyle = {
-  width: "100%",
-  height: "100%",
-  backgroundRepeat: "no-repeat",
-  cursor: "pointer",
-};
-
-const solvedStyle = {
-  marginTop: "20px",
-  fontSize: "24px",
-  color: "#00ff00",
-};
+  return (
+    <div
+      {...props}
+      className="puzzle-piece"
+      style={{
+        backgroundImage: `url(${image})`,
+        backgroundSize: `${size * 100}% ${size * 100}%`,
+        backgroundPosition: `${offsetX}% ${offsetY}%`,
+        backgroundRepeat: "no-repeat",
+      }}
+    />
+  );
+}
