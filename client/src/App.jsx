@@ -5,9 +5,10 @@ function App() {
   return (
     <>
       <AppNavbar />
-      <div className="container mt-3">
+      {/* Poistettu container ja mt-3, jotta etusivu voi täyttää koko ruudun */}
+      <main>
         <Outlet />
-      </div>
+      </main>
     </>
   );
 }
