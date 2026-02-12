@@ -25,6 +25,10 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/placeholder3">
               Nonogram
             </Nav.Link>
+
+            <Nav.Link as= {NavLink} to="/Login">
+              Login
+            </Nav.Link>
           </Nav>
         </RBNavbar.Collapse>
       </Container>

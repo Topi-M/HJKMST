@@ -4,7 +4,7 @@ import Palapeli from "./pages/Palapeli";
 import Sudoku from "./pages/Sudoku";
 import Placeholder3 from "./pages/Placeholder3";
 import Etusivu from "./pages/Etusivu"; 
-
+import Login  from "./pages/Login";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +25,9 @@ export const router = createBrowserRouter([
       {
         path: "placeholder3",
         element: <Placeholder3 />,
+      },
+      { path: "Login",
+        element: <Login/>
       }
     ],
   },
