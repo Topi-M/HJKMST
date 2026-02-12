@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 
 export default function AuthForm({ supabase, setError }) {
-  const [mode, setMode] = useState("login"); // "login" or "signup"
+  const [mode, setMode] = useState("login"); // "login" / "signup"
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState(""); // new username state
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(""); // uusi käyttäjänimi, vain signupissa
+  const [password, setPassword] = useState(""); // salasanana input
   const [loading, setLoading] = useState(false);
 
+
+  // Log in moodi -> kutsuu signInWithPassword() auth db:stä -> jos OK päästää sisään -> tulee session token
+  // Muuten -> signup -> luodaan tili, tällä hetkellä (12.2.2026) sähköpostia jolla tarkistetaan email EI lähetetä, vaikka niin sanotaan
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     if (mode === "login") {
-      // Login still uses email + password
+      // Login käyttää email + password
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setError(error.message);
     } else {
-      // Signup with metadata
+      // Signup  metadata = käyttäjänimi
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { username }, // store username in user_metadata
+          data: { username }, // ´käyttäjänimi user_metadataan
         },
       });
 
@@ -32,7 +35,7 @@ export default function AuthForm({ supabase, setError }) {
 
     setLoading(false);
   };
-
+ // formeja ja user inputtia
   return (
     <div>
       <div style={{ marginBottom: "20px", textAlign: "center" }}>
