@@ -6,7 +6,6 @@ import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
 import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
 import PelienTimer from "../components/PelienTimer.jsx";
-import { tallennaTulos } from "../components/PalapeliTuloksenTallennus";
 
 export default function Palapeli() {
   // Default kuvan hakeminen
