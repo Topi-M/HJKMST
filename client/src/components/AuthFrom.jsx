@@ -54,7 +54,7 @@ export default function AuthForm({ supabase, setError }) {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form aria-label = "auth form" onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import "../css/palapeli.css";
 import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
@@ -25,7 +25,8 @@ export default function Palapeli() {
   const [board, setBoard] = useState(Array(3 * 3).fill(null));
   const [imageReady, setImageReady] = useState(false);
   const [isGameActive, setIsGameActive] = useState(false);
-
+  const [gameStartTime, setGameStartTime] = useState(null);
+  const resultSubmittedRef = useRef(false);
   useEffect(() => {
     if (!IMAGE_SRC) return;
     const img = new Image();
@@ -51,6 +52,7 @@ export default function Palapeli() {
   function handleCreateClick() {
     setGridSize(menuGridSize);
     setIsGameActive(true);
+    
   }
 
   function handleDragStart(e, pieceId, source, fromIndex = null) {
@@ -144,11 +146,28 @@ export default function Palapeli() {
   // Lisää tämä muiden useState-kohtien joukkoon
 const [finalTime, setFinalTime] = useState(null);
 
-// Funktio, joka ottaa sekunnit vastaan
-const handleGameFinish = (usedTime) => {
-  setFinalTime(usedTime);
-  console.log("Viimeinen aika tallennettu muuttujaan:", usedTime);
-  // Tässä on usedTime, jonka voi sitten tallentaa tietokantaan leaderboardin ajaksi.
+// Kutsuu kun palapeli oikein
+const handleGameFinish = async (usedTimeMs, startTimeMs) => {
+  if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
+  resultSubmittedRef.current = true;
+  const endTimeMs = Date.now();               // nykyinen aika
+  const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
+  setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
+
+  console.log(
+    "Peli valmis! Aloitus aika:", gameStartTime,
+    "Lopetusaika:", endTimeMs,
+    "Ratkaisu aika (ms):", solveTimeMs
+  );
+
+  // Lähetetään koko aloitus ja lopetus supabaseen
+  const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
+
+  if (vastaus.success) {
+    console.log("Tulos tallennettu onnistuneesti kantaan.");
+  } else {
+    console.error("Tallennus epäonnistui:", vastaus.error || vastaus.message);
+  }
 };
 
   const gridStyle = {
@@ -167,7 +186,7 @@ const handleGameFinish = (usedTime) => {
               isRunning={isGameActive && !isSolved && imageReady} 
               resetTrigger={gridSize + IMAGE_SRC} // Nollaa kello jos koko TAI kuva muuttuu
               onFinish={handleGameFinish} // Kutsu funktiota pelin päättyessä
-              isGameActive={false}
+              setGameStartTime={setGameStartTime}
             />
             {isSolved && (
               <span className="solved-badge" aria-live="polite" role="status">
