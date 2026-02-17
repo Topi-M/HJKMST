@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const PelienTimer = ({ isRunning, onFinish, resetTrigger }) => {
+const PelienTimer = ({ isRunning, onFinish, resetTrigger, setGameStartTime }) => {
   // Tallennetaan aika millisekunneissa, että näyttää kivemmalta ja on tarkempi
   const [time, setTime] = useState(0);
   const timeRef = useRef(0);
+  const startTimeRef = useRef(null); 
 
+ // Resettaa ajastimen kun resetTrigger vaihtuu (FALSE/TRUE)
   useEffect(() => {
     setTime(0);
     timeRef.current = 0;
+    startTimeRef.current = null;
   }, [resetTrigger]);
 
+  // referenssi sync
   useEffect(() => {
     timeRef.current = time;
   }, [time]);
@@ -18,39 +22,37 @@ const PelienTimer = ({ isRunning, onFinish, resetTrigger }) => {
     let interval = null;
 
     if (isRunning) {
-      // Päivitetään 10ms välein (100 kertaa sekunnissa)
+      //  Kun ajastin käynnistyy startTime aika muistiin 
+      if (!startTimeRef.current) {
+        startTimeRef.current = Date.now();
+        if (setGameStartTime) setGameStartTime(startTimeRef.current); 
+      }
+
       interval = setInterval(() => {
         setTime((prev) => prev + 10);
       }, 10);
     } else {
       if (timeRef.current > 0) {
-        // Lähetetään kokonaisaika millisekunneissa ylös
-        onFinish(timeRef.current);
+        // Kun ajastin valmis -> kokonaisaika 
+        onFinish(timeRef.current, startTimeRef.current);
       }
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, onFinish, setGameStartTime]);
 
-  // Muotoilu: millisekunneiksi
+  // Muotoillaan näytettäväksi
   const formatTime = () => {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
-    const milliseconds = Math.floor((time % 1000) / 10); // Otetaan kaksi numeroa
-
-    return (
-      `${minutes.toString().padStart(2, "0")}:` +
-      `${seconds.toString().padStart(2, "0")}:` +
-      `${milliseconds.toString().padStart(2, "0")}`
-    );
+    const centiseconds = Math.floor((time % 1000) / 10);
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}:${centiseconds.toString().padStart(2, "0")}`;
   };
 
-  return (
-    <div className="timer-display" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-      {formatTime()}
-    </div>
-  );
+  return <div className="timer-display">{formatTime()}</div>;
 };
 
 export default PelienTimer;

@@ -1,57 +1,37 @@
-export const tallennaTulos = async (usedTimeMs) => {
-  const baseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+import { supabase } from '../components/SupaBaseClient';
 
-  const storageKey = Object.keys(localStorage).find(
-    (key) => key.startsWith('sb-') && key.endsWith('-auth-token')
-  );
-  const sessionData = storageKey ? JSON.parse(localStorage.getItem(storageKey)) : null;
-  const token = sessionData?.access_token || anonKey;
-
+export const tallennaTulos = async (startTimeMs, endTimeMs) => {
   try {
-    // 1. Haetaan kirjautuneen käyttäjän tiedot (tarvitaan user_id)
-   
-    const userResp = await fetch(`${baseUrl}/auth/v1/user`, {
-      headers: { apikey: anonKey, Authorization: `Bearer ${token}` },
-    });
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) throw sessionError;
 
-    if (!userResp.ok) {
-      return { success: false, message: "Kirjaudu sisään tallentaaksesi tuloksen." };
+    const user = session?.user;
+    if (!user) {
+      return { success: false, message: 'Kirjaudu sisään tallentaaksesi tuloksen.' };
     }
 
-    const userData = await userResp.json();
-    const currentUserId = userData.id; // Tämä on se UUID 'user_id' sarakkeeseen
+    // Laskee käytetyn ajan Ms
+    const solveTimeMs = endTimeMs - startTimeMs;
 
-    console.log("Lähetettävä ID:", currentUserId);
-    console.log("Käytettävä Token:", token.substring(0, 10) + "...");
+    // Insert into submission taulu supabase
+    const { data, error } = await supabase
+      .from('submission')
+      .insert([{
+        minigame_id: 1,
+        solve_time_ms: solveTimeMs,
+        start_time_ms: startTimeMs,
+        end_time_ms: endTimeMs
+      }]); 
 
-    // 2. Tallennetaan tulos submission-tauluun
-    // Sarakkeet kuvakaappauksestasi: minigame_id, solve_time_ms, user_id
-    const saveResp = await fetch(`${baseUrl}/rest/v1/submission`, {
-      method: "POST",
-      headers: {
-        apikey: anonKey,
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=representation",
-      },
-      body: JSON.stringify({
-        minigame_id: 1,           // Palapelin ID
-        solve_time_ms: usedTimeMs, // Aika millisekunteina
-        user_id: currentUserId    // Linkitys käyttäjään
-      }),
-    });
-
-    const result = await saveResp.json();
-    console.log("Tallennus onnistui:", result);
-
-    if (saveResp.ok) {
-      return { success: true, data: result };
-    } else {
-      throw new Error(result.message || "Tallennus epäonnistui");
+    if (error) {
+      console.error('Tallennus epäonnistui:', error.message);
+      return { success: false, error: error.message };
     }
+
+    console.log('Tallennus onnistui:', data);
+    return { success: true, data };
   } catch (err) {
-    console.error("Virhe tallennusprosessissa:", err);
+    console.error('Virhe tallennusprosessissa:', err);
     return { success: false, error: err.message };
   }
 };
