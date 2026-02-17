@@ -6,7 +6,6 @@ import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
 import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
 import PelienTimer from "../components/PelienTimer.jsx";
-import { tallennaTulos } from "../components/PalapeliTuloksenTallennus";
 
 export default function Palapeli() {
   // Default kuvan hakeminen
@@ -146,19 +145,10 @@ export default function Palapeli() {
 const [finalTime, setFinalTime] = useState(null);
 
 // Funktio, joka ottaa sekunnit vastaan
-const handleGameFinish = async (usedTime) => {
+const handleGameFinish = (usedTime) => {
   setFinalTime(usedTime);
-  console.log("Peli valmis! Tallennetaan aika:", usedTime);
-
-  // Kutsutaan uutta komponenttitiedostoa
-  const vastaus = await tallennaTulos(usedTime);
-
-  if (vastaus.success) {
-    console.log("Tulos tallennettu onnistuneesti kantaan.");
-    // Jos haluat, voit tässä päivittää leaderboardin tai antaa palautteen käyttäjälle
-  } else {
-    console.error("Tallennus epäonnistui:", vastaus.error || vastaus.message);
-  }
+  console.log("Viimeinen aika tallennettu muuttujaan:", usedTime);
+  // Tässä on usedTime, jonka voi sitten tallentaa tietokantaan leaderboardin ajaksi.
 };
 
   const gridStyle = {
