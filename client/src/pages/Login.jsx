@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "../components/SupaBaseClient";
+import AuthForm from "../components/AuthFrom"; // <- komponentti joka käsittelee sign up / login / logout funktiot
+import ErrorMessage from "../components/ErrorMessage"; // <- error jos jokin menee pieleen
 
-import AuthForm from "../components/AuthFrom";
-import ErrorMessage from "../components/ErrorMessage";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY
-);
 
 export default function AuthPage() {
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // <- ohjaa käyttäjän toisille sivuille
+  const [error, setError] = useState(""); // <- pitää muistissa errorit
+  const [user, setUser] = useState(null); // <- sisäänkirjautuneen käyttäjän tiedot
 
-  // Check if user is logged in
+  // Katsoo onko käyttäjä kirjautunut sisään
+  // auth.getsessions https://supabase.com/docs/guides/auth/sessions
   useEffect(() => {
     const session = supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
@@ -23,7 +19,7 @@ export default function AuthPage() {
       }
     });
 
-    // Subscribe to auth changes
+    // Kuuntelee käyttäjän tilaa (login, logout jne) 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
@@ -34,13 +30,13 @@ export default function AuthPage() {
       authListener.subscription.unsubscribe();
     };
   }, []);
-
+  // Logout, tyhjentää user staten ja lähettää supabaselle logout funktion
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) setError(error.message);
     else {
       setUser(null);
-      navigate("/"); // redirect to homepage or login
+      navigate("/"); // vie takas main pagelle
     }
   };
 

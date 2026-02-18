@@ -1,67 +1,98 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Etusivu() {
+const Etusivu = () => {
   const navigate = useNavigate();
 
-  const games = [
-    { name: 'Palapeli', img: '/puzzle.png', route: '/palapeli' },
-    { name: 'Sudoku', img: '/sudoku.png', route: '/sudoku' },
-    { name: 'Nonogram', img: '/nonogram.png', route: '/placeholder3' },
-    { name: 'Muistipeli', img: '/muistipeli.png', route: '/Muistipeli' }
+  const pelit = [
+    { 
+      id: 'palapeli',
+      name: 'Palapeli', 
+      img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/hjkmst_palapeli.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9oamttc3RfcGFsYXBlbGkucG5nIiwiaWF0IjoxNzcxNDE1NTE4LCJleHAiOjE4MDI5NTE1MTh9.tAJgGgw6WT6cRfiVarjg0ZRuOxcQlJMfK7n0ZRj5bq8",
+      route: '/palapeli',
+      description: 'Ratkaise kuvioita logiikan avulla.'
+    },
+    { 
+      id: 'sudoku',
+      name: 'Sudoku', 
+      img: "", // Lisää URL myöhemmin
+      route: '/sudoku',
+      description: 'Täytä ruudukko numeroilla.'
+    },
+    { 
+      id: 'nonogram',
+      name: 'Nonogram', 
+      img: "", // lisää url myöhemmin
+      route: '/nonogram',
+      description: 'Paljasta piilotettu kuva loogisella päättelyllä.'
+    },
+    { 
+      id: 'muistipeli',
+      name: 'Muistipeli', 
+      img: "", // lisää url myöhemmin
+      route: '/muistipeli',
+      description: 'Etsi kuvaparit.'
+    }
   ];
 
   return (
-    <div
-      style={{
-        width: '100vw', 
-        minHeight: 'calc(100vh - 56px)', 
-        backgroundColor: '#0b0c10',
-        color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '0',
-        padding: '2rem 0',
-        marginLeft: 'calc(-50vw + 50%)',
-        marginRight: 'calc(-50vw + 50%)'
-      }}
-    >
-      <h1 className="display-4 fw-bold mb-5 text-center">Valitse peli</h1>
-      
-      <div className="container">
-        <div className="row justify-content-center g-4">
-          {games.map((game, idx) => (
-            <div className="col-lg-4 col-md-6 d-flex justify-content-center" key={idx}>
-              <div 
-                className="card bg-dark text-white border-secondary shadow-lg h-100" 
-                style={{ width: '100%', maxWidth: '320px', borderRadius: '15px' }}
-              >
-                <div style={{ height: '200px', backgroundColor: '#455a64', borderRadius: '15px 15px 0 0' }}>
-                   {/* Jos kuva puuttuu, näkyy harmaa laatikko */}
+    <div className="container-fluid py-5" style={{ backgroundColor: '#0b0c10', minHeight: '100vh', color: 'white' }}>
+      <header className="text-center mb-5">
+        <h1 className="display-4 fw-bold text-info">Valitse peli</h1>
+        <p className="lead text-secondary"></p>
+      </header>
+
+      {/* row-cols varmistaa, että kortit ovat samanlevyisiä ja h-100 pitää ne samanpituisina */}
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center px-md-5">
+        {pelit.map((peli) => (
+          <div key={peli.id} className="col" style={{ maxWidth: '350px' }}>
+            <div 
+              className="card h-100 border-0 shadow-lg" 
+              onClick={() => navigate(peli.route)}
+              style={{ 
+                cursor: 'pointer', 
+                backgroundColor: '#1f2833', 
+                borderRadius: '15px',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              {/* Kuva-alue vakiokorkeudella */}
+              <div className="d-flex align-items-center justify-content-center" style={{ 
+                height: '200px', 
+                backgroundColor: '#1c1e22', 
+                borderTopLeftRadius: '15px', 
+                borderTopRightRadius: '15px',
+                overflow: 'hidden' 
+              }}>
+                {peli.img ? (
                   <img 
-                    src={game.img} 
-                    className="card-img-top w-100 h-100" 
-                    alt={game.name} 
-                    style={{ objectFit: 'cover' }}
-                    onError={(e) => e.target.style.display = 'none'} 
+                    src={peli.img} 
+                    alt={peli.name}
+                    style={{ 
+                      maxHeight: '100%', 
+                      maxWidth: '100%', 
+                      objectFit: 'contain',
+                      imageRendering: 'pixelated'
+                    }} 
                   />
-                </div>
-                <div className="card-body d-flex flex-column align-items-center">
-                  <h5 className="card-title mb-3">{game.name}</h5>
-                  <button 
-                    className="btn btn-primary w-100 mt-auto" 
-                    onClick={() => navigate(game.route)}
-                  >
-                    Pelaa
-                  </button>
-                </div>
+                ) : (
+                  <div className="text-muted">Ei kuvaa</div>
+                )}
+              </div>
+
+              <div className="card-body d-flex flex-column text-center">
+                <h5 className="card-title fw-bold text-info">{peli.name}</h5>
+                <p className="card-text text-secondary flex-grow-1">{peli.description}</p>
+                <button className="btn btn-outline-info w-100 mt-auto">Pelaa</button>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
+
+export default Etusivu;
