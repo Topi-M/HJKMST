@@ -7,7 +7,8 @@ export default function Etusivu() {
   const games = [
     { name: 'Palapeli', img: '/puzzle.png', route: '/palapeli' },
     { name: 'Sudoku', img: '/sudoku.png', route: '/sudoku' },
-    { name: 'Nonogram', img: '/nonogram.png', route: '/placeholder3' }
+    { name: 'Nonogram', img: '/nonogram.png', route: '/placeholder3' },
+    { name: 'Muistipeli', img: '/muistipeli.png', route: '/Muistipeli' }
   ];
 
   return (
