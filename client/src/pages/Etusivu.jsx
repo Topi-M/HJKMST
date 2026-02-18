@@ -1,13 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+// Polku selitetty: 
+// ../ nousee pois 'pages' kansiosta 'src' tasolle
+// assets/ menee 'assets' kansioon
+import palapeliKuva from "../assets/hjkmst_palapeli.png";
+
 export default function Etusivu() {
   const navigate = useNavigate();
 
   const games = [
-    { name: 'Palapeli', img: '/puzzle.png', route: '/palapeli' },
+    { name: 'Palapeli', img: palapeliKuva, route: '/palapeli' },
     { name: 'Sudoku', img: '/sudoku.png', route: '/sudoku' },
-    { name: 'Nonogram', img: '/nonogram.png', route: '/placeholder3' }
+    { name: 'Nonogram', img: '/nonogram.png', route: '/nonogram' }
   ];
 
   return (
@@ -35,22 +40,33 @@ export default function Etusivu() {
             <div className="col-lg-4 col-md-6 d-flex justify-content-center" key={idx}>
               <div 
                 className="card bg-dark text-white border-secondary shadow-lg h-100" 
-                style={{ width: '100%', maxWidth: '320px', borderRadius: '15px' }}
+                style={{ 
+                  width: '100%', 
+                  maxWidth: '320px', 
+                  borderRadius: '15px',
+                  border: '1px solid #455a64'
+                }}
               >
-                <div style={{ height: '200px', backgroundColor: '#455a64', borderRadius: '15px 15px 0 0' }}>
-                   {/* Jos kuva puuttuu, näkyy harmaa laatikko */}
+                <div style={{ 
+                  height: '200px', 
+                  backgroundColor: '#1c1e22',
+                  borderRadius: '15px 15px 0 0', 
+                  overflow: 'hidden' 
+                }}>
                   <img 
                     src={game.img} 
                     className="card-img-top w-100 h-100" 
                     alt={game.name} 
-                    style={{ objectFit: 'cover' }}
-                    onError={(e) => e.target.style.display = 'none'} 
+                    style={{ 
+                      objectFit: 'cover',
+                      display: game.img ? 'block' : 'none'
+                    }}
                   />
                 </div>
                 <div className="card-body d-flex flex-column align-items-center">
-                  <h5 className="card-title mb-3">{game.name}</h5>
+                  <h5 className="card-title mb-3 fw-bold">{game.name}</h5>
                   <button 
-                    className="btn btn-primary w-100 mt-auto" 
+                    className="btn btn-primary w-100 mt-auto shadow" 
                     onClick={() => navigate(game.route)}
                   >
                     Pelaa
