@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import "../css/palapeli.css";
 import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
 import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
 import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
+import PelienTimer from "../components/PelienTimer.jsx";
+import { tallennaTulos } from "../components/PalapeliTuloksenTallennus.jsx";
 
 export default function Palapeli() {
+  
   // Default kuvan hakeminen
   const [IMAGE_SRC, setImageSrc] = useState(
     "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/public/kuvat/testikuva.png"
@@ -23,7 +26,9 @@ export default function Palapeli() {
   const [pieces, setPieces] = useState([]);
   const [board, setBoard] = useState(Array(3 * 3).fill(null));
   const [imageReady, setImageReady] = useState(false);
-
+  const [isGameActive, setIsGameActive] = useState(false);
+  const [gameStartTime, setGameStartTime] = useState(null);
+  const resultSubmittedRef = useRef(false);
   useEffect(() => {
     if (!IMAGE_SRC) return;
     const img = new Image();
@@ -48,6 +53,8 @@ export default function Palapeli() {
 
   function handleCreateClick() {
     setGridSize(menuGridSize);
+    setIsGameActive(true);
+    
   }
 
   function handleDragStart(e, pieceId, source, fromIndex = null) {
@@ -138,6 +145,33 @@ export default function Palapeli() {
     }
   }
 
+  // Lisää tämä muiden useState-kohtien joukkoon
+const [finalTime, setFinalTime] = useState(null);
+
+// Kutsuu kun palapeli oikein
+const handleGameFinish = async (usedTimeMs, startTimeMs) => {
+  if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
+  resultSubmittedRef.current = true;
+  const endTimeMs = Date.now();               // nykyinen aika
+  const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
+  setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
+
+  console.log(
+    "Peli valmis! Aloitus aika:", gameStartTime,
+    "Lopetusaika:", endTimeMs,
+    "Ratkaisu aika (ms):", solveTimeMs
+  );
+
+  // Lähetetään koko aloitus ja lopetus supabaseen
+  const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
+
+  if (vastaus.success) {
+    console.log("Tulos tallennettu onnistuneesti kantaan.");
+  } else {
+    console.error("Tallennus epäonnistui:", vastaus.error || vastaus.message);
+  }
+};
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
     gridTemplateRows: `repeat(${gridSize}, 1fr)`,
@@ -150,6 +184,12 @@ export default function Palapeli() {
         <div className="puzzle-topbar__content puzzle-topbar__content--centered">
           <div className="topbar-left" />
           <div className="topbar-center">
+            <PelienTimer 
+              isRunning={isGameActive && !isSolved && imageReady} 
+              resetTrigger={gridSize + IMAGE_SRC} // Nollaa kello jos koko TAI kuva muuttuu
+              onFinish={handleGameFinish} // Kutsu funktiota pelin päättyessä
+              setGameStartTime={setGameStartTime}
+            />
             {isSolved && (
               <span className="solved-badge" aria-live="polite" role="status">
                 Oikein ratkaistu 🎉
@@ -228,6 +268,7 @@ export default function Palapeli() {
         onSelect={(url) => {
           setImageSrc(url); // Päivitä kuva
           setKuvaValintaAuki(false);
+          setIsGameActive(true); // Käynnistää pelin, jotta kello toimii uuden kuvan kanssa
         }}
       />
     </>
