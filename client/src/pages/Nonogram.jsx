@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import PelienTimer from '../components/PelienTimer';
 
 const PIXEL_STATES = {
   WHITE: 'WHITE',
@@ -7,17 +8,24 @@ const PIXEL_STATES = {
 };
 
 const NonogramGame = () => {
-  // Lisätään tila pelin koolle (oletus 5)
   const [size, setSize] = useState(5);
   const [grid, setGrid] = useState([]);
   const [hints, setHints] = useState({ rows: [], cols: [] });
   const [errors, setErrors] = useState(0);
   const [isSolved, setIsSolved] = useState(false);
+  
+  // Timerin ohjaus
+  const [resetTrigger, setResetTrigger] = useState(false);
+  const [finalTimeMs, setFinalTimeMs] = useState(null);
 
-  // Funktio uuden pelin luomiseen annetulla koolla
+  // Tämä funktio ajetaan, kun isRunning muuttuu falseksi (peli ratkeaa)
+  const handleGameFinish = (usedTimeMs) => {
+    setFinalTimeMs(usedTimeMs);
+    console.log("Peli suoritettu ajassa:", usedTimeMs, "ms");
+  };
+
   const generateNewGame = (gameSize = size) => {
     const newGrid = [];
-    
     for (let r = 0; r < gameSize; r++) {
       const row = [];
       for (let c = 0; c < gameSize; c++) {
@@ -33,9 +41,12 @@ const NonogramGame = () => {
     calculateHints(newGrid, gameSize);
     setErrors(0);
     setIsSolved(false);
+    setFinalTimeMs(null);
+    
+    // Nollataan ajastin
+    setResetTrigger(prev => !prev);
   };
 
-  // Uudelleenlataus kun koko muuttuu
   useEffect(() => {
     generateNewGame(size);
   }, [size]);
@@ -43,7 +54,6 @@ const NonogramGame = () => {
   const calculateHints = (targetGrid, gameSize) => {
     const rowHints = [];
     const colHints = [];
-
     for (let i = 0; i < gameSize; i++) {
       rowHints.push(getSequence(targetGrid[i].map(p => p.solution)));
       colHints.push(getSequence(targetGrid.map(row => row[i].solution)));
@@ -55,66 +65,61 @@ const NonogramGame = () => {
     const sequence = [];
     let count = 0;
     arr.forEach(val => {
-      if (val === PIXEL_STATES.BLACK) {
-        count++;
-      } else if (count > 0) {
-        sequence.push(count);
-        count = 0;
-      }
+      if (val === PIXEL_STATES.BLACK) count++;
+      else if (count > 0) { sequence.push(count); count = 0; }
     });
     if (count > 0) sequence.push(count);
     return sequence.length > 0 ? sequence : [0];
   };
 
-const handlePixelClick = (r, c, isRightClick) => {
-  if (isSolved) return;
+  const handlePixelClick = (r, c, isRightClick) => {
+    if (isSolved) return;
 
-  const newGrid = [...grid];
-  const pixel = { ...newGrid[r][c] };
+    const newGrid = [...grid];
+    const pixel = { ...newGrid[r][c] };
 
-  if (isRightClick) {
-    if (pixel.current === PIXEL_STATES.X) {
-      pixel.current = PIXEL_STATES.WHITE;
+    if (isRightClick) {
+      pixel.current = pixel.current === PIXEL_STATES.X ? PIXEL_STATES.WHITE : PIXEL_STATES.X;
     } else {
-      pixel.current = PIXEL_STATES.X;
-    }
-  } else {
-
-    if (pixel.current === PIXEL_STATES.BLACK) {
-
-      pixel.current = PIXEL_STATES.WHITE;
-    } else {
- 
-      pixel.current = PIXEL_STATES.BLACK;
-      
-
-      if (pixel.solution === PIXEL_STATES.WHITE) {
-        setErrors(prev => prev + 1);
+      if (pixel.current === PIXEL_STATES.BLACK) {
+        pixel.current = PIXEL_STATES.WHITE;
+      } else {
+        pixel.current = PIXEL_STATES.BLACK;
+        if (pixel.solution === PIXEL_STATES.WHITE) {
+          setErrors(prev => prev + 1);
+        }
       }
     }
-  }
 
-  newGrid[r][c] = pixel;
-  setGrid(newGrid);
-  
-  // Voiton tarkistus
-  checkSolution(newGrid);
-};
+    newGrid[r][c] = pixel;
+    setGrid(newGrid);
+    
+    // Voiton tarkistus
+    const solved = newGrid.every(row => 
+      row.every(p => p.solution === PIXEL_STATES.BLACK ? p.current === PIXEL_STATES.BLACK : p.current !== PIXEL_STATES.BLACK)
+    );
+
+    if (solved) {
+      setIsSolved(true); // Pysäyttää PelienTimerin
+    }
+  };
 
   if (grid.length === 0) return <div className="text-white text-center">Ladataan...</div>;
 
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ backgroundColor: '#0b0c10', minHeight: '100vh', color: 'white' }}>
-      <h2 className="mb-4">Nonogram</h2>
+      <h2 className="mb-4 text-info">Nonogram</h2>
 
-      {/* KOON VALINTAMENU */}
-      <div className="btn-group mb-4" role="group">
+      {/* Ajastin näkyy tässä */}
+      <PelienTimer 
+        isRunning={!isSolved} 
+        onFinish={handleGameFinish} 
+        resetTrigger={resetTrigger}
+      />
+
+      <div className="btn-group my-4">
         {[5, 7, 9].map((s) => (
-          <button
-            key={s}
-            className={`btn ${size === s ? 'btn-primary' : 'btn-outline-primary'}`}
-            onClick={() => setSize(s)}
-          >
+          <button key={s} className={`btn ${size === s ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setSize(s)}>
             {s}x{s}
           </button>
         ))}
@@ -122,26 +127,24 @@ const handlePixelClick = (r, c, isRightClick) => {
 
       <div className="mb-3 fs-4">Virheitä: <span className="text-danger">{errors}</span></div>
       
-      {isSolved && <div className="alert alert-success fw-bold animate__animated animate__bounceIn">Peli ratkaistu!</div>}
+      {isSolved && (
+        <div className="alert alert-success fw-bold animate__animated animate__bounceIn">
+          Peli ratkaistu! Loppuaika: {(finalTimeMs / 1000).toFixed(2)}s
+        </div>
+      )}
 
+      {/* Ruudukko */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: `minmax(60px, auto) repeat(${size}, 50px)`, 
-        gap: '2px',
-        background: '#455a64',
-        padding: '5px',
-        border: '2px solid #455a64'
+        gap: '2px', background: '#455a64', padding: '5px', border: '2px solid #455a64'
       }}>
         <div style={{ background: '#0b0c10' }}></div>
-
-        {/* Sarakevihjeet */}
         {hints.cols.map((h, i) => (
           <div key={`col-${i}`} className="d-flex flex-column align-items-center justify-content-end p-1" style={{ background: '#1c1e22', color: '#66fcf1', fontSize: '14px' }}>
             {h.map((n, idx) => <div key={idx}>{n}</div>)}
           </div>
         ))}
-
-        {/* Ruudukko */}
         {grid.map((row, rIdx) => (
           <React.Fragment key={`row-frag-${rIdx}`}>
             <div className="d-flex align-items-center justify-content-end pe-2" style={{ background: '#1c1e22', color: '#66fcf1', fontWeight: 'bold', fontSize: '14px' }}>
@@ -153,18 +156,10 @@ const handlePixelClick = (r, c, isRightClick) => {
                 onClick={() => handlePixelClick(rIdx, cIdx, false)}
                 onContextMenu={(e) => { e.preventDefault(); handlePixelClick(rIdx, cIdx, true); }}
                 style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '50px', height: '50px',
                   backgroundColor: pixel.current === PIXEL_STATES.BLACK ? '#000' : '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  color: '#d32f2f',
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                  userSelect: 'none',
-                  transition: 'background-color 0.1s'
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', color: '#d32f2f', fontSize: '20px', fontWeight: 'bold', userSelect: 'none'
                 }}
               >
                 {pixel.current === PIXEL_STATES.X ? 'X' : ''}
@@ -174,8 +169,8 @@ const handlePixelClick = (r, c, isRightClick) => {
         ))}
       </div>
 
-      <button className="btn btn-primary mt-4" onClick={() => generateNewGame()}>
-        Nollaa tämä taso
+      <button className="btn btn-outline-info mt-4" onClick={() => generateNewGame()}>
+        Uusi peli
       </button>
     </div>
   );
