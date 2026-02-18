@@ -14,11 +14,11 @@ const NonogramGame = () => {
   const [errors, setErrors] = useState(0);
   const [isSolved, setIsSolved] = useState(false);
   
-  // Timerin ohjaus
+
   const [resetTrigger, setResetTrigger] = useState(false);
   const [finalTimeMs, setFinalTimeMs] = useState(null);
 
-  // Tämä funktio ajetaan, kun isRunning muuttuu falseksi (peli ratkeaa)
+
   const handleGameFinish = (usedTimeMs) => {
     setFinalTimeMs(usedTimeMs);
     console.log("Peli suoritettu ajassa:", usedTimeMs, "ms");
