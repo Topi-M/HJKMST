@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/Sudoku.css";
+import "../css/sudoku.css";
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
