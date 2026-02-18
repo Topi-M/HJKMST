@@ -57,7 +57,7 @@ export default function Sudoku() {
             return (
               <input
                 key={`${rowIndex}-${colIndex}`}
-                className="sudoku-cell"
+                className="sudoku-input sudoku-cell"
                 maxLength={1}
                 value={cell === null ? '' : cell}
                 readOnly={isPreFilled}
