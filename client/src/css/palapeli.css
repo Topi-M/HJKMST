@@ -68,6 +68,13 @@
   align-content: stretch;
 }
 
+.topbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 
 .stored-piece {
   width: 100%;

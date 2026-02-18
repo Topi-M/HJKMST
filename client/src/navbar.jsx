@@ -22,7 +22,7 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/sudoku">
               Sudoku
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/placeholder3">
+            <Nav.Link as={NavLink} to="/nonogram">
               Nonogram
             </Nav.Link>
 
