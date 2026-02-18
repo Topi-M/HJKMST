@@ -20,10 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Install root dependencies (if needed)
-    - name: Install root dependencies
-      run: npm ci
-
     # Go to client folder
     - name: Install client dependencies
       working-directory: ./client
