@@ -7,7 +7,7 @@ function Card({ card, onClick }) {
       data-testid={card.id}
     >
       <img className="front-face" src={card.image} alt="Card" />
-      
+      <img className="back-face" src={""} alt="Card" />
     </div>
   );
 }

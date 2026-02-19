@@ -82,7 +82,7 @@ useEffect(() => {
 
 
   return (
-    <>
+    <div className="d-flex flex-column align-items-center py-5" style={{ backgroundColor: '#0b0c10', minHeight: '100vh', color: 'white' }}>
       {hasWon && (
           <div className="win-message">
             <h2>🎉 Voitit pelin!</h2>
@@ -100,7 +100,7 @@ useEffect(() => {
           );
         })}
       </section>
-    </>  
+    </div>  
   );
 }
 

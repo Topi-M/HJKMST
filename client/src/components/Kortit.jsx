@@ -7,13 +7,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 const kuvat = ["kuva1.jpg", "kuva2.jpg", "kuva3.PNG", "kuva4.jpg", "kuva5.jpg", "kuva6.jpg"]
 
-const { data } = supabase
-  .storage
-  .from("kuvat") 
-  .getPublicUrl("kuva1.png") 
-
-const imageUrl = data.publicUrl
-
 const cards = [...kuvat, ...kuvat].map((fileName, index) => {
   const { data } = supabase
     .storage
