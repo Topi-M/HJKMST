@@ -69,6 +69,26 @@
     border-top: 3px solid black;
 }
 .sudoku-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     margin: 10px 10px 0px 10px;
-    width: 115px;
+    width: 100%;
+}
+
+.sudoku-status {
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    background-color: #1e4d58;
+    padding: 10px 20px;
+    border-radius: 10px;
+
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.green-cell {
+    background-color: #7ed17e;
+    transition: background-color 0.3s ease;
 }
