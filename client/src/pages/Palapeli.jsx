@@ -6,10 +6,11 @@ import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
 import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
 import PelienTimer from "../components/PelienTimer.jsx";
+import PalapeliStartButton from "../components/PalapeliStartButton.jsx";
 import { tallennaTulos } from "../components/PalapeliTuloksenTallennus.jsx";
 
 export default function Palapeli() {
-  
+
   // Default kuvan hakeminen
   const [IMAGE_SRC, setImageSrc] = useState(
     "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/public/kuvat/testikuva.png"
@@ -17,6 +18,12 @@ export default function Palapeli() {
 
   // Menu, jossa kuva valitaan, kuvat haetaan supabasesta
   const [kuvaValintaAuki, setKuvaValintaAuki] = useState(false);
+
+  // Käytetään aloita -nappia painaessa
+  function handleStart() {
+    resultSubmittedRef.current = false;
+    setIsGameActive(true);
+  }
 
   const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
@@ -29,6 +36,8 @@ export default function Palapeli() {
   const [isGameActive, setIsGameActive] = useState(false);
   const [gameStartTime, setGameStartTime] = useState(null);
   const resultSubmittedRef = useRef(false);
+  const [timerResetKey, setTimerResetKey] = useState(0);
+
   useEffect(() => {
     if (!IMAGE_SRC) return;
     const img = new Image();
@@ -51,10 +60,20 @@ export default function Palapeli() {
     return board.every((pieceId, idx) => pieceId !== null && pieceId === idx);
   }, [board]);
 
+  // tätä kutsutaan kun painetaan "luo palapeli" -nappia
   function handleCreateClick() {
+    const total = menuGridSize * menuGridSize;
+
     setGridSize(menuGridSize);
-    setIsGameActive(true);
-    
+    setBoard(Array(total).fill(null));
+
+    const newPieces = Array.from({ length: total }, (_, i) => i);
+    setPieces(shuffle(newPieces));
+
+    setIsGameActive(false);
+    resultSubmittedRef.current = false;
+
+    setTimerResetKey(prev => prev + 1);
   }
 
   function handleDragStart(e, pieceId, source, fromIndex = null) {
@@ -146,36 +165,57 @@ export default function Palapeli() {
   }
 
   // Lisää tämä muiden useState-kohtien joukkoon
-const [finalTime, setFinalTime] = useState(null);
+  const [finalTime, setFinalTime] = useState(null);
 
-// Kutsuu kun palapeli oikein
-const handleGameFinish = async (usedTimeMs, startTimeMs) => {
-  if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
-  resultSubmittedRef.current = true;
-  const endTimeMs = Date.now();               // nykyinen aika
-  const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
-  setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
+  // Kutsuu kun palapeli oikein
+  const handleGameFinish = async (usedTimeMs, startTimeMs) => {
+    if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
+    resultSubmittedRef.current = true;
+    const endTimeMs = Date.now();               // nykyinen aika
+    const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
+    setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
 
-  console.log(
-    "Peli valmis! Aloitus aika:", gameStartTime,
-    "Lopetusaika:", endTimeMs,
-    "Ratkaisu aika (ms):", solveTimeMs
-  );
+    console.log(
+      "Peli valmis! Aloitus aika:", gameStartTime,
+      "Lopetusaika:", endTimeMs,
+      "Ratkaisu aika (ms):", solveTimeMs
+    );
 
-  // Lähetetään koko aloitus ja lopetus supabaseen
-  const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
+    // Lähetetään koko aloitus ja lopetus supabaseen
+    const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
 
-  if (vastaus.success) {
-    console.log("Tulos tallennettu onnistuneesti kantaan.");
-  } else {
-    console.error("Tallennus epäonnistui:", vastaus.error || vastaus.message);
-  }
-};
+    if (vastaus.success) {
+      console.log("Tulos tallennettu onnistuneesti kantaan.");
+    } else {
+      console.error("Tallennus epäonnistui:", vastaus.error || vastaus.message);
+    }
+  };
 
   const gridStyle = {
     gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
     gridTemplateRows: `repeat(${gridSize}, 1fr)`,
   };
+
+  // Käytetään kuvaa valittaessa
+  function resetGameToStart(nextGridSize = gridSize) {
+    const total = nextGridSize * nextGridSize;
+
+    // Päivitä ruudukon koko (jos muuttuu)
+    setGridSize(nextGridSize);
+
+    // Tyhjennä pelilauta
+    setBoard(Array(total).fill(null));
+
+    // Kaikki palat takaisin varastoon, sekoitettuna
+    const newPieces = Array.from({ length: total }, (_, i) => i);
+    setPieces(shuffle(newPieces));
+
+    // Pysäytä peli -> Aloita-nappi näkyviin
+    setIsGameActive(false);
+
+    // Nollaa tulossuoja
+    resultSubmittedRef.current = false;
+  }
 
   return (
     <>
@@ -184,10 +224,10 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
         <div className="puzzle-topbar__content puzzle-topbar__content--centered">
           <div className="topbar-left" />
           <div className="topbar-center">
-            <PelienTimer 
-              isRunning={isGameActive && !isSolved && imageReady} 
-              resetTrigger={gridSize + IMAGE_SRC} // Nollaa kello jos koko TAI kuva muuttuu
-              onFinish={handleGameFinish} // Kutsu funktiota pelin päättyessä
+            <PelienTimer
+              isRunning={isGameActive && !isSolved && imageReady}
+              resetTrigger={timerResetKey}
+              onFinish={handleGameFinish}
               setGameStartTime={setGameStartTime}
             />
             {isSolved && (
@@ -214,8 +254,12 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
                 <div
                   key={id}
                   className="stored-piece"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, id, "storage")}
+                  draggable={isGameActive && !isSolved}
+                  onDragStart={(e) => {
+                    if (isGameActive && !isSolved) {
+                      handleDragStart(e, id, "storage");
+                    }
+                  }}
                 >
                   <PuzzlePiece id={id} size={gridSize} image={IMAGE_SRC} />
                 </div>
@@ -224,6 +268,16 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
           </div>
 
           <div className="board" style={gridStyle}>
+
+            {/* ALOITA NAPPI LAUDAN PÄÄLLÄ */}
+            <PalapeliStartButton
+              visible={!isGameActive && !isSolved && imageReady}
+              onStart={() => {
+                resultSubmittedRef.current = false;
+                setIsGameActive(true);
+              }}
+            />
+
             {board.map((pieceId, idx) => (
               <div
                 key={idx}
@@ -234,8 +288,12 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
                 {pieceId !== null && (
                   <div
                     style={{ width: "100%", height: "100%" }}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, pieceId, "board", idx)}
+                    draggable={isGameActive && !isSolved}
+                    onDragStart={(e) => {
+                      if (isGameActive && !isSolved) {
+                        handleDragStart(e, pieceId, "board", idx);
+                      }
+                    }}
                   >
                     <PuzzlePiece id={pieceId} size={gridSize} image={IMAGE_SRC} />
                   </div>
@@ -256,7 +314,7 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
             <div style={{ marginTop: 12 }}>
               <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
-            <PalapeliLeaderboard/>
+            <PalapeliLeaderboard />
           </div>
         </div>
       </div>
@@ -266,9 +324,10 @@ const handleGameFinish = async (usedTimeMs, startTimeMs) => {
         visible={kuvaValintaAuki}
         onClose={() => setKuvaValintaAuki(false)}
         onSelect={(url) => {
-          setImageSrc(url); // Päivitä kuva
+          setImageSrc(url);
           setKuvaValintaAuki(false);
-          setIsGameActive(true); // Käynnistää pelin, jotta kello toimii uuden kuvan kanssa
+          resetGameToStart(gridSize);
+          setTimerResetKey(prev => prev + 1); // 🔥 Reset timer
         }}
       />
     </>

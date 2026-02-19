@@ -293,3 +293,49 @@
 .leaderboard-entry:last-child { border-bottom: none; }
 .leaderboard-name { font-weight: 500; }
 .leaderboard-score { font-weight: 700; }
+
+/* !!!! */
+/* ALOITA -nappi */
+/* !!!! */
+.board.disabled,
+.piece-storage.disabled {
+  pointer-events: none;
+  filter: grayscale(0.2) brightness(0.9);
+}
+
+.board {
+  position: relative;
+  display: grid; /* tämä pitää olla! */
+}
+
+.start-overlay {
+  position: absolute;   /* TÄRKEÄ: estää toisen gridin syntymisen */
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  pointer-events: all;
+}
+
+.start-button {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  color: #0b0c10;
+  background: #0dcaf0;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.05s ease, filter 0.2s ease;
+}
+
+.start-button:hover {
+  filter: brightness(1.05);
+}
+
+.start-button:active {
+  transform: translateY(1px);
+}
