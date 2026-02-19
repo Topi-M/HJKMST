@@ -30,7 +30,6 @@ export default function AuthForm({ supabase, setError }) {
       });
 
       if (error) setError(error.message);
-      else alert("Signup successful! Check your email if confirmation is required.");
     }
 
     setLoading(false);
