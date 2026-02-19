@@ -5,6 +5,7 @@ import Sudoku from "./pages/Sudoku";
 import Nonogram from "./pages/Nonogram";
 import Etusivu from "./pages/Etusivu"; 
 import Login  from "./pages/Login";
+import Muistipeli from "./pages/Muistipeli";
 
 export const router = createBrowserRouter(
   [

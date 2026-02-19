@@ -86,7 +86,7 @@ useEffect(() => {
       {hasWon && (
           <div className="win-message">
             <h2>🎉 Voitit pelin!</h2>
-            <button onClick={resetGame}>Pelaa uudestaan</button>
+            <button className="btn btn-outline-info mt-4" onClick={resetGame}>Pelaa uudestaan</button>
           </div>
         )}
       <section className="memory-game">
