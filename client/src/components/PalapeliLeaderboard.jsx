@@ -9,6 +9,12 @@ export default function PalapeliLeaderboard() {
   const baseUrl = import.meta.env.VITE_SUPABASE_URL;
   const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 
+  // muokkaa millisekunnit -> sekuntteihin kahden desimaalin tarkkuudella
+  const formatMsToSec = (ms) => {
+    if (ms == null || isNaN(ms)) return "—";
+    return (Number(ms) / 1000).toFixed(2) + " s";
+  };
+
   useEffect(() => {
     let mounted = true;
 
@@ -45,7 +51,7 @@ export default function PalapeliLeaderboard() {
 
         const list = (Array.isArray(data) ? data : []).map((row) => ({
           name: row.username,
-          score: row.best_time,
+          scoreMs: row.best_time,  // säilytetään ms muodossa stateen
           rank: row.rank
         }));
 
@@ -85,7 +91,8 @@ export default function PalapeliLeaderboard() {
                 <span className="leaderboard-name">
                   {idx + 1}. {e.name}
                 </span>
-                <span className="leaderboard-score">{e.score}</span>
+                {/* ms -> s kahdella desimaalilla */}
+                <span className="leaderboard-score">{formatMsToSec(e.scoreMs)}</span>
               </div>
             ))
           )}
