@@ -182,7 +182,9 @@ export default function Palapeli() {
     );
 
     // Lähetetään koko aloitus ja lopetus supabaseen
-    const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
+    const vastaus = await tallennaTulos(gameStartTime, endTimeMs, {
+      gridSize: gridSize
+    });
 
     if (vastaus.success) {
       console.log("Tulos tallennettu onnistuneesti kantaan.");

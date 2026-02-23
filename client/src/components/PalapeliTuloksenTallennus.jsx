@@ -1,6 +1,6 @@
 import { supabase } from '../components/SupaBaseClient';
 
-export const tallennaTulos = async (startTimeMs, endTimeMs) => {
+export const tallennaTulos = async (startTimeMs, endTimeMs, meta = {}) => {
   try {
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     if (sessionError) throw sessionError;
@@ -20,8 +20,9 @@ export const tallennaTulos = async (startTimeMs, endTimeMs) => {
         minigame_id: 1,
         solve_time_ms: solveTimeMs,
         start_time_ms: startTimeMs,
-        end_time_ms: endTimeMs
-      }]); 
+        end_time_ms: endTimeMs,
+        grid_size: meta.gridSize
+      }]);
 
     if (error) {
       console.error('Tallennus epäonnistui:', error.message);

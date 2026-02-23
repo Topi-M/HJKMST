@@ -257,7 +257,7 @@
   border-radius: 8px;
   padding: 10px 12px;
   margin-top: 16px;
-  height: 50%;           /* rajoitettu korkeus → scroll toimii */
+  height: 70%;           /* rajoitettu korkeus → scroll toimii */
   display: flex;
   flex-direction: column;
 }
@@ -293,6 +293,51 @@
 .leaderboard-entry:last-child { border-bottom: none; }
 .leaderboard-name { font-weight: 500; }
 .leaderboard-score { font-weight: 700; }
+
+.leaderboard-size-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 12px;
+  flex-wrap: wrap;
+}
+
+.lbSizeBtn {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0;
+  line-height: 1;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.lbSizeBtn:hover:not(.active):not(:disabled) {
+  background: rgba(52, 152, 219, 0.15);
+}
+
+.lbSizeBtn.active {
+  background: #3498db;
+  color: #0b0c10;
+  border-color: #3498db;
+  cursor: default;
+}
+
+.lbSizeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lbSizeBtn:active:not(.active):not(:disabled) {
+  transform: translateY(1px);
+}
+
+.lbSizeBtn.active {
+  box-shadow: 0 0 0 2px rgba(52,152,219,0.25);
+}
 
 /* !!!! */
 /* ALOITA -nappi */
