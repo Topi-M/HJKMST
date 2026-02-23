@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.14.3 on win32)" generated="2026-02-21T18:02:59.575705" rpa="false" schemaversion="5">
+<suite id="s1" name="Test.Changepicture" source="D:\VscodeProjects\HJKMST\tests\robot\test.changepicture.robot">
+<test id="s1-t1" name="Vaihda Palapelin Kuva Testi" line="9">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-21T18:02:59.669339" level="INFO">Opening browser 'firefox' to base url 'http://localhost:5173/HJKMST/'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-21T18:02:59.669167" elapsed="6.832229"/>
+</kw>
+<kw name="Set Window Size" owner="SeleniumLibrary">
+<arg>1312</arg>
+<arg>887</arg>
+<doc>Sets current windows size to given ``width`` and ``height``.</doc>
+<status status="PASS" start="2026-02-21T18:03:06.501779" elapsed="0.016382"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css=.col:nth-child(1) .btn</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-21T18:03:06.518354" elapsed="0.012583"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-21T18:03:06.531229" level="INFO">Clicking element 'css=.col:nth-child(1) .btn'.</msg>
+<arg>css=.col:nth-child(1) .btn</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-21T18:03:06.531096" elapsed="0.075058"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Valitse kuva</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-02-21T18:03:06.606409" elapsed="0.002698"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-21T18:03:06.609346" level="INFO">Clicking element 'xpath://button[contains(., 'Valitse kuva')]'.</msg>
+<arg>xpath://button[contains(., 'Valitse kuva')]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-21T18:03:06.609241" elapsed="0.059310"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-02-21T18:03:11.735142" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-16.png"&gt;&lt;img src="selenium-screenshot-16.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-21T18:03:11.735277" level="FAIL">Element 'css=.kuva-vaihtoehto' not visible after 5 seconds.</msg>
+<arg>css=.kuva-vaihtoehto</arg>
+<arg>timeout=5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-02-21T18:03:06.668785" elapsed="5.067615">Element 'css=.kuva-vaihtoehto' not visible after 5 seconds.</status>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>css=.kuva-vaihtoehto:nth-child(1)</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-21T18:03:11.736648" elapsed="0.000031"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-02-21T18:03:11.736969" elapsed="2.582194"/>
+</kw>
+<status status="FAIL" start="2026-02-21T18:02:59.668607" elapsed="14.650892">Element 'css=.kuva-vaihtoehto' not visible after 5 seconds.</status>
+</test>
+<status status="FAIL" start="2026-02-21T18:02:59.576587" elapsed="14.743500"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Test.Changepicture" id="s1" pass="0" fail="1" skip="0">Test.Changepicture</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
