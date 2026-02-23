@@ -6,7 +6,7 @@ export default defineConfig({
   test: {
     globals: true,                 // so you can use describe, it, expect without imports
     environment: 'jsdom',          // needed for React components
-    setupFiles: './src/setupTests.js', // optional: global setup
+    setupFiles: './setupTests.js', // optional: global setup
     include: ['src/components/**/*.test.jsx'], // your test files
     coverage: {
       reporter: ['text', 'html', 'json']

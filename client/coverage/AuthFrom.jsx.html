@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.66% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/12</span>
+                <span class='fraction'>15/16</span>
             </div>
         
             
@@ -155,7 +155,14 @@
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
@@ -203,7 +210,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,6 +246,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,29 +297,31 @@ export default function AuthForm({ supabase, setError }) {
 &nbsp;
     setLoading(false);
   };
- // formeja ja user inputtia
+  // formeja ja user inputtia
   return (
     &lt;div&gt;
       &lt;div style={{ marginBottom: "20px", textAlign: "center" }}&gt;
         &lt;button
           onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etMode("login")}</span>
           disabled={mode === "login"}
-          style={{ marginRight: "10px" }}
+          className={`authSwitchBtn ${mode === "login" ? "active" : ""}`}
         &gt;
-          Login
+          Kirjaudu
         &lt;/button&gt;
+&nbsp;
         &lt;button
           onClick={() =&gt; setMode("signup")}
           disabled={mode === "signup"}
+          className={`authSwitchBtn ${mode === "signup" ? "active" : ""}`}
         &gt;
-          Sign Up
+          Luo tili
         &lt;/button&gt;
       &lt;/div&gt;
 &nbsp;
-      &lt;form aria-label = "auth form" onSubmit={handleSubmit}&gt;
+      &lt;form aria-label="auth form" onSubmit={handleSubmit}&gt;
         &lt;input
           type="email"
-          placeholder="Email"
+          placeholder="Sähköposti"
           value={email}
           onChange={(e) =&gt; setEmail(e.target.value)}
           required
@@ -316,7 +332,7 @@ export default function AuthForm({ supabase, setError }) {
         {mode === "signup" &amp;&amp; (
           &lt;input
             type="text"
-            placeholder="Username"
+            placeholder="Käyttäjätunnus"
             value={username}
             onChange={(e) =&gt; setUsername(e.target.value)}
             required
@@ -326,16 +342,21 @@ export default function AuthForm({ supabase, setError }) {
 &nbsp;
         &lt;input
           type="password"
-          placeholder="Password"
+          placeholder="Salasana"
           value={password}
           onChange={(e) =&gt; setPassword(e.target.value)}
           required
           style={{ width: "100%", marginBottom: "10px" }}
         /&gt;
 &nbsp;
-        &lt;button type="submit" disabled={loading} style={{ width: "100%" }}&gt;
-          {loading ? "Loading..." : mode === "login" ? "Login" : "Sign Up"}
+        &lt;button
+          type="submit"
+          disabled={loading}
+          className="authSubmitBtn"
+        &gt;
+          {loading ? "Loading..." : mode === "login" ? "Kirjaudu" : "Luo tili"}
         &lt;/button&gt;
+&nbsp;
       &lt;/form&gt;
     &lt;/div&gt;
   );
@@ -346,7 +367,7 @@ export default function AuthForm({ supabase, setError }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-23T12:02:38.069Z
+                at 2026-02-23T13:47:02.082Z
             </div>
         <script src="prettify.js"></script>
         <script>
