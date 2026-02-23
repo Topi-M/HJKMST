@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import AuthForm from '../components/AuthFrom.jsx'
-import '@testing-library/jest-dom'
 
 describe('AuthForm', () => {
   let mockSupabase

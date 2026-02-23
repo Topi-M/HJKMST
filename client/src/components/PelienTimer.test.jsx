@@ -1,6 +1,5 @@
 import { render, screen, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import '@testing-library/jest-dom'
 import PelienTimer from "../components/PelienTimer";
 
 describe("PelienTimer", () => {
