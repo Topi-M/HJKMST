@@ -27,5 +27,5 @@ dist-ssr
 .env.local
 .env.*.local
 #Testaus analytiikkaa
-/client/coverage/*
-/client/reports/*
+coverage
+reports
