@@ -1,0 +1,113 @@
+/* !!! */
+/* Login.jsx -css */
+.authDiv{
+    max-width: 500px;
+    margin: 100px auto;
+    justify-content: center;
+}
+
+.sivunTausta {
+  background-color: #0b0c10;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;   /* ← kokeile 40px–120px */
+}
+
+.authTitle {
+  color: #3498db;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.welcomeText {
+  color: #3498db;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.authLogoutBtn {
+  width: 100%;
+  background-color: #3498db;
+  color: #0b0c10;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease, transform 0.05s ease;
+}
+
+.authLogoutBtn:hover:not(:disabled) {
+  background-color: #48a6e4; /* hover-väri */
+}
+
+.authLogoutBtn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* !!! */
+/* AuthFrom.jsx -css */
+.authSwitchBtn {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 6px;
+}
+
+/* Hover efekti */
+.authSwitchBtn:hover:not(.active) {
+  background: rgba(52, 152, 219, 0.15);
+}
+
+/* Aktiivinen nappi (valittu tila) */
+.authSwitchBtn.active {
+  background: #3498db;
+  color: #0b0c10;
+  border-color: #3498db;
+  cursor: default;
+}
+
+/* Disable-tilassa (ei klikkausta) */
+.authSwitchBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.authSubmitBtn {
+  width: 100%;
+  background-color: #3498db;
+  color: #0b0c10;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease, transform 0.05s ease;
+}
+
+.authSubmitBtn:hover:not(:disabled) {
+  background-color: #48a6e4; /* hieman vaaleampi hover */
+}
+
+.authSubmitBtn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.authSubmitBtn:disabled {
+  background-color: #2d4153;
+  color: #aaaaaa;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
