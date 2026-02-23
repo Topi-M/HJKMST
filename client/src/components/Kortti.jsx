@@ -7,8 +7,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 const { data } = supabase
   .storage
-  .from("kuvat") 
-  .getPublicUrl("testikuva.png") 
+  .from("muistipeliKuvat") 
+  .getPublicUrl("muistipeli1.jpg") 
 
 const imageUrl = data.publicUrl
 
