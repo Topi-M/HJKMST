@@ -30,34 +30,35 @@ export default function AuthForm({ supabase, setError }) {
       });
 
       if (error) setError(error.message);
-      else alert("Signup successful! Check your email if confirmation is required.");
     }
 
     setLoading(false);
   };
- // formeja ja user inputtia
+  // formeja ja user inputtia
   return (
     <div>
       <div style={{ marginBottom: "20px", textAlign: "center" }}>
         <button
           onClick={() => setMode("login")}
           disabled={mode === "login"}
-          style={{ marginRight: "10px" }}
+          className={`authSwitchBtn ${mode === "login" ? "active" : ""}`}
         >
-          Login
+          Kirjaudu
         </button>
+
         <button
           onClick={() => setMode("signup")}
           disabled={mode === "signup"}
+          className={`authSwitchBtn ${mode === "signup" ? "active" : ""}`}
         >
-          Sign Up
+          Luo tili
         </button>
       </div>
 
-      <form aria-label = "auth form" onSubmit={handleSubmit}>
+      <form aria-label="auth form" onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Sähköposti"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -68,7 +69,7 @@ export default function AuthForm({ supabase, setError }) {
         {mode === "signup" && (
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Käyttäjätunnus"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -78,16 +79,21 @@ export default function AuthForm({ supabase, setError }) {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Salasana"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           style={{ width: "100%", marginBottom: "10px" }}
         />
 
-        <button type="submit" disabled={loading} style={{ width: "100%" }}>
-          {loading ? "Loading..." : mode === "login" ? "Login" : "Sign Up"}
+        <button
+          type="submit"
+          disabled={loading}
+          className="authSubmitBtn"
+        >
+          {loading ? "Loading..." : mode === "login" ? "Kirjaudu" : "Luo tili"}
         </button>
+
       </form>
     </div>
   );

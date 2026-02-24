@@ -15,16 +15,23 @@ const Etusivu = () => {
     { 
       id: 'sudoku',
       name: 'Sudoku', 
-      img: "", // Lisää URL myöhemmin
+      img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/sudoku.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9zdWRva3UucG5nIiwiaWF0IjoxNzcxNTAwMTExLCJleHAiOjQ5MjUxMDAxMTF9.OyuWx0a5Un6TPH5QJu8aXFFwwr-tK91CpNJU3UulqSQ", // Lisää URL myöhemmin
       route: '/sudoku',
       description: 'Täytä ruudukko numeroilla.'
     },
     { 
       id: 'nonogram',
       name: 'Nonogram', 
-      img: "", // lisää url myöhemmin
+      img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/nonogram.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9ub25vZ3JhbS5wbmciLCJpYXQiOjE3NzE1MDAwODMsImV4cCI6NDkyNTEwMDA4M30.4ZQ_jhEYliyaXibsn6b1Ws6ap55UB5zA_jZqL7aNpp4", // lisää url myöhemmin
       route: '/nonogram',
       description: 'Paljasta piilotettu kuva loogisella päättelyllä.'
+    },
+    { 
+      id: 'muistipeli',
+      name: 'Muistipeli', 
+      img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/muistipeli.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9tdWlzdGlwZWxpLnBuZyIsImlhdCI6MTc3MTU5MTI3OSwiZXhwIjo0OTI1MTkxMjc5fQ.3A8_xn8zhHBW5OeHcDj2Si9IOU71HIjn8fLCoX7Rddk",
+      route: '/muistipeli',
+      description: 'Etsi kuvaparit.'
     }
   ];
 
