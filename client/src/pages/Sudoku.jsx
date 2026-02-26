@@ -21,12 +21,16 @@ export default function Sudoku() {
   const [solution, setSolution] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [greenCells, setGreenCells] = useState(0);
+  const [difficulty, setDifficulty] = useState(null);
+  const [fetchingLevel, setFetchingLevel] = useState(null);
+  const [activeNumber, setActiveNumber] = useState(null);
 
   const reset = () => {
     setBoard(initialBoard.map(row => [...row]))
     setStatusMessage("");
     setGreenCells(0);
   };
+
   const check = () => {
     const currentSolutionStr = board.flat().map(cell => (cell === null ? "0" : cell.toString())).join("");
 
@@ -52,7 +56,13 @@ export default function Sudoku() {
   };
 
   const newSudoku = () => {
+    setDifficulty(null);
+    setBoard(Array(GRID).fill(null).map(() => Array(GRID).fill(null)));
+    setInitialBoard(Array(GRID).fill(null).map(() => Array(GRID).fill(null)));
     setGreenCells(0);
+    setStatusMessage("");
+    setActiveNumber(null);
+    setSelected(null);
   }
 
   const stringToGrid = (str) => {
@@ -67,13 +77,17 @@ export default function Sudoku() {
     return grid;
   }
 
-  const fetchSudoku = async (difficulty) => {
+  const fetchSudoku = async (level) => {
+    setGreenCells(0);
+    setStatusMessage("");
     setLoading(true);
+    setFetchingLevel(level);
+
     try {
       const {data, error} = await supabase
         .from('sudokupuzzles')
         .select('puzzle, solution')
-        .eq('difficulty', difficulty)
+        .eq('difficulty', level)
         .limit(1)
 
       if (error) throw error;
@@ -84,84 +98,175 @@ export default function Sudoku() {
         setBoard(newGrid);
         setInitialBoard(newGrid.map(row => [...row]));
         setSolution(game.solution);
-
+        setDifficulty(level);
       }
     } catch (error) {
       console.error("Virhe hakiessa sudokua:", error.message);
     } finally {
       setLoading(false);
+      setFetchingLevel(null);
     }
   };
 
-  const handleInput = (rowIndex, colIndex, value) => {
-    if (initialBoard[rowIndex][colIndex] !== null)
+  const clearSelections = () => {
+    setSelected(null);
+    setActiveNumber(null);
+  };
+
+  const applyNumber = (r, c, value) => {
+    setBoard(prev => prev.map((row, rowIndex) =>
+      row.map((cell, colIndex) => {
+        if (rowIndex === r && colIndex === c) {
+          return cell === value ? null : value;
+        }
+        return cell;
+      })
+    ));
+    clearSelections();
+  };
+
+  const handleCellClick = (e, rowIndex, colIndex) => {
+    e.stopPropagation();
+    if (!difficulty || initialBoard[rowIndex][colIndex] !== null)
       return; // Tämä estää muokkaasta alkuperäisiä sudokun numeroita
 
-    if (value === '' || (value >= 1 && value <= 9)) {
-      setBoard((prev) =>
-        prev.map((row, r) =>
-          row.map((cell, c) => {
-            if (r === rowIndex && c === colIndex) {
-              return value ? parseInt(value) : null;
-            }
-            return cell;
-          })
-        )
-      );
+    setSelected([rowIndex, colIndex]);
+
+    if (activeNumber === "erase") {
+      applyNumber(rowIndex, colIndex, null);
+    } else if (activeNumber !== null) {
+      applyNumber(rowIndex, colIndex, activeNumber);
+    } else {
+      setSelected([rowIndex, colIndex]);
+    }
+  };
+
+  const handleNumberSelect = (e, num) => {
+    e.stopPropagation();
+
+    if (selected) {
+      applyNumber(selected[0], selected[1], num);
+    } else {
+      setActiveNumber(num === activeNumber ? null : num);
+    }
+  };
+
+  const handleErase = (e) => {
+    e.stopPropagation();
+    if (selected) {
+      applyNumber(selected[0], selected[1], null);
+    } else {
+      setActiveNumber(activeNumber === "erase" ? null : "erase");
     }
   };
 
   return (
-    <div className="sudoku-container">
-      <h2 className="sudoku-title">
-        <Badge bg="primary">
-          Welcome to play Sudoku! <br /> <br />
-          Choose your difficulty level and start playing!
-        </Badge>
-      </h2>
-      {statusMessage && <div className="sudoku-status">{statusMessage}</div>}
-      <ButtonGroup aria-label="Difficulty level" className="sudoku-difficulty-buttons">
-        <Button variant="outline-primary" onClick={() => fetchSudoku('easy')}>Easy</Button>
-        <Button variant="outline-primary" onClick={() => fetchSudoku('medium')}>Medium</Button>
-        <Button variant="outline-primary" onClick={() => fetchSudoku('hard')}>Hard</Button>
-      </ButtonGroup>
-      <div className="sudoku-grid">
-        {board.map((row, rowIndex) =>
-          row.map((cell, colIndex) => {
-            const isPreFilled = initialBoard[rowIndex] && initialBoard[rowIndex][colIndex] !== null;
-            const cellIndex = rowIndex * GRID + colIndex;
-            return (
-              <input
-                key={`${rowIndex}-${colIndex}`}
-                className={`sudoku-input sudoku-cell ${isPreFilled ? 'pre-filled' : ''} ${cellIndex < greenCells ? 'green-cell' : ''}`}
-                maxLength={1}
-                value={cell === null ? '' : cell}
-                readOnly={isPreFilled}
-                onFocus={() => {
-                  setSelected([rowIndex, colIndex]);
-                }}
-                onClick={() => {
-                  setSelected([rowIndex, colIndex]);
-                }}
-                onChange={(e) => 
-                  handleInput(rowIndex, colIndex, e.target.value)
-                }
-              />
-            );
-          })
+    <div className="sudoku-container" onClick={clearSelections}>
+      <div className="sudoku-headers" onClick={(e) => e.stopPropagation()}>
+        <div className="glass-header">
+          <h1 className="sudoku-title">SUDOKU</h1>
+          {difficulty && (
+            <div className="sudoku-current-level">
+              <Badge bg="glass" text="black">Vaikeustaso: {difficulty.toUpperCase()}</Badge>
+            </div>
+          )}
+        </div>
+      
+        {!difficulty && (
+          <div className="sudoku-difficulty-selection">
+            <p>Valitse vaikeustaso:</p>
+            <ButtonGroup aria-label="Difficulty level" className="sudoku-difficulty-buttons">
+              <Button 
+                variant="outline-primary"
+                onClick={() => fetchSudoku('easy')} 
+                disabled={loading}> 
+                {fetchingLevel === 'easy' ? "Ladataan..." : "Easy"}
+              </Button>
+
+              <Button 
+                variant="outline-primary" 
+                onClick={() => fetchSudoku('medium')} 
+                disabled={loading}>
+                {fetchingLevel === 'medium' ? "Ladataan..." : "Medium"}
+              </Button>
+
+              <Button 
+                variant="outline-primary" 
+                onClick={() => fetchSudoku('hard')} 
+                disabled={loading}>
+                {fetchingLevel === 'hard' ? "Ladataan..." : "Hard"}
+              </Button>
+            </ButtonGroup>
+          </div>
         )}
       </div>
-      <div className="sudoku-buttons">
-        <Button variant="primary" onClick={reset}>
-          Reset ↩
-        </Button>
-        <Button variant="success" onClick={check}>
-          Check ✓
-        </Button>
-        <Button variant="primary" onClick={newSudoku}>
-          New Game
-        </Button>
+
+      <div className="sudoku-status">
+        {statusMessage ? (
+          <div className={`status-banner ${statusMessage.includes("Oikein") ? "success" : "warning"}`}>
+            {statusMessage}
+          </div>
+        ) : (
+          <div className="sudoku-status-banner"></div>
+        )}
       </div>
+
+      <div 
+        className={`sudoku-grid ${!difficulty ? 'sudoku-grid-placeholder' : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {board.map((row, rowIndex) => row.map((cell, colIndex) => {
+          const isPreFilled = initialBoard[rowIndex][colIndex] !== null;
+          const isSelected = selected && selected[0] === rowIndex && selected[1] === colIndex;
+          const cellIndex = rowIndex * GRID + colIndex;
+        
+          return (
+          <div
+            key={`${rowIndex}-${colIndex}`}
+            className={`sudoku-cell ${isPreFilled ? 'pre-filled-cell' : ''} ${cellIndex < greenCells ? 'green-cell' : ''} ${isSelected ? 'selected-cell' : ''}`}
+            onClick={(e) => handleCellClick(e, rowIndex, colIndex)}
+          >
+            {cell || ""}
+          </div>
+          );
+        }))}
+      </div>
+
+      {difficulty && (
+        <div className="sudoku-num-pad">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+            <Button
+              key={num}
+              variant={activeNumber === num ? "primary" : "outline-primary"}
+              className="sudoku-num-button"
+              onClick={(e) => handleNumberSelect(e, num)}
+            >
+              {num}
+            </Button>
+          ))}
+          <Button
+            variant={activeNumber === "erase" ? "danger" : "outline-danger"}
+            className="sudoku-num-button"
+            onClick={handleErase}
+          >
+            ⌫
+          </Button>
+        </div>
+      )}
+          
+      {difficulty && (
+        <div className="sudoku-buttons">
+          <Button variant="outline-primary" onClick={reset}>
+            Reset ↩
+          </Button>
+          <Button variant="outline-success" onClick={check}>
+            Check ✓
+          </Button>
+          <Button variant="outline-primary" onClick={newSudoku}>
+            New Game
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
