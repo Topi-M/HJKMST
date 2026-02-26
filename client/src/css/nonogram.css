@@ -1,0 +1,132 @@
+
+.nonogram-container {
+    background-color: #0b0c10;
+    min-height: 100vh;
+    color: white;
+}
+
+/* Tämä on vain ruudukon kehys ja taustaväri */
+.nonogram-grid-container {
+    display: grid; 
+    gap: 2px;
+    background-color: #455a64; /* Ruudukon "viivojen" väri */
+    padding: 5px;
+    border: 2px solid #455a64;
+    margin: 20px auto;
+}
+
+.grid-corner {
+    background-color: #0b0c10;
+}
+
+.hint-cell {
+    background-color: #1c1e22;
+    color: #66fcf1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.pixel {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.pixel-black {
+    background-color: #000000 !important;
+}
+
+.pixel-white {
+    background-color: #ffffff !important;
+}
+
+.pixel-x {
+    color: #d32f2f;
+}
+
+.start-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(11, 12, 16, 0.6); 
+    z-index: 10;
+    border-radius: 4px;
+}
+
+/* ALLA NAPIN TYYLEJÄ EI TARVITSE KOSKEA LIGHT / DARKMODEN KANSSA */
+.btn-aloita {
+    background-color: #00bcd4;
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+}
+
+.btn-aloita:hover {
+    background-color: #33c9dc;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 188, 212, 0.6);
+}
+
+.nonogram-grid-container {
+    position: relative; 
+    display: grid; 
+    gap: 2px;
+    background-color: #455a64;
+    padding: 5px;
+    border: 2px solid #455a64;
+    margin: 20px auto;
+}
+
+/* Ohjepainikkeen tyyli */
+.btn-ohjeet {
+    background-color: transparent;
+    color: #66fcf1;
+    border: 1px solid #66fcf1;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 15px;
+}
+
+.btn-ohjeet:hover {
+    background-color: rgba(102, 252, 241, 0.1);
+    box-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+}
+
+/* Ohjeosion tyyli */
+.instructions-box {
+    background-color: #1c1e22;
+    border: 1px solid #455a64;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    max-width: 500px;
+    text-align: left;
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
