@@ -14,6 +14,7 @@ const NonogramGame = () => {
   const [hints, setHints] = useState({ rows: [], cols: [] });
   const [isSolved, setIsSolved] = useState(false);
   const [gameStarted, setGameStarted] = useState(false); 
+  const [showInstructions, setShowInstructions] = useState(false); // Uusi tila ohjeille
   
   const [resetTrigger, setResetTrigger] = useState(false);
   const [finalTimeMs, setFinalTimeMs] = useState(null);
@@ -91,6 +92,31 @@ const NonogramGame = () => {
     <div className="nonogram-container d-flex flex-column align-items-center py-5">
       <h2 className="mb-4 text-info fw-bold">Nonogram</h2>
 
+      {/* Ohjepainike */}
+      <button 
+        className="btn btn-outline-info mb-3" 
+        onClick={() => setShowInstructions(!showInstructions)}
+      >
+        {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
+      </button>
+
+      {/* Ohjeiden sisältö */}
+      {showInstructions && (
+        <div className="instructions-box animate__animated animate__fadeIn">
+          <h5 className="text-info">Kuinka pelata?</h5>
+          <p>Tavoitteena on paljastaa piilotettu kuvio värittämällä ruutuja mustaksi.</p>
+          <ul>
+            <li>Numerot rivin/sarakkeen vieressä kertovat kuinka monta mustaa ruutua siinä on peräkkäin.</li>
+            <li>Jos numeroita on useita (esim. 3 1), niiden välissä on oltava vähintään yksi valkoinen ruutu.</li>
+            <li><strong>Vasen klikkaus:</strong> Väritä mustaksi.</li>
+            <li><strong>Oikea klikkaus:</strong> Merkitse tyhjäksi (X).</li>
+            <li>Ratkaise kaikki rivit ja sarakkeet värjäämällä ne mustaksi, niin peli on voitettu!</li>
+          </ul>
+        </div>
+      )}
+
+      
+
       <PelienTimer 
         isRunning={gameStarted && !isSolved} 
         onFinish={handleGameFinish} 
@@ -116,14 +142,13 @@ const NonogramGame = () => {
         </div>
       )}
 
-      {/* Ruudukko ja Aloita-nappi samassa säiliössä */}
       <div className="position-relative">
         <div 
           className="nonogram-grid-container" 
           style={{ 
             display: 'grid',
             gridTemplateColumns: `minmax(70px, auto) repeat(${size}, 50px)`,
-            filter: !gameStarted ? 'blur(2px)' : 'none', // Kevyt sumennus ennen aloitusta
+            filter: !gameStarted ? 'blur(2px)' : 'none',
             opacity: !gameStarted ? 0.4 : 1
           }}
         >
@@ -152,12 +177,14 @@ const NonogramGame = () => {
           ))}
         </div>
 
-        {/* Aloita-nappi overlay */}
         {!gameStarted && !isSolved && (
           <div className="start-overlay">
             <button 
               className="btn-aloita shadow-lg"
-              onClick={() => setGameStarted(true)}
+              onClick={() => {
+                setGameStarted(true);
+                setShowInstructions(false); // Suljetaan ohjeet kun peli alkaa
+              }}
             >
               Aloita
             </button>
