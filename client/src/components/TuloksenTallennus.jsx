@@ -22,8 +22,7 @@ export const tallennaTulos = async (minigame_id,startTimeMs, endTimeMs, difficul
     }
 
      // Käytetään score, jos se on annettu; muuten lasketaan ratkaisu-aika
-    const solveTimeMs = score != null ? score : endTimeMs - startTimeMs;
-
+    const solveTimeMs = score != null ? score : (endTimeMs - startTimeMs - 1);
     // Insert into submission taulu supabase
     const { data, error } = await supabase
       .from('submission')

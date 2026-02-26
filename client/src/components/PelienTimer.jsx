@@ -3,42 +3,46 @@ import React, { useState, useEffect, useRef } from "react";
 const PelienTimer = ({ isRunning, onFinish, resetTrigger, setGameStartTime }) => {
   const [time, setTime] = useState(0);
   const startTimeRef = useRef(null);
-  const requestRef = useRef();
+  const intervalRef = useRef(null);
+
 
   // Resetointi
   useEffect(() => {
+    clearInterval(intervalRef.current);
     setTime(0);
     startTimeRef.current = null;
-    cancelAnimationFrame(requestRef.current);
+
   }, [resetTrigger]);
 
   useEffect(() => {
-    const update = () => {
-      if (startTimeRef.current) {
-        setTime(Date.now() - startTimeRef.current);
-        requestRef.current = requestAnimationFrame(update);
-      }
-    };
-
     if (isRunning) {
       if (!startTimeRef.current) {
         const now = Date.now();
         startTimeRef.current = now;
         if (setGameStartTime) setGameStartTime(now);
+
       }
-      requestRef.current = requestAnimationFrame(update);
+
+
+      // Käytetään setIntervalia, jota Vitestin fake timers ymmärtää heti
+      intervalRef.current = setInterval(() => {
+
+        setTime(Date.now() - startTimeRef.current);
+
+      }, 10); // Päivitys 10ms välein (sadasosat)
+
     } else {
-      // Kun peli pysähtyy (isSolved = true)
+
       if (startTimeRef.current) {
         const finalDuration = Date.now() - startTimeRef.current;
         onFinish(finalDuration, startTimeRef.current);
-        startTimeRef.current = null; 
+        startTimeRef.current = null;
       }
-      cancelAnimationFrame(requestRef.current);
+      clearInterval(intervalRef.current);
     }
+    return () => clearInterval(intervalRef.current);
+  }, [isRunning, onFinish, setGameStartTime]);
 
-    return () => cancelAnimationFrame(requestRef.current);
-  }, [isRunning]); // Huom: poistettu onFinish riippuvuuksista loopin välttämiseksi
 
   const formatTime = () => {
     const minutes = Math.floor(time / 60000);
@@ -52,4 +56,4 @@ const PelienTimer = ({ isRunning, onFinish, resetTrigger, setGameStartTime }) =>
   return <div className="timer-display">{formatTime()}</div>;
 };
 
-export default PelienTimer;
+export default PelienTimer; 
