@@ -30,12 +30,12 @@ const AppNavbar = () => {
               Muistipeli
             </Nav.Link>
 
-            <Nav.Link as={NavLink} to="/Login">
-              Login
-            </Nav.Link>
-
             <Nav.Link as={NavLink} to="/profiili">
               Profiili
+            </Nav.Link>
+
+            <Nav.Link as={NavLink} to="/Login">
+              Login
             </Nav.Link>
 
           </Nav>

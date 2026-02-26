@@ -4,3 +4,78 @@
     display: flex;
     justify-content: center;
 }
+
+/* Keskitetty sisältölaatikko */
+.profiili-content {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* Otsikko */
+.profiili-title {
+    color: #3498db;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Latausviesti */
+.profiili-loading {
+    color: #cbd5e1;
+    /* vaalea harmaa */
+    font-size: 0.95rem;
+}
+
+/* Virheviesti */
+.profiili-error {
+    color: crimson;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+/* Vierailija/ei kirjautunut -boksi */
+.profiili-guest {
+    padding: 12px 16px;
+    border: 1px dashed #2d4153;
+    border-radius: 8px;
+    color: #3498db;
+    background: rgba(52, 152, 219, 0.06);
+}
+
+/* Stats-kortti kirjautuneelle */
+.profiili-statsCard {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    border: 1px solid #2d4153;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(52, 152, 219, 0.08);
+}
+
+/* Label ja arvo */
+.profiili-statsLabel {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.profiili-statsValue {
+    font-variant-numeric: tabular-nums;
+    color: #3498db;
+    /* sama sininen kuin napit */
+    font-weight: 700;
+}
+
+.profiili-loginLink {
+  color: #3498db;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.profiili-loginLink:hover {
+  border-bottom: 1px solid #3498db;
+  color: #48a6e4; /* sama hover-sävy kuin napeissa */
+}
