@@ -1,0 +1,6 @@
+.tausta {
+    background-color: #0b0c10;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
