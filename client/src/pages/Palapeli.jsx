@@ -4,10 +4,10 @@ import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
 import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
 import PalapeliKuvaValinta from "../components/PalapeliKuvanValinta.jsx";
-import PalapeliLeaderboard from "../components/PalapeliLeaderboard.jsx";
+import Leaderboard from "../components/Leaderboard.jsx";
 import PelienTimer from "../components/PelienTimer.jsx";
 import PalapeliStartButton from "../components/PalapeliStartButton.jsx";
-import { tallennaTulos } from "../components/PalapeliTuloksenTallennus.jsx";
+import { tallennaTulos } from "../components/TuloksenTallennus.jsx";
 
 export default function Palapeli() {
 
@@ -176,13 +176,14 @@ export default function Palapeli() {
     setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
 
     console.log(
-      "Peli valmis! Aloitus aika:", gameStartTime,
-      "Lopetusaika:", endTimeMs,
-      "Ratkaisu aika (ms):", solveTimeMs
+    "Peli valmis! Aloitus aika:", gameStartTime,
+    "Lopetusaika:", endTimeMs,
+    "Ratkaisu aika (ms):", solveTimeMs,
+    "Difficulty (gridSize):", gridSize
     );
 
     // Lähetetään koko aloitus ja lopetus supabaseen
-    const vastaus = await tallennaTulos(gameStartTime, endTimeMs);
+    const vastaus = await tallennaTulos(1, gameStartTime, endTimeMs, gridSize);
 
     if (vastaus.success) {
       console.log("Tulos tallennettu onnistuneesti kantaan.");
@@ -314,7 +315,7 @@ export default function Palapeli() {
             <div style={{ marginTop: 12 }}>
               <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
-            <PalapeliLeaderboard />
+            <Leaderboard table = 'minigame1_leaderboard' difficulty = {gridSize} time_conversion={true}/>
           </div>
         </div>
       </div>
