@@ -1,55 +1,52 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const PelienTimer = ({ isRunning, onFinish, resetTrigger, setGameStartTime }) => {
-  // Tallennetaan aika millisekunneissa, että näyttää kivemmalta ja on tarkempi
   const [time, setTime] = useState(0);
-  const timeRef = useRef(0);
-  const startTimeRef = useRef(null); 
+  const startTimeRef = useRef(null);
+  const requestRef = useRef();
 
- // Resettaa ajastimen kun resetTrigger vaihtuu (FALSE/TRUE)
+  // Resetointi
   useEffect(() => {
     setTime(0);
-    timeRef.current = 0;
     startTimeRef.current = null;
+    cancelAnimationFrame(requestRef.current);
   }, [resetTrigger]);
 
-  // referenssi sync
   useEffect(() => {
-    timeRef.current = time;
-  }, [time]);
-
-  useEffect(() => {
-    let interval = null;
+    const update = () => {
+      if (startTimeRef.current) {
+        setTime(Date.now() - startTimeRef.current);
+        requestRef.current = requestAnimationFrame(update);
+      }
+    };
 
     if (isRunning) {
-      //  Kun ajastin käynnistyy startTime aika muistiin 
       if (!startTimeRef.current) {
-        startTimeRef.current = Date.now();
-        if (setGameStartTime) setGameStartTime(startTimeRef.current); 
+        const now = Date.now();
+        startTimeRef.current = now;
+        if (setGameStartTime) setGameStartTime(now);
       }
-
-      interval = setInterval(() => {
-        setTime((prev) => prev + 10);
-      }, 10);
+      requestRef.current = requestAnimationFrame(update);
     } else {
-      if (timeRef.current > 0) {
-        // Kun ajastin valmis -> kokonaisaika 
-        onFinish(timeRef.current, startTimeRef.current);
+      // Kun peli pysähtyy (isSolved = true)
+      if (startTimeRef.current) {
+        const finalDuration = Date.now() - startTimeRef.current;
+        onFinish(finalDuration, startTimeRef.current);
+        startTimeRef.current = null; 
       }
-      clearInterval(interval);
+      cancelAnimationFrame(requestRef.current);
     }
 
-    return () => clearInterval(interval);
-  }, [isRunning, onFinish, setGameStartTime]);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [isRunning]); // Huom: poistettu onFinish riippuvuuksista loopin välttämiseksi
 
-  // Muotoillaan näytettäväksi
   const formatTime = () => {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
-    const centiseconds = Math.floor((time % 1000) / 10);
+    const ms = Math.floor((time % 1000) / 10);
     return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
-      .padStart(2, "0")}:${centiseconds.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}:${ms.toString().padStart(2, "0")}`;
   };
 
   return <div className="timer-display">{formatTime()}</div>;
