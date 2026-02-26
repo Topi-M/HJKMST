@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PelienTimer from '../components/PelienTimer';
+import '../css/nonogram.css';
 
 const PIXEL_STATES = {
   WHITE: 'WHITE',
@@ -11,18 +12,14 @@ const NonogramGame = () => {
   const [size, setSize] = useState(5);
   const [grid, setGrid] = useState([]);
   const [hints, setHints] = useState({ rows: [], cols: [] });
-  const [errors, setErrors] = useState(0);
   const [isSolved, setIsSolved] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false); 
+  const [showInstructions, setShowInstructions] = useState(false); // Uusi tila ohjeille
   
-
   const [resetTrigger, setResetTrigger] = useState(false);
   const [finalTimeMs, setFinalTimeMs] = useState(null);
 
-
-  const handleGameFinish = (usedTimeMs) => {
-    setFinalTimeMs(usedTimeMs);
-    console.log("Peli suoritettu ajassa:", usedTimeMs, "ms");
-  };
+  const handleGameFinish = (usedTimeMs) => setFinalTimeMs(usedTimeMs);
 
   const generateNewGame = (gameSize = size) => {
     const newGrid = [];
@@ -36,20 +33,15 @@ const NonogramGame = () => {
       }
       newGrid.push(row);
     }
-
     setGrid(newGrid);
     calculateHints(newGrid, gameSize);
-    setErrors(0);
     setIsSolved(false);
+    setGameStarted(false); 
     setFinalTimeMs(null);
-    
-    // Nollataan ajastin
     setResetTrigger(prev => !prev);
   };
 
-  useEffect(() => {
-    generateNewGame(size);
-  }, [size]);
+  useEffect(() => { generateNewGame(size); }, [size]);
 
   const calculateHints = (targetGrid, gameSize) => {
     const rowHints = [];
@@ -73,104 +65,135 @@ const NonogramGame = () => {
   };
 
   const handlePixelClick = (r, c, isRightClick) => {
-    if (isSolved) return;
-
+    if (isSolved || !gameStarted) return;
+    
     const newGrid = [...grid];
     const pixel = { ...newGrid[r][c] };
 
     if (isRightClick) {
       pixel.current = pixel.current === PIXEL_STATES.X ? PIXEL_STATES.WHITE : PIXEL_STATES.X;
     } else {
-      if (pixel.current === PIXEL_STATES.BLACK) {
-        pixel.current = PIXEL_STATES.WHITE;
-      } else {
-        pixel.current = PIXEL_STATES.BLACK;
-        if (pixel.solution === PIXEL_STATES.WHITE) {
-          setErrors(prev => prev + 1);
-        }
-      }
+      pixel.current = pixel.current === PIXEL_STATES.BLACK ? PIXEL_STATES.WHITE : PIXEL_STATES.BLACK;
     }
 
     newGrid[r][c] = pixel;
     setGrid(newGrid);
     
-    // Voiton tarkistus
     const solved = newGrid.every(row => 
       row.every(p => p.solution === PIXEL_STATES.BLACK ? p.current === PIXEL_STATES.BLACK : p.current !== PIXEL_STATES.BLACK)
     );
 
-    if (solved) {
-      setIsSolved(true); // Pysäyttää PelienTimerin
-    }
+    if (solved) setIsSolved(true);
   };
 
   if (grid.length === 0) return <div className="text-white text-center">Ladataan...</div>;
 
   return (
-    <div className="d-flex flex-column align-items-center py-5" style={{ backgroundColor: '#0b0c10', minHeight: '100vh', color: 'white' }}>
-      <h2 className="mb-4 text-info">Nonogram</h2>
+    <div className="nonogram-container d-flex flex-column align-items-center py-5">
+      <h2 className="mb-4 text-info fw-bold">Nonogram</h2>
 
-      {/* Ajastin näkyy tässä */}
+      {/* Ohjepainike */}
+      <button 
+        className="btn btn-outline-info mb-3" 
+        onClick={() => setShowInstructions(!showInstructions)}
+      >
+        {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
+      </button>
+
+      {/* Ohjeiden sisältö */}
+      {showInstructions && (
+        <div className="instructions-box animate__animated animate__fadeIn">
+          <h5 className="text-info">Kuinka pelata?</h5>
+          <p>Tavoitteena on paljastaa piilotettu kuvio värittämällä ruutuja mustaksi.</p>
+          <ul>
+            <li>Numerot rivin/sarakkeen vieressä kertovat kuinka monta mustaa ruutua siinä on peräkkäin.</li>
+            <li>Jos numeroita on useita (esim. 3 1), niiden välissä on oltava vähintään yksi valkoinen ruutu.</li>
+            <li><strong>Vasen klikkaus:</strong> Väritä mustaksi.</li>
+            <li><strong>Oikea klikkaus:</strong> Merkitse tyhjäksi (X).</li>
+            <li>Ratkaise kaikki rivit ja sarakkeet värjäämällä ne mustaksi, niin peli on voitettu!</li>
+          </ul>
+        </div>
+      )}
+
+      
+
       <PelienTimer 
-        isRunning={!isSolved} 
+        isRunning={gameStarted && !isSolved} 
         onFinish={handleGameFinish} 
-        resetTrigger={resetTrigger}
+        resetTrigger={resetTrigger} 
       />
 
-      <div className="btn-group my-4">
+      <div className="btn-group my-4 shadow">
         {[5, 7, 9].map((s) => (
-          <button key={s} className={`btn ${size === s ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setSize(s)}>
+          <button 
+            key={s} 
+            className={`btn ${size === s ? 'btn-info' : 'btn-outline-info'}`} 
+            onClick={() => setSize(s)}
+            disabled={gameStarted && !isSolved}
+          >
             {s}x{s}
           </button>
         ))}
       </div>
 
-      <div className="mb-3 fs-4">Virheitä: <span className="text-danger">{errors}</span></div>
-      
       {isSolved && (
-        <div className="alert alert-success fw-bold animate__animated animate__bounceIn">
-          Peli ratkaistu! Loppuaika: {(finalTimeMs / 1000).toFixed(2)}s
+        <div className="alert alert-success fw-bold mb-3 shadow animate__animated animate__tada">
+          Peli ratkaistu! Aikasi: {(finalTimeMs / 1000).toFixed(2)}s
         </div>
       )}
 
-      {/* Ruudukko */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: `minmax(60px, auto) repeat(${size}, 50px)`, 
-        gap: '2px', background: '#455a64', padding: '5px', border: '2px solid #455a64'
-      }}>
-        <div style={{ background: '#0b0c10' }}></div>
-        {hints.cols.map((h, i) => (
-          <div key={`col-${i}`} className="d-flex flex-column align-items-center justify-content-end p-1" style={{ background: '#1c1e22', color: '#66fcf1', fontSize: '14px' }}>
-            {h.map((n, idx) => <div key={idx}>{n}</div>)}
-          </div>
-        ))}
-        {grid.map((row, rIdx) => (
-          <React.Fragment key={`row-frag-${rIdx}`}>
-            <div className="d-flex align-items-center justify-content-end pe-2" style={{ background: '#1c1e22', color: '#66fcf1', fontWeight: 'bold', fontSize: '14px' }}>
-              {hints.rows[rIdx].join(' ')}
+      <div className="position-relative">
+        <div 
+          className="nonogram-grid-container" 
+          style={{ 
+            display: 'grid',
+            gridTemplateColumns: `minmax(70px, auto) repeat(${size}, 50px)`,
+            filter: !gameStarted ? 'blur(2px)' : 'none',
+            opacity: !gameStarted ? 0.4 : 1
+          }}
+        >
+          <div className="grid-corner"></div>
+          {hints.cols.map((h, i) => (
+            <div key={`col-${i}`} className="hint-cell d-flex flex-column justify-content-end pb-1">
+              {h.map((n, idx) => <div key={idx}>{n}</div>)}
             </div>
-            {row.map((pixel, cIdx) => (
-              <div
-                key={`${rIdx}-${cIdx}`}
-                onClick={() => handlePixelClick(rIdx, cIdx, false)}
-                onContextMenu={(e) => { e.preventDefault(); handlePixelClick(rIdx, cIdx, true); }}
-                style={{
-                  width: '50px', height: '50px',
-                  backgroundColor: pixel.current === PIXEL_STATES.BLACK ? '#000' : '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: '#d32f2f', fontSize: '20px', fontWeight: 'bold', userSelect: 'none'
-                }}
-              >
-                {pixel.current === PIXEL_STATES.X ? 'X' : ''}
+          ))}
+          {grid.map((row, rIdx) => (
+            <React.Fragment key={`row-group-${rIdx}`}>
+              <div className="hint-cell justify-content-end pe-2 fw-bold">
+                {hints.rows[rIdx].join(' ')}
               </div>
-            ))}
-          </React.Fragment>
-        ))}
+              {row.map((pixel, cIdx) => (
+                <div
+                  key={`${rIdx}-${cIdx}`}
+                  onClick={() => handlePixelClick(rIdx, cIdx, false)}
+                  onContextMenu={(e) => { e.preventDefault(); handlePixelClick(rIdx, cIdx, true); }}
+                  className={`pixel ${pixel.current === PIXEL_STATES.BLACK ? 'pixel-black' : 'pixel-white'}`}
+                >
+                  {pixel.current === PIXEL_STATES.X && <span className="pixel-x">X</span>}
+                </div>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {!gameStarted && !isSolved && (
+          <div className="start-overlay">
+            <button 
+              className="btn-aloita shadow-lg"
+              onClick={() => {
+                setGameStarted(true);
+                setShowInstructions(false); // Suljetaan ohjeet kun peli alkaa
+              }}
+            >
+              Aloita
+            </button>
+          </div>
+        )}
       </div>
 
-      <button className="btn btn-outline-info mt-4" onClick={() => generateNewGame()}>
-        Uusi peli
+      <button className="btn btn-outline-info mt-5" onClick={() => generateNewGame()}>
+        {isSolved ? 'Pelaa uudelleen' : 'Nollaa / Uusi peli'}
       </button>
     </div>
   );
