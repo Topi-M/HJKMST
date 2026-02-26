@@ -1,0 +1,112 @@
+/* ---- Modular Leaderboard ---- */
+.leaderboard {
+  background-color: #111827;
+  border: 1px solid #3498db;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;           /* full width of container */
+  max-width: 400px;      /* optional max width for sidebars */
+  max-height: 500px;     /* limit height on larger screens */
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Title */
+.leaderboard .title {
+  color: #3498db;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Buttons filterit */
+.leaderboard .buttons {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 12px;
+  flex-wrap: wrap;
+}
+
+.leaderboard .button {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.leaderboard .button.active {
+  background: #3498db;
+  color: #0b0c10;
+  border-color: #3498db;
+  cursor: default;
+  box-shadow: 0 0 0 2px rgba(52,152,219,0.25);
+}
+
+.leaderboard .button:hover:not(.active) {
+  background: rgba(52,152,219,0.15);
+}
+
+.leaderboard .button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* List of leaderboard entries */
+.leaderboard .list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px; /* prevent scrollbar overlap */
+}
+
+/* Empty state */
+.leaderboard .empty {
+  color: #777;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Yksi rivi */
+.leaderboard .entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 4px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.875rem;
+}
+
+.leaderboard .entry:last-child {
+  border-bottom: none;
+}
+
+.leaderboard .name {
+  font-weight: 500;
+  color: #f0f0f0;
+}
+
+.leaderboard .score {
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+/* ---- Responsive adjustments ---- */
+@media (max-width: 1200px) {
+  .leaderboard {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 900px) {
+  .leaderboard {
+    width: 90%;          /* almost full width on mobile */
+    max-width: none;
+    max-height: 400px;
+    margin: 0 auto;
+  }
+}

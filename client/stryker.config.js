@@ -5,6 +5,6 @@ export default {
   coverageAnalysis: "perTest",
   vitest: {
     configFile: "vitest.config.js",
-    related: false  // disable related test filtering until it's stable
+    related: true  // disable related test filtering until it's stable
   }
 };
