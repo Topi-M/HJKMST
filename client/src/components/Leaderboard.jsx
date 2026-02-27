@@ -10,7 +10,9 @@ import {supabase} from './SupaBaseClient';
  *  - table = viewin nimi tietokannassa, pitää olla muodossa 'viewin nimi', eli stringinä
  *  - difficullty, usestate sivulla joka pitää muistissa minkä vaikeusasteen käyttäjä on valinnut
  *  - time_conversion (TRUE/FALSE) jos true, muuttaa scoren millisekunnit -> sekunneiksi
- * 
+ *  - format, minkälainen painike leaderboardissa on, voi lisätä jos tarvitsee lisää, päivitä listaa jos lisäät:
+ *    - raw -> Ei tee mitään, jos tietokannassa difficulty on Easy, Medium, Hard painikkeet ovat Easy, Medium, Hard
+ *    - scale -> jos Tietokannassa on 3, 5, 6 painikkeet ovat 3x3, 5x5, 6x6
  * State:
  *  - entires (array) pitää muistissa db:stä haetun viewin
  *  - loading (TRUE/FALSE) pitää muistissa onko lataamassa
@@ -28,7 +30,7 @@ import {supabase} from './SupaBaseClient';
  * 
  */
 
-export default function Leaderboard({table, difficulty, time_conversion}) {
+export default function Leaderboard({table, difficulty, time_conversion, format = 'raw'}) {
   const [entries, setEntries] = useState([]); // Kaikki haut db:stä tietty viewi
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
@@ -84,7 +86,12 @@ useEffect(() => {
   // Frontend filteri vaikeuden perusteella (Ei tarvitse hakea backendistä jos haluaa vain nähdä eri vaikeuden)
   const filteredEntries = entries.filter((e) => e.difficulty === selectedDifficulty);
 
+  const BUTTON_FORMATS = {
+  raw: (size) => size,
+  scale: (size) => `${size}×${size}`
+};
 return (
+  
     <div className="leaderboard">
       <h4 className="title">Leaderboard</h4>
 
@@ -97,7 +104,7 @@ return (
             aria-pressed={selectedDifficulty === size}
             onClick={() => setDifficulty(size)}
           >
-            {size}×{size}
+            {BUTTON_FORMATS[format](size)}
           </button>
         ))}
       </div>

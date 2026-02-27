@@ -315,7 +315,7 @@ export default function Palapeli() {
             <div style={{ marginTop: 12 }}>
               <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
-            <Leaderboard table = 'minigame1_leaderboard' difficulty = {gridSize} time_conversion={true}/>
+            <Leaderboard table = 'minigame1_leaderboard' difficulty = {gridSize} time_conversion={true} format = 'scale'/>
           </div>
         </div>
       </div>
@@ -328,7 +328,7 @@ export default function Palapeli() {
           setImageSrc(url);
           setKuvaValintaAuki(false);
           resetGameToStart(gridSize);
-          setTimerResetKey(prev => prev + 1); // 🔥 Reset timer
+          setTimerResetKey(prev => prev + 1); 
         }}
       />
     </>
