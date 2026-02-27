@@ -26,14 +26,18 @@ const AppNavbar = () => {
               Nonogram
             </Nav.Link>
 
-            <Nav.Link as= {NavLink} to="/Muistipeli">
+            <Nav.Link as={NavLink} to="/Muistipeli">
               Muistipeli
             </Nav.Link>
 
-            <Nav.Link as= {NavLink} to="/Login">
+            <Nav.Link as={NavLink} to="/profiili">
+              Profiili
+            </Nav.Link>
+
+            <Nav.Link as={NavLink} to="/Login">
               Login
             </Nav.Link>
-            
+
           </Nav>
         </RBNavbar.Collapse>
       </Container>

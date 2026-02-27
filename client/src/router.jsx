@@ -3,9 +3,10 @@ import App from "./App";
 import Palapeli from "./pages/Palapeli";
 import Sudoku from "./pages/Sudoku";
 import Nonogram from "./pages/Nonogram";
-import Etusivu from "./pages/Etusivu"; 
-import Login  from "./pages/Login";
+import Etusivu from "./pages/Etusivu";
+import Login from "./pages/Login";
 import Muistipeli from "./pages/Muistipeli";
+import Profiili from "./pages/Profiili";
 
 export const router = createBrowserRouter(
   [
@@ -29,12 +30,17 @@ export const router = createBrowserRouter(
           path: "Nonogram",
           element: <Nonogram />,
         },
-        { 
+        {
           path: "Login",
           element: <Login />
         },
-        { path: "Muistipeli",
-        element: <Muistipeli/>
+        {
+          path: "Muistipeli",
+          element: <Muistipeli />
+        },
+        {
+          path: "profiili",
+          element: <Profiili />
         }
       ],
     },
