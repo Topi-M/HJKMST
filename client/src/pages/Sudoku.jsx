@@ -91,7 +91,7 @@ export default function Sudoku() {
         .limit(1)
 
       if (error) throw error;
-
+      
       if (data && data.length > 0) {
         const game = data[0];
         const newGrid = stringToGrid(game.puzzle);
