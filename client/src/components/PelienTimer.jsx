@@ -1,58 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const PelienTimer = ({ isRunning, onFinish, resetTrigger, setGameStartTime }) => {
-  // Tallennetaan aika millisekunneissa, että näyttää kivemmalta ja on tarkempi
   const [time, setTime] = useState(0);
-  const timeRef = useRef(0);
-  const startTimeRef = useRef(null); 
+  const startTimeRef = useRef(null);
+  const intervalRef = useRef(null);
 
- // Resettaa ajastimen kun resetTrigger vaihtuu (FALSE/TRUE)
+  // Resetointi
   useEffect(() => {
+    clearInterval(intervalRef.current);
     setTime(0);
-    timeRef.current = 0;
     startTimeRef.current = null;
   }, [resetTrigger]);
 
-  // referenssi sync
   useEffect(() => {
-    timeRef.current = time;
-  }, [time]);
-
-  useEffect(() => {
-    let interval = null;
-
     if (isRunning) {
-      //  Kun ajastin käynnistyy startTime aika muistiin 
       if (!startTimeRef.current) {
-        startTimeRef.current = Date.now();
-        if (setGameStartTime) setGameStartTime(startTimeRef.current); 
+        const now = Date.now();
+        startTimeRef.current = now;
+        if (setGameStartTime) setGameStartTime(now);
       }
 
-      interval = setInterval(() => {
-        setTime((prev) => prev + 10);
-      }, 10);
+      // Käytetään setIntervalia, jota Vitestin fake timers ymmärtää heti
+      intervalRef.current = setInterval(() => {
+        setTime(Date.now() - startTimeRef.current);
+      }, 10); // Päivitys 10ms välein (sadasosat)
     } else {
-      if (timeRef.current > 0) {
-        // Kun ajastin valmis -> kokonaisaika 
-        onFinish(timeRef.current, startTimeRef.current);
-      }
-      clearInterval(interval);
-    }
 
-    return () => clearInterval(interval);
+      if (startTimeRef.current) {
+        const finalDuration = Date.now() - startTimeRef.current;
+        onFinish(finalDuration, startTimeRef.current);
+        startTimeRef.current = null;
+      }
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
   }, [isRunning, onFinish, setGameStartTime]);
 
-  // Muotoillaan näytettäväksi
   const formatTime = () => {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
-    const centiseconds = Math.floor((time % 1000) / 10);
+    const ms = Math.floor((time % 1000) / 10);
     return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
-      .padStart(2, "0")}:${centiseconds.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}:${ms.toString().padStart(2, "0")}`;
   };
 
   return <div className="timer-display">{formatTime()}</div>;
 };
 
-export default PelienTimer;
+export default PelienTimer; 
