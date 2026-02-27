@@ -178,21 +178,21 @@ export default function Sudoku() {
             <ButtonGroup aria-label="Difficulty level" className="sudoku-difficulty-buttons">
               <Button 
                 variant="outline-primary"
-                onClick={() => fetchSudoku('easy')} 
+                onClick={() => fetchSudoku('Easy')} 
                 disabled={loading}> 
                 {fetchingLevel === 'easy' ? "Ladataan..." : "Easy"}
               </Button>
 
               <Button 
                 variant="outline-primary" 
-                onClick={() => fetchSudoku('medium')} 
+                onClick={() => fetchSudoku('Medium')} 
                 disabled={loading}>
                 {fetchingLevel === 'medium' ? "Ladataan..." : "Medium"}
               </Button>
 
               <Button 
                 variant="outline-primary" 
-                onClick={() => fetchSudoku('hard')} 
+                onClick={() => fetchSudoku('Hard')} 
                 disabled={loading}>
                 {fetchingLevel === 'hard' ? "Ladataan..." : "Hard"}
               </Button>
