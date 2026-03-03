@@ -180,21 +180,21 @@ export default function Sudoku() {
                 variant="outline-primary"
                 onClick={() => fetchSudoku('Easy')} 
                 disabled={loading}> 
-                {fetchingLevel === 'easy' ? "Ladataan..." : "Easy"}
+                {fetchingLevel === 'Easy' ? "Ladataan..." : "Easy"}
               </Button>
 
               <Button 
                 variant="outline-primary" 
                 onClick={() => fetchSudoku('Medium')} 
                 disabled={loading}>
-                {fetchingLevel === 'medium' ? "Ladataan..." : "Medium"}
+                {fetchingLevel === 'Medium' ? "Ladataan..." : "Medium"}
               </Button>
 
               <Button 
                 variant="outline-primary" 
                 onClick={() => fetchSudoku('Hard')} 
                 disabled={loading}>
-                {fetchingLevel === 'hard' ? "Ladataan..." : "Hard"}
+                {fetchingLevel === 'Hard' ? "Ladataan..." : "Hard"}
               </Button>
             </ButtonGroup>
           </div>
