@@ -143,6 +143,7 @@ function Game() {
     setFirstCard(null);
     setSecondClick(false);
     setWait(false);
+    setTheme(e.target.value);
   };
 
 const resetGame = async () => {
@@ -185,7 +186,7 @@ useEffect(() => {
 
       <h2>Valitse teema</h2>
 
-      <select onChange={(e) => setTheme(e.target.value)}>
+      <select value = {theme} onChange={(e) => setTheme(e.target.value)}>
         <option value="Elaimet">Eläimet</option>
         <option value="Autot">Autot</option>
         <option value="Dinosaurukset">Dinosaurukset</option>
