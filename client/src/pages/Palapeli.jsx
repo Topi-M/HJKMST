@@ -19,12 +19,6 @@ export default function Palapeli() {
   // Menu, jossa kuva valitaan, kuvat haetaan supabasesta
   const [kuvaValintaAuki, setKuvaValintaAuki] = useState(false);
 
-  // Käytetään aloita -nappia painaessa
-  function handleStart() {
-    resultSubmittedRef.current = false;
-    setIsGameActive(true);
-  }
-
   const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
   const [menuGridSize, setMenuGridSize] = useState(3);
@@ -164,16 +158,12 @@ export default function Palapeli() {
     }
   }
 
-  // Lisää tämä muiden useState-kohtien joukkoon
-  const [finalTime, setFinalTime] = useState(null);
-
   // Kutsuu kun palapeli oikein
   const handleGameFinish = async (usedTimeMs, startTimeMs) => {
     if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
     resultSubmittedRef.current = true;
     const endTimeMs = Date.now();               // nykyinen aika
     const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
-    setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
 
     console.log(
     "Peli valmis! Aloitus aika:", gameStartTime,
