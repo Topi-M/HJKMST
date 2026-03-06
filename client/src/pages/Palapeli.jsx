@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import "../css/palapeli.css";
+import { DndContext, DragOverlay, useDroppable, useDraggable, closestCorners } from "@dnd-kit/core";
 import PalapeliSizeMenu from "../components/PalapeliSizeMenu.jsx";
 import PalapeliCreateButton from "../components/PalapeliCreateButton.jsx";
 import PalapeliFetchKuvaButton from "../components/PalapeliFetchKuvaButton.jsx";
@@ -11,12 +12,10 @@ import { tallennaTulos } from "../components/TuloksenTallennus.jsx";
 
 export default function Palapeli() {
 
-  // Default kuvan hakeminen
   const [IMAGE_SRC, setImageSrc] = useState(
     "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/public/kuvat/testikuva.png"
   );
 
-  // Menu, jossa kuva valitaan, kuvat haetaan supabasesta
   const [kuvaValintaAuki, setKuvaValintaAuki] = useState(false);
 
   const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
@@ -31,15 +30,14 @@ export default function Palapeli() {
   const [gameStartTime, setGameStartTime] = useState(null);
   const resultSubmittedRef = useRef(false);
   const [timerResetKey, setTimerResetKey] = useState(0);
+  const [activeDragId, setActiveDragId] = useState(null);
 
   useEffect(() => {
     if (!IMAGE_SRC) return;
     const img = new Image();
     img.onload = () => setImageReady(true);
     img.src = IMAGE_SRC;
-    return () => {
-      setImageReady(false);
-    };
+    return () => { setImageReady(false); };
   }, [IMAGE_SRC]);
 
   useEffect(() => {
@@ -54,127 +52,101 @@ export default function Palapeli() {
     return board.every((pieceId, idx) => pieceId !== null && pieceId === idx);
   }, [board]);
 
-  // tätä kutsutaan kun painetaan "luo palapeli" -nappia
   function handleCreateClick() {
     const total = menuGridSize * menuGridSize;
-
     setGridSize(menuGridSize);
     setBoard(Array(total).fill(null));
-
     const newPieces = Array.from({ length: total }, (_, i) => i);
     setPieces(shuffle(newPieces));
-
     setIsGameActive(false);
     resultSubmittedRef.current = false;
-
     setTimerResetKey(prev => prev + 1);
   }
 
-  function handleDragStart(e, pieceId, source, fromIndex = null) {
-    const payload = JSON.stringify({ pieceId, source, fromIndex });
-    e.dataTransfer.setData("text/plain", payload);
-    e.dataTransfer.effectAllowed = "move";
+  function parseDragId(id) {
+    if (!id) return null;
+    if (id.startsWith("storage-")) {
+      return { source: "storage", pieceId: parseInt(id.slice(8)), fromIndex: null };
+    }
+    // "board-{fromIndex}-{pieceId}"
+    const parts = id.split("-");
+    return { source: "board", fromIndex: parseInt(parts[1]), pieceId: parseInt(parts[2]) };
   }
 
-  function handleDropToBoard(e, targetIndex) {
-    e.preventDefault();
-    const raw = e.dataTransfer.getData("text/plain");
-    if (!raw) return;
+  function handleDragEnd({ active, over }) {
+    setActiveDragId(null);
+    if (!over) return;
 
-    let payload;
-    try {
-      payload = JSON.parse(raw);
-    } catch {
+    const { source, pieceId, fromIndex } = parseDragId(active.id);
+    const overId = over.id;
+
+    if (overId === "storage") {
+      if (source === "board") {
+        setBoard(prev => {
+          const next = [...prev];
+          if (fromIndex != null) next[fromIndex] = null;
+          return next;
+        });
+        setPieces(prev => (prev.includes(pieceId) ? prev : [...prev, pieceId]));
+      }
       return;
     }
 
-    const { pieceId, source, fromIndex } = payload;
-    if (typeof pieceId !== "number") return;
+    if (!overId.startsWith("cell-")) return;
+    const targetIndex = parseInt(overId.slice(5));
     if (source === "board" && fromIndex === targetIndex) return;
 
     const targetHas = board[targetIndex];
 
     if (source === "storage") {
-      if (board[targetIndex] !== null) {
-        setBoard((prev) => {
+      if (targetHas !== null) {
+        setBoard(prev => {
           const next = [...prev];
           next[targetIndex] = pieceId;
           return next;
         });
-        setPieces((prev) => {
-          const withoutDragged = prev.filter((p) => p !== pieceId);
-          return [...withoutDragged, targetHas];
-        });
+        setPieces(prev => [...prev.filter(p => p !== pieceId), targetHas]);
       } else {
-        setBoard((prev) => {
+        setBoard(prev => {
           const next = [...prev];
           next[targetIndex] = pieceId;
           return next;
         });
-        setPieces((prev) => prev.filter((p) => p !== pieceId));
+        setPieces(prev => prev.filter(p => p !== pieceId));
       }
     } else if (source === "board") {
-      if (board[targetIndex] === null) {
-        setBoard((prev) => {
+      if (targetHas === null) {
+        setBoard(prev => {
           const next = [...prev];
           next[fromIndex] = null;
           next[targetIndex] = pieceId;
           return next;
         });
       } else {
-        setBoard((prev) => {
+        setBoard(prev => {
           const next = [...prev];
-          const tmp = next[targetIndex];
           next[targetIndex] = pieceId;
-          next[fromIndex] = tmp;
+          next[fromIndex] = targetHas;
           return next;
         });
       }
     }
   }
 
-  function handleDropToStorage(e) {
-    e.preventDefault();
-    const raw = e.dataTransfer.getData("text/plain");
-    if (!raw) return;
-
-    let payload;
-    try {
-      payload = JSON.parse(raw);
-    } catch {
-      return;
-    }
-
-    const { pieceId, source, fromIndex } = payload;
-    if (typeof pieceId !== "number") return;
-
-    if (source === "board") {
-      setBoard((prev) => {
-        const next = [...prev];
-        if (fromIndex != null) next[fromIndex] = null;
-        return next;
-      });
-      setPieces((prev) => (prev.includes(pieceId) ? prev : [...prev, pieceId]));
-    }
-  }
-
-  // Kutsuu kun palapeli oikein
-  const handleGameFinish = async (usedTimeMs, startTimeMs) => {
-    if (resultSubmittedRef.current) return; // <- estää monta laukaisua, jos tätä ei ole tulee tyyliin 60 kutsua 
+  const handleGameFinish = async () => {
+    if (resultSubmittedRef.current) return;
     resultSubmittedRef.current = true;
-    const endTimeMs = Date.now();               // nykyinen aika
-    const solveTimeMs = endTimeMs - gameStartTime; // lasketaan käytetty aika
+    const endTimeMs = Date.now();
+    const solveTimeMs = endTimeMs - gameStartTime;
 
     console.log(
-    "Peli valmis! Aloitus aika:", gameStartTime,
-    "Lopetusaika:", endTimeMs,
-    "Ratkaisu aika (ms):", solveTimeMs,
-    "Difficulty (gridSize):", gridSize
+      "Peli valmis! Aloitus aika:", gameStartTime,
+      "Lopetusaika:", endTimeMs,
+      "Ratkaisu aika (ms):", solveTimeMs,
+      "Difficulty (gridSize):", gridSize
     );
 
-    // Lähetetään koko aloitus ja lopetus supabaseen
     const vastaus = await tallennaTulos(1, gameStartTime, endTimeMs, gridSize);
-
     if (vastaus.success) {
       console.log("Tulos tallennettu onnistuneesti kantaan.");
     } else {
@@ -187,26 +159,18 @@ export default function Palapeli() {
     gridTemplateRows: `repeat(${gridSize}, 1fr)`,
   };
 
-  // Käytetään kuvaa valittaessa
   function resetGameToStart(nextGridSize = gridSize) {
     const total = nextGridSize * nextGridSize;
-
-    // Päivitä ruudukon koko (jos muuttuu)
     setGridSize(nextGridSize);
-
-    // Tyhjennä pelilauta
     setBoard(Array(total).fill(null));
-
-    // Kaikki palat takaisin varastoon, sekoitettuna
     const newPieces = Array.from({ length: total }, (_, i) => i);
     setPieces(shuffle(newPieces));
-
-    // Pysäytä peli -> Aloita-nappi näkyviin
     setIsGameActive(false);
-
-    // Nollaa tulossuoja
     resultSubmittedRef.current = false;
   }
+
+  const activePiece = parseDragId(activeDragId);
+  const canDrag = isGameActive && !isSolved;
 
   return (
     <>
@@ -235,63 +199,54 @@ export default function Palapeli() {
       <div className="puzzle-shell">
         {/* Vasen paneeli: varasto + lauta */}
         <div className="puzzle-left">
-          <div
-            className="piece-storage"
-            onDrop={handleDropToStorage}
-            onDragOver={(e) => e.preventDefault()}
+          <DndContext
+            collisionDetection={closestCorners}
+            onDragStart={({ active }) => setActiveDragId(active.id)}
+            onDragEnd={handleDragEnd}
+            onDragCancel={() => setActiveDragId(null)}
           >
-            <div className="storage-grid" style={gridStyle}>
-              {pieces.map((id) => (
-                <div
-                  key={id}
-                  className="stored-piece"
-                  draggable={isGameActive && !isSolved}
-                  onDragStart={(e) => {
-                    if (isGameActive && !isSolved) {
-                      handleDragStart(e, id, "storage");
-                    }
-                  }}
-                >
-                  <PuzzlePiece id={id} size={gridSize} image={IMAGE_SRC} />
-                </div>
+            {/* Varasto */}
+            <DroppableStorage>
+              <div className="storage-grid" style={gridStyle}>
+                {pieces.map((id) => (
+                  <div key={id} className="stored-piece">
+                    <DraggablePiece id={`storage-${id}`} disabled={!canDrag}>
+                      <PuzzlePiece id={id} size={gridSize} image={IMAGE_SRC} />
+                    </DraggablePiece>
+                  </div>
+                ))}
+              </div>
+            </DroppableStorage>
+
+            {/* Pelilauta */}
+            <div className="board" style={gridStyle}>
+              <PalapeliStartButton
+                visible={!isGameActive && !isSolved && imageReady}
+                onStart={() => {
+                  resultSubmittedRef.current = false;
+                  setIsGameActive(true);
+                }}
+              />
+              {board.map((pieceId, idx) => (
+                <DroppableCell key={idx} id={`cell-${idx}`}>
+                  {pieceId !== null && (
+                    <DraggablePiece id={`board-${idx}-${pieceId}`} disabled={!canDrag}>
+                      <PuzzlePiece id={pieceId} size={gridSize} image={IMAGE_SRC} />
+                    </DraggablePiece>
+                  )}
+                </DroppableCell>
               ))}
             </div>
-          </div>
 
-          <div className="board" style={gridStyle}>
-
-            {/* ALOITA NAPPI LAUDAN PÄÄLLÄ */}
-            <PalapeliStartButton
-              visible={!isGameActive && !isSolved && imageReady}
-              onStart={() => {
-                resultSubmittedRef.current = false;
-                setIsGameActive(true);
-              }}
-            />
-
-            {board.map((pieceId, idx) => (
-              <div
-                key={idx}
-                className="cell"
-                onDrop={(e) => handleDropToBoard(e, idx)}
-                onDragOver={(e) => e.preventDefault()}
-              >
-                {pieceId !== null && (
-                  <div
-                    style={{ width: "100%", height: "100%" }}
-                    draggable={isGameActive && !isSolved}
-                    onDragStart={(e) => {
-                      if (isGameActive && !isSolved) {
-                        handleDragStart(e, pieceId, "board", idx);
-                      }
-                    }}
-                  >
-                    <PuzzlePiece id={pieceId} size={gridSize} image={IMAGE_SRC} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+            {/* Drag overlay: näyttää raahattavan palan hiiren alla */}
+            <DragOverlay dropAnimation={null}>
+              {activePiece && (
+                <div style={{ width: "100%", height: "100%", opacity: 0.9, transform: "scale(1.05)", cursor: "grabbing" }}>
+                  <PuzzlePiece id={activePiece.pieceId} size={gridSize} image={IMAGE_SRC} />
+                </div>
+              )}
+            </DragOverlay>
+          </DndContext>
         </div>
 
         {/* Oikea paneeli: valikko + nappi */}
@@ -305,7 +260,7 @@ export default function Palapeli() {
             <div style={{ marginTop: 12 }}>
               <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
-            <Leaderboard table = 'minigame1_leaderboard' difficulty = {gridSize} time_conversion={true} format = 'scale'/>
+            <Leaderboard table="minigame1_leaderboard" difficulty={gridSize} time_conversion={true} format="scale" />
           </div>
         </div>
       </div>
@@ -318,23 +273,69 @@ export default function Palapeli() {
           setImageSrc(url);
           setKuvaValintaAuki(false);
           resetGameToStart(gridSize);
-          setTimerResetKey(prev => prev + 1); 
+          setTimerResetKey(prev => prev + 1);
         }}
       />
     </>
   );
 }
 
-function PuzzlePiece({ id, size, image, ...props }) {
+// --- Apukomponentit ---
+
+function DraggablePiece({ id, disabled, children }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id, disabled });
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={{
+        width: "100%",
+        height: "100%",
+        opacity: isDragging ? 0.3 : 1,
+        cursor: disabled ? "default" : isDragging ? "grabbing" : "grab",
+        touchAction: "none",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DroppableCell({ id, children }) {
+  const { setNodeRef, isOver } = useDroppable({ id });
+  return (
+    <div
+      ref={setNodeRef}
+      className="cell"
+      style={{ outline: isOver ? "2px solid #45d4f5" : undefined, background: isOver ? "#1a2a3a" : undefined }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DroppableStorage({ children }) {
+  const { setNodeRef, isOver } = useDroppable({ id: "storage" });
+  return (
+    <div
+      ref={setNodeRef}
+      className="piece-storage"
+      style={{ outline: isOver ? "2px solid #45d4f5" : undefined }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PuzzlePiece({ id, size, image }) {
   const col = id % size;
   const row = Math.floor(id / size);
-
   const offsetX = (col / (size - 1)) * 100;
   const offsetY = (row / (size - 1)) * 100;
 
   return (
     <div
-      {...props}
       className="puzzle-piece"
       style={{
         backgroundImage: `url(${image})`,
