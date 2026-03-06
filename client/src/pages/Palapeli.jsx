@@ -76,6 +76,16 @@ export default function Palapeli() {
     setTimerResetKey(prev => prev + 1);
   }
 
+  function solveInstantly() {
+    const total = gridSize * gridSize;
+    // Luodaan taulukko [0, 1, 2, ..., total-1]
+    const solvedBoard = Array.from({ length: total }, (_, i) => i);
+
+    setBoard(solvedBoard);
+    setPieces([]); // Tyhjennetään varasto
+    setIsGameActive(true); // Varmistetaan että peli on "päällä", jotta finish-logiikka voi laueta
+  }
+
   function handleDragStart(e, pieceId, source, fromIndex = null) {
     const payload = JSON.stringify({ pieceId, source, fromIndex });
     e.dataTransfer.setData("text/plain", payload);
@@ -176,10 +186,10 @@ export default function Palapeli() {
     setFinalTime(solveTimeMs);                 // Pistetään UI muistiin
 
     console.log(
-    "Peli valmis! Aloitus aika:", gameStartTime,
-    "Lopetusaika:", endTimeMs,
-    "Ratkaisu aika (ms):", solveTimeMs,
-    "Difficulty (gridSize):", gridSize
+      "Peli valmis! Aloitus aika:", gameStartTime,
+      "Lopetusaika:", endTimeMs,
+      "Ratkaisu aika (ms):", solveTimeMs,
+      "Difficulty (gridSize):", gridSize
     );
 
     // Lähetetään koko aloitus ja lopetus supabaseen
@@ -307,6 +317,21 @@ export default function Palapeli() {
         {/* Oikea paneeli: valikko + nappi */}
         <div className="puzzle-right">
           <div className="side-panel">
+            {/* DEBUG BUTTON */}
+            <button
+              onClick={solveInstantly}
+              style={{
+                backgroundColor: '#ff4757',
+                color: 'white',
+                padding: '10px',
+                marginBottom: '10px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontWeight: 'bold'
+              }}
+            >
+              DEBUG: Ratkaise heti
+            </button>
             <PalapeliFetchKuvaButton onClick={() => setKuvaValintaAuki(true)} />
             <PalapeliSizeMenu
               selectedSize={menuGridSize}
@@ -315,7 +340,7 @@ export default function Palapeli() {
             <div style={{ marginTop: 12 }}>
               <PalapeliCreateButton size={menuGridSize} onClick={handleCreateClick} />
             </div>
-            <Leaderboard table = 'minigame1_leaderboard' difficulty = {gridSize} time_conversion={true}/>
+            <Leaderboard table='minigame1_leaderboard' difficulty={gridSize} time_conversion={true} format='scale' />
           </div>
         </div>
       </div>
@@ -328,7 +353,7 @@ export default function Palapeli() {
           setImageSrc(url);
           setKuvaValintaAuki(false);
           resetGameToStart(gridSize);
-          setTimerResetKey(prev => prev + 1); // 🔥 Reset timer
+          setTimerResetKey(prev => prev + 1);
         }}
       />
     </>
