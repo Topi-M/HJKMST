@@ -293,3 +293,20 @@
 .start-button:active {
   transform: translateY(1px);
 }
+
+/* ---- Ratkaistu: palat yhdistyvät kokonaiseksi kuvaksi ---- */
+.board--solved {
+  gap: 0;
+  border-radius: 4px;
+  animation: puzzle-solve-glow 0.6s ease forwards;
+}
+
+.board--solved .cell {
+  border: none;
+}
+
+@keyframes puzzle-solve-glow {
+  0%   { box-shadow: 0 0 0px rgba(69, 212, 245, 0); }
+  60%  { box-shadow: 0 0 40px rgba(69, 212, 245, 0.7); }
+  100% { box-shadow: 0 0 20px rgba(69, 212, 245, 0.35); }
+}

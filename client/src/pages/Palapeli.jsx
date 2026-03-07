@@ -219,7 +219,7 @@ export default function Palapeli() {
             </DroppableStorage>
 
             {/* Pelilauta */}
-            <div className="board" style={gridStyle}>
+            <div className={`board${isSolved ? " board--solved" : ""}`} style={gridStyle}>
               <PalapeliStartButton
                 visible={!isGameActive && !isSolved && imageReady}
                 onStart={() => {
