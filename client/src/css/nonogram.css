@@ -130,3 +130,30 @@
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* nonogram.css */
+
+/* Pakota outline-nappien tekstit valkoiseksi */
+.nonogram-container .btn-outline-info,
+.nonogram-container .btn-outline-secondary {
+    color: #ffffff !important; /* Pakota valkoinen teksti */
+    border-color: #0dcaf0; /* Säilytä syaani reunus */
+}
+
+/* Kun hiiri on napin päällä (hover) */
+.nonogram-container .btn-outline-info:hover,
+.nonogram-container .btn-outline-secondary:hover {
+    color: #000000 !important; /* Musta teksti, kun tausta muuttuu syaaniksi */
+    background-color: #0dcaf0;
+}
+
+/* Kun nappi on aktiivinen/valittu */
+.nonogram-container .btn-group .btn-info {
+    color: #000000 !important; /* Musta teksti syaanilla pohjalla */
+}
+
+/* "Ohjeet"-nappi aktiivisena */
+.nonogram-container .btn-outline-info.active,
+.nonogram-container .btn-outline-info:active {
+    color: #000000 !important;
+}
