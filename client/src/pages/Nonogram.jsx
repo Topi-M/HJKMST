@@ -31,7 +31,7 @@ const NonogramGame = () => {
     const actualStartTime = gameStartTime || startTime; 
     const difficultyId = size;
 
-    const result = await tallennaTulos(4, actualStartTime, endTime, difficultyId);
+    const result = await tallennaTulos(5, actualStartTime, endTime, difficultyId);
     
     if (result.success) {
       setSaveStatus('Tulos tallennettu!');
