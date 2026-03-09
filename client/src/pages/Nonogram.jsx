@@ -31,6 +31,7 @@ const NonogramGame = () => {
     const actualStartTime = gameStartTime || startTime; 
     const difficultyId = size;
 
+    // Huom: varmista että minigameId on oikein (tässä 5)
     const result = await tallennaTulos(5, actualStartTime, endTime, difficultyId);
     
     if (result.success) {
@@ -105,26 +106,26 @@ const NonogramGame = () => {
   };
 
   return (
-    <div className="container-fluid py-5" style={{ backgroundColor: '#0b0e14', minHeight: '100vh', color: '#e0e0e0' }}>
+    
+    <div className="container-fluid py-5 nonogram-container" style={{ backgroundColor: '#0b0e14', minHeight: '100vh', color: '#e0e0e0' }}>
       <div className="row g-4 justify-content-center">
         
-        {/* PELI-ALUE */}
         <div className="col-xl-9 col-lg-8 d-flex flex-column align-items-center">
           <h2 className="mb-4 fw-bold text-info" style={{ letterSpacing: '1px' }}>NONOGRAM</h2>
 
+          {/* Ohjeet-painike */}
           <button 
-            className="btn btn-outline-info btn-sm mb-3 text-white fw-bold" 
-            style={{ borderColor: '#0dcaf0' }}
+            className="btn-ohjeet mb-3 fw-bold" 
             onClick={() => setShowInstructions(!showInstructions)}
           >
             {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
           </button>
 
           {showInstructions && (
-            <div className="instructions-box mb-4 p-3 rounded shadow-sm text-start" style={{ backgroundColor: '#1a1f2b', borderLeft: '4px solid #0dcaf0', maxWidth: '500px' }}>
-              <h6 className="text-info">Kuinka pelata:</h6>
+            <div className="instructions-box mb-4 shadow-sm text-start">
+              <h6 className="text-info fw-bold">Kuinka pelata:</h6>
               <ul className="small mb-0 text-white">
-                <li>Väritä ruudut numerovihjeiden mukaan.</li>
+                <li>Väritä ruudut numerovihjeiden mukaan. Numeromäärä määrää kuinka monta peräkkäistä ruutua värjätään.</li>
                 <li><strong>Vasen klikkaus:</strong> Täytä ruutu (musta).</li>
                 <li><strong>Oikea klikkaus:</strong> Merkitse tyhjäksi (X).</li>
               </ul>
@@ -138,12 +139,14 @@ const NonogramGame = () => {
             setGameStartTime={setGameStartTime}
           />
 
+          {/* Koko-valinta painikkeet */}
           <div className="btn-group my-4 shadow-lg">
             {[5, 7, 9].map((s) => (
               <button 
                 key={s} 
-                className={`btn ${size === s ? 'btn-info text-dark fw-bold' : 'btn-outline-info text-white'} px-4`} 
-                style={size !== s ? { borderColor: '#0dcaf0' } : {}}
+                className={`btn ${size === s ? 'btn-info fw-bold' : 'btn-outline-info text-white'} px-4`} 
+                /* Pakotetaan musta teksti aktiiviseen nappiin inline-tyylillä varmuuden vuoksi */
+                style={size === s ? { color: '#000000', backgroundColor: '#00bcd4', borderColor: '#00bcd4' } : { borderColor: '#0dcaf0' }}
                 onClick={() => setSize(s)}
                 disabled={gameStarted && !isSolved}
               >
@@ -196,9 +199,13 @@ const NonogramGame = () => {
               ))}
             </div>
 
+            {/* Aloita-nappi kerroksessa */}
             {!gameStarted && !isSolved && (
-              <div className="start-overlay d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 rounded" style={{ backgroundColor: 'rgba(0,0,0,0.8)', zIndex: 10 }}>
-                <button className="btn btn-info btn-lg px-5 py-2 shadow-lg fw-bold text-dark" onClick={() => setGameStarted(true)}>
+              <div className="start-overlay d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 rounded">
+                <button 
+                  className="btn-aloita shadow-lg" 
+                  onClick={() => setGameStarted(true)}
+                >
                   Aloita
                 </button>
               </div>
@@ -212,8 +219,7 @@ const NonogramGame = () => {
               </div>
             )}
             <button 
-              className="btn btn-outline-info text-white fw-bold px-4" 
-              style={{ borderColor: '#0dcaf0' }}
+              className="btn-ohjeet fw-bold px-4" 
               onClick={() => generateNewGame()}
             >
               {isSolved ? 'Pelaa uudelleen' : 'Nollaa peli'}
@@ -221,18 +227,17 @@ const NonogramGame = () => {
           </div>
         </div>
 
-        {/* LEADERBOARD-ALUE */}
         <div className="col-xl-3 col-lg-4">
           <div className="p-4 shadow-lg rounded" style={{ backgroundColor: '#05070a', border: '1px solid #161a24', minHeight: '500px' }}>
             <h5 className="text-info mb-4 text-uppercase fw-bold border-bottom border-secondary pb-2" style={{ letterSpacing: '1px' }}>
               Leaderboard
             </h5>
             <Leaderboard 
-            table="nonogram"
-            difficulty={size}
-            time_conversion={true}
-            format="scale"
-            key={`${leaderboardKey}-${size}`}
+              table="nonogram"
+              difficulty={size}
+              time_conversion={true}
+              format="scale"
+              key={`${leaderboardKey}-${size}`}
             />
           </div>
           {saveStatus && <div className="mt-3 text-center text-info small fw-bold">{saveStatus}</div>}
@@ -240,7 +245,6 @@ const NonogramGame = () => {
 
       </div>
     </div>
-    
   );
 };
 
