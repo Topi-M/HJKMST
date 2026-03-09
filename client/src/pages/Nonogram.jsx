@@ -125,9 +125,11 @@ const NonogramGame = () => {
             <div className="instructions-box mb-4 shadow-sm text-start">
               <h6 className="text-info fw-bold">Kuinka pelata:</h6>
               <ul className="small mb-0 text-white">
-                <li>Väritä ruudut numerovihjeiden mukaan. Numeromäärä määrää kuinka monta peräkkäistä ruutua värjätään.</li>
-                <li><strong>Vasen klikkaus:</strong> Täytä ruutu (musta).</li>
+                <li>Numerot rivin/sarakkeen vieressä kertovat kuinka monta mustaa ruutua siinä on peräkkäin.</li>
+                <li>Jos numeroita on useita (esim. 3 1), niiden välissä on oltava vähintään yksi valkoinen ruutu.</li>
+                <li><strong>Vasen klikkaus:</strong> Väritä mustaksi.</li>
                 <li><strong>Oikea klikkaus:</strong> Merkitse tyhjäksi (X).</li>
+                <li>Ratkaise kaikki rivit ja sarakkeet värjäämällä ne mustaksi, niin peli on voitettu!</li>
               </ul>
             </div>
           )}
