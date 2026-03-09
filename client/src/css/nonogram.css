@@ -11,6 +11,8 @@ body.dark-mode .nonogram-container {
 /* Tämä on vain ruudukon kehys ja taustaväri */
 .nonogram-grid-container {
     display: grid;
+    position: relative;
+    display: grid;
     gap: 2px;
     background-color: #455a64;
     /* Ruudukon "viivojen" väri */
@@ -32,15 +34,13 @@ body.dark-mode .nonogram-container {
     font-size: 14px;
 }
 
-.pixel {
-    width: 50px;
-    height: 50px;
+.pixel-75 {
+    width: 75px;
+    height: 75px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
     user-select: none;
 }
 
@@ -71,8 +71,9 @@ body.dark-mode .nonogram-container {
 }
 
 .btn-aloita {
-    background-color: #00bcd4;
-    color: #000;
+    background-color: #00bcd4 !important;
+    color: #000000 !important;
+    /* Pakotettu musta teksti */
     border: none;
     padding: 12px 30px;
     font-weight: bold;
@@ -84,7 +85,8 @@ body.dark-mode .nonogram-container {
 }
 
 .btn-aloita:hover {
-    background-color: #33c9dc;
+    background-color: #33c9dc !important;
+    color: #000000 !important;
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(0, 188, 212, 0.6);
 }
@@ -99,27 +101,26 @@ body.dark-mode .nonogram-container {
     margin: 20px auto;
 }
 
-/* Ohjepainikkeen tyyli */
+/* Ohjepainike */
 .btn-ohjeet {
     background-color: transparent;
-    color: #66fcf1;
-    border: 1px solid #66fcf1;
+    color: #ffffff !important;
+    /* Vaihdettu valkoiseksi pyynnöstä */
+    border: 1px solid #00bcd4;
     padding: 8px 20px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
-    margin-bottom: 15px;
 }
 
 .btn-ohjeet:hover {
-    background-color: rgba(102, 252, 241, 0.1);
-    box-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+    background-color: #00bcd4;
+    color: #000000 !important;
 }
 
-/* Ohjeosion tyyli */
 .instructions-box {
     background-color: #1c1e22;
-    border: 1px solid #455a64;
+    border-left: 4px solid #00bcd4;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
