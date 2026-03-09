@@ -1,15 +1,19 @@
-
 .nonogram-container {
-    background-color: #0b0c10;
+    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
     min-height: 100vh;
     color: white;
 }
 
+body.dark-mode .nonogram-container {
+    background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
+}
+
 /* Tämä on vain ruudukon kehys ja taustaväri */
 .nonogram-grid-container {
-    display: grid; 
+    display: grid;
     gap: 2px;
-    background-color: #455a64; /* Ruudukon "viivojen" väri */
+    background-color: #455a64;
+    /* Ruudukon "viivojen" väri */
     padding: 5px;
     border: 2px solid #455a64;
     margin: 20px auto;
@@ -61,12 +65,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(11, 12, 16, 0.6); 
+    background-color: rgba(11, 12, 16, 0.6);
     z-index: 10;
     border-radius: 4px;
 }
 
-/* ALLA NAPIN TYYLEJÄ EI TARVITSE KOSKEA LIGHT / DARKMODEN KANSSA */
 .btn-aloita {
     background-color: #00bcd4;
     color: #000;
@@ -87,8 +90,8 @@
 }
 
 .nonogram-grid-container {
-    position: relative; 
-    display: grid; 
+    position: relative;
+    display: grid;
     gap: 2px;
     background-color: #455a64;
     padding: 5px;
@@ -126,7 +129,27 @@
     animation: fadeIn 0.3s ease-in;
 }
 
+.NonogramOtsikko {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #414f9f;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+body.dark-mode .NonogramOtsikko {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

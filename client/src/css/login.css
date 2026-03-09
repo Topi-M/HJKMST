@@ -1,37 +1,58 @@
-/* !!! */
 /* Login.jsx -css */
-.authDiv{
-    max-width: 500px;
-    margin: 100px auto;
-    justify-content: center;
+.authDiv {
+  max-width: 500px;
+  margin: 100px auto;
+  justify-content: center;
 }
 
 .sivunTausta {
-  background-color: #0b0c10;
+  /* TÄRKEÄ: Tämä tekee taustasta dynaamisen */
+  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding-top: 60px;   /* ← kokeile 40px–120px */
+  padding-top: 60px;
+  transition: background 0.5s ease;
+}
+
+/* KUN DARK MODE ON PÄÄLLÄ, VAIHDETAAN TAUSTA TÄSSÄ */
+body.dark-mode .sivunTausta {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
 }
 
 .authTitle {
-  color: #3498db;
+  /* Light mode väri */
+  color: #2c3e50;
   text-align: center;
   margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode väri otsikolle */
+body.dark-mode .authTitle {
+  color: #3498db;
 }
 
 .welcomeText {
-  color: #3498db;
+  /* Light mode väri */
+  color: #2c3e50;
   font-weight: 600;
   text-align: center;
   margin-bottom: 16px;
   font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode väri tervetulotekstille */
+body.dark-mode .welcomeText {
+  color: #ffffff;
 }
 
 .authLogoutBtn {
   width: 100%;
   background-color: #3498db;
-  color: #0b0c10;
+  color: #ffffff;
+  /* Teksti valkoiseksi light modessa */
   border: none;
   padding: 12px 16px;
   border-radius: 6px;
@@ -39,75 +60,19 @@
   font-size: 1rem;
   cursor: pointer;
   margin-top: 10px;
-  transition: background-color 0.2s ease, transform 0.05s ease;
+  transition: all 0.2s ease;
+}
+
+/* Dark mode logout-nappi */
+body.dark-mode .authLogoutBtn {
+  background-color: #2980b9;
+  color: #ffffff;
 }
 
 .authLogoutBtn:hover:not(:disabled) {
-  background-color: #48a6e4; /* hover-väri */
+  background-color: #48a6e4;
 }
 
 .authLogoutBtn:active:not(:disabled) {
   transform: translateY(1px);
-}
-
-/* !!! */
-/* AuthFrom.jsx -css */
-.authSwitchBtn {
-  background: transparent;
-  color: #3498db;
-  border: 2px solid #3498db;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 0 6px;
-}
-
-/* Hover efekti */
-.authSwitchBtn:hover:not(.active) {
-  background: rgba(52, 152, 219, 0.15);
-}
-
-/* Aktiivinen nappi (valittu tila) */
-.authSwitchBtn.active {
-  background: #3498db;
-  color: #0b0c10;
-  border-color: #3498db;
-  cursor: default;
-}
-
-/* Disable-tilassa (ei klikkausta) */
-.authSwitchBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.authSubmitBtn {
-  width: 100%;
-  background-color: #3498db;
-  color: #0b0c10;
-  border: none;
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.2s ease, transform 0.05s ease;
-}
-
-.authSubmitBtn:hover:not(:disabled) {
-  background-color: #48a6e4; /* hieman vaaleampi hover */
-}
-
-.authSubmitBtn:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
-.authSubmitBtn:disabled {
-  background-color: #2d4153;
-  color: #aaaaaa;
-  cursor: not-allowed;
-  opacity: 0.6;
 }

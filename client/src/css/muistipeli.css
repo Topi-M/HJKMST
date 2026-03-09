@@ -1,3 +1,98 @@
+/* --- 1. PERUSASETUKSET JA LIGHT MODE --- */
+
+.muistipeli-root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 0;
+  /* Käytetään gradienttia oletuksena */
+  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat center center fixed !important;
+  background-size: cover !important;
+  transition: background 0.5s ease-in-out;
+}
+
+.MuistipelinTekstit {
+  color: #2c3e50;
+  transition: color 0.3s ease;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Valikon napit ja select-kentät */
+.muistipeliMenu button,
+.muistipeliMenu select,
+.muistipeliUI {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Kortin selkämys */
+.back-face {
+  background-color: #dee2e6;
+  border: 1px solid #ced4da;
+}
+
+/* Takaisin-nappi */
+.back-button {
+  background-color: transparent;
+  color: #000001 !important;
+  border: 2px solid #000000 !important;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 18px;
+}
+
+/* --- 2. DARK MODE MUUTOKSET --- */
+
+/* Pohja tummaksi gradientiksi */
+body.dark-mode .muistipeli-root {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* Tekstit valkoiseksi */
+body.dark-mode .MuistipelinTekstit {
+  color: #ffffff !important;
+}
+
+/* Valikon elementit tummiksi */
+body.dark-mode .muistipeliMenu button,
+body.dark-mode .muistipeliMenu select,
+body.dark-mode .muistipeliUI {
+  background-color: #202242 !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+/* Kortin selkämys tummaksi */
+body.dark-mode .back-face {
+  background-color: #202242 !important;
+  border: 1px solid #444 !important;
+}
+
+/* Takaisin-nappi kirkkaaksi */
+body.dark-mode .back-button {
+  background-color: #202242 !important;
+  color: white !important;
+  border: 2px solid #444 !important;
+}
+
+/* --- 3. PELIN LOGIIKKA (ÄLÄ MUUTA) --- */
+
+.muistipeliMenu {
+  text-align: center;
+  margin-top: 40px;
+}
+
 .memory-game {
   display: grid;
   gap: 15px;
@@ -16,15 +111,6 @@
   cursor: pointer;
 }
 
-.memory-card:active {
-  transform: scale(0.97);
-  transition: transform 0.2s;
-}
-
-.memory-card.flip {
-  transform: rotateY(180deg);
-}
-
 .front-face,
 .back-face {
   position: absolute;
@@ -39,58 +125,10 @@
   transform: rotateY(180deg);
 }
 
-.win-message {
-  margin-left: 40px;
+.memory-card.flip {
+  transform: rotateY(180deg);
 }
 
-.muistipeliMenu {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.muistipeliMenu select {
-  margin: 10px;
-  padding: 5px;
-}
-
-.muistipeliMenu button,
-.muistipeliMenu select {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background-color: #202242;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.muistipeliMenu button:hover {
-  background-color: #2e2f5e;
-}
-
-.muistipeliUI {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background-color: #202242;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.muistipeliUI:hover {
-  background-color: #2e2f5e;
-}
-
-.win-message {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.win-message h2 {
-  margin-right: 10px;
-  margin: 0px;
+.memory-card:active {
+  transform: scale(0.97);
 }

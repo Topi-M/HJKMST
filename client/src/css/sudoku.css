@@ -1,6 +1,6 @@
 .sudoku-container {
     text-align: center;
-    background: linear-gradient(135deg, rgba(238, 174, 202, 1) 25%, rgba(148, 187, 233, 1) 100%);
+    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%);
     animation: gradientBG 15s ease infinite;
     padding: 20px;
     min-height: 100vh;
@@ -8,9 +8,17 @@
 }
 
 @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .glass-header {
@@ -49,7 +57,7 @@
     border-radius: 10px;
     font-weight: bold;
     font-size: 1.1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease-out;
 }
 
@@ -64,8 +72,15 @@
 }
 
 @keyframes slideIn {
-    from { transform: translateY(-10px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .sudoku-grid {
@@ -100,6 +115,7 @@
     .sudoku-grid {
         padding: 5px;
     }
+
     .sudoku-cell {
         flex-wrap: wrap;
         gap: 10px;
@@ -163,21 +179,27 @@
 .sudoku-cell:nth-child(3n) {
     border-right: 3px solid black;
 }
+
 .sudoku-cell:nth-child(n+19):nth-child(-n+27) {
     border-bottom: 3px solid black;
 }
+
 .sudoku-cell:nth-child(n+46):nth-child(-n+54) {
     border-bottom: 3px solid black;
 }
+
 .sudoku-cell:nth-child(n+73):nth-child(-n+81) {
     border-bottom: 3px solid black;
 }
+
 .sudoku-cell:nth-child(9n+1) {
     border-left: 3px solid black;
 }
+
 .sudoku-cell:nth-child(9n) {
     border-right: 3px solid black;
 }
+
 .sudoku-cell:nth-child(-n+9) {
     border-top: 3px solid black;
 }
@@ -219,4 +241,115 @@
 .sudoku-grid-placeholder {
     opacity: 0.75;
     pointer-events: none;
+}
+
+.badge.bg-glass {
+    background: rgba(255, 255, 255, 0.45) !important;
+    color: #2c3e50 !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(8px);
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.dark-mode .sudoku-container {
+    background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) !important;
+    background-size: 400% 400%;
+}
+
+/* 2. Otsikon lasiefekti tummana */
+body.dark-mode .glass-header {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .sudoku-title,
+body.dark-mode .sudoku-difficulty-selection p {
+    color: #ffffff !important;
+}
+
+/* 3. Ruudukko ja solut */
+body.dark-mode .sudoku-grid {
+    background: #1a1a1a !important;
+    /* Ruudukon pohja */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-mode .sudoku-cell {
+    background-color: #2a2a2a !important;
+    color: #ffffff !important;
+    border: 1px solid #444 !important;
+    /* Ohuet väliviivat */
+}
+
+/* Paksut väliviivat Dark Modessa (3x3 alueet) */
+body.dark-mode .sudoku-cell:nth-child(3n),
+body.dark-mode .sudoku-cell:nth-child(9n) {
+    border-right: 3px solid #000 !important;
+}
+
+body.dark-mode .sudoku-cell:nth-child(n+19):nth-child(-n+27),
+body.dark-mode .sudoku-cell:nth-child(n+46):nth-child(-n+54),
+body.dark-mode .sudoku-cell:nth-child(n+73):nth-child(-n+81) {
+    border-bottom: 3px solid #000 !important;
+}
+
+body.dark-mode .sudoku-cell:nth-child(9n+1) {
+    border-left: 3px solid #000 !important;
+}
+
+body.dark-mode .sudoku-cell:nth-child(-n+9) {
+    border-top: 3px solid #000 !important;
+}
+
+/* 4. Erikoissolujen värit */
+body.dark-mode .pre-filled-cell {
+    background-color: #333333 !important;
+    color: #00d4ff !important;
+    /* Valmiit numerot loistavat syaanina */
+}
+
+body.dark-mode .selected-cell {
+    background-color: #1e3a5f !important;
+    /* Tumman sininen valinta */
+    outline: 2px solid #00d4ff !important;
+}
+
+body.dark-mode .green-cell {
+    background-color: #1b4d1b !important;
+    /* Tummanvihreä onnistuminen */
+    color: #fff !important;
+}
+
+/* 5. Napit ja valinnat */
+body.dark-mode .sudoku-num-button,
+body.dark-mode .sudoku-buttons .btn,
+body.dark-mode .sudoku-difficulty-buttons .btn {
+    background-color: #202242 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+body.dark-mode .sudoku-num-button:hover,
+body.dark-mode .sudoku-buttons .btn:hover {
+    background-color: #2e2f5e !important;
+}
+
+/* Status-bannerit Dark Modessa */
+body.dark-mode .status-banner.warning {
+    background-color: #664d03 !important;
+    color: #ffda6a !important;
+}
+
+body.dark-mode .badge.bg-glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #00d4ff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(4px);
+}
+
+body.dark-mode .badge {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }

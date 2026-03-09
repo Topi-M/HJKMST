@@ -13,9 +13,9 @@ const NonogramGame = () => {
   const [grid, setGrid] = useState([]);
   const [hints, setHints] = useState({ rows: [], cols: [] });
   const [isSolved, setIsSolved] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false); 
+  const [gameStarted, setGameStarted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false); // Uusi tila ohjeille
-  
+
   const [resetTrigger, setResetTrigger] = useState(false);
   const [finalTimeMs, setFinalTimeMs] = useState(null);
 
@@ -36,7 +36,7 @@ const NonogramGame = () => {
     setGrid(newGrid);
     calculateHints(newGrid, gameSize);
     setIsSolved(false);
-    setGameStarted(false); 
+    setGameStarted(false);
     setFinalTimeMs(null);
     setResetTrigger(prev => !prev);
   };
@@ -66,7 +66,7 @@ const NonogramGame = () => {
 
   const handlePixelClick = (r, c, isRightClick) => {
     if (isSolved || !gameStarted) return;
-    
+
     const newGrid = [...grid];
     const pixel = { ...newGrid[r][c] };
 
@@ -78,8 +78,8 @@ const NonogramGame = () => {
 
     newGrid[r][c] = pixel;
     setGrid(newGrid);
-    
-    const solved = newGrid.every(row => 
+
+    const solved = newGrid.every(row =>
       row.every(p => p.solution === PIXEL_STATES.BLACK ? p.current === PIXEL_STATES.BLACK : p.current !== PIXEL_STATES.BLACK)
     );
 
@@ -90,11 +90,11 @@ const NonogramGame = () => {
 
   return (
     <div className="nonogram-container d-flex flex-column align-items-center py-5">
-      <h2 className="mb-4 text-info fw-bold">Nonogram</h2>
+      <h2 className="NonogramOtsikko">Nonogram</h2>
 
       {/* Ohjepainike */}
-      <button 
-        className="btn btn-outline-info mb-3" 
+      <button
+        className="btn btn-outline-info mb-3"
         onClick={() => setShowInstructions(!showInstructions)}
       >
         {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
@@ -115,19 +115,19 @@ const NonogramGame = () => {
         </div>
       )}
 
-      
 
-      <PelienTimer 
-        isRunning={gameStarted && !isSolved} 
-        onFinish={handleGameFinish} 
-        resetTrigger={resetTrigger} 
+
+      <PelienTimer
+        isRunning={gameStarted && !isSolved}
+        onFinish={handleGameFinish}
+        resetTrigger={resetTrigger}
       />
 
       <div className="btn-group my-4 shadow">
         {[5, 7, 9].map((s) => (
-          <button 
-            key={s} 
-            className={`btn ${size === s ? 'btn-info' : 'btn-outline-info'}`} 
+          <button
+            key={s}
+            className={`btn ${size === s ? 'btn-info' : 'btn-outline-info'}`}
             onClick={() => setSize(s)}
             disabled={gameStarted && !isSolved}
           >
@@ -143,9 +143,9 @@ const NonogramGame = () => {
       )}
 
       <div className="position-relative">
-        <div 
-          className="nonogram-grid-container" 
-          style={{ 
+        <div
+          className="nonogram-grid-container"
+          style={{
             display: 'grid',
             gridTemplateColumns: `minmax(70px, auto) repeat(${size}, 50px)`,
             filter: !gameStarted ? 'blur(2px)' : 'none',
@@ -179,7 +179,7 @@ const NonogramGame = () => {
 
         {!gameStarted && !isSolved && (
           <div className="start-overlay">
-            <button 
+            <button
               className="btn-aloita shadow-lg"
               onClick={() => {
                 setGameStarted(true);
