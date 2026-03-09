@@ -7,6 +7,7 @@ import Etusivu from "./pages/Etusivu";
 import Login from "./pages/Login";
 import Muistipeli from "./pages/Muistipeli";
 import Profiili from "./pages/Profiili";
+import WhiteTile from "./pages/WhiteTile";
 
 export const router = createBrowserRouter(
   [
@@ -37,6 +38,10 @@ export const router = createBrowserRouter(
         {
           path: "Muistipeli",
           element: <Muistipeli />
+        },
+        {
+          path: "whitetiles",
+          element: <WhiteTile />
         },
         {
           path: "profiili",

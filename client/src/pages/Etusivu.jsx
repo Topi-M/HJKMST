@@ -32,6 +32,13 @@ const Etusivu = () => {
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/muistipeli.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9tdWlzdGlwZWxpLnBuZyIsImlhdCI6MTc3MTU5MTI3OSwiZXhwIjo0OTI1MTkxMjc5fQ.3A8_xn8zhHBW5OeHcDj2Si9IOU71HIjn8fLCoX7Rddk",
       route: '/muistipeli',
       description: 'Etsi kuvaparit.'
+    },
+        { 
+      id: 'whitetiles',
+      name: "Don't Tap the White Tiles", 
+      img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/whitetiles.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC93aGl0ZXRpbGVzLnBuZyIsImlhdCI6MTc3Mjk5NjE4OCwiZXhwIjo0OTI2NTk2MTg4fQ.Kj0hQhHiOpPK_gGhrTL3GOagzzpMEEZduS3SlTxPlSg",
+      route: '/whitetiles',
+      description: 'Klikkaa kaikki mustat ruudut.'
     }
   ];
 
