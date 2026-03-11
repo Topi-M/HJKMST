@@ -1,8 +1,12 @@
 .tausta {
-    background-color: #0b0c10;
+    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
     min-height: 100vh;
     display: flex;
     justify-content: center;
+}
+
+body.dark-mode .tausta {
+    background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
 }
 
 /* Keskitetty sisältölaatikko */
@@ -68,14 +72,15 @@
 }
 
 .profiili-loginLink {
-  color: #3498db;
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 0.2s ease;
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .profiili-loginLink:hover {
-  border-bottom: 1px solid #3498db;
-  color: #48a6e4; /* sama hover-sävy kuin napeissa */
+    border-bottom: 1px solid #3498db;
+    color: #48a6e4;
+    /* sama hover-sävy kuin napeissa */
 }

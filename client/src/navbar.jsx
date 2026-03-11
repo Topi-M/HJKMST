@@ -3,8 +3,11 @@ import Container from 'react-bootstrap/Container';
 import RBNavbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { useTheme } from './components/ThemeContext.jsx';
 
 const AppNavbar = () => {
+  const { isDarkMode, toggleTheme } = useTheme();
   return (
     <RBNavbar bg="primary" variant="dark" expand="lg">
       <Container fluid>
@@ -42,6 +45,15 @@ const AppNavbar = () => {
               Login
             </Nav.Link>
 
+          </Nav>
+          <Nav className="ms-auto">
+            <Button
+              variant="outline-light"
+              onClick={toggleTheme}
+              style={{ borderRadius: '10px', padding: '5px 10px' }}
+            >
+              {isDarkMode ? '☀️ Light ' : '🌙 Dark '}
+            </Button>
           </Nav>
         </RBNavbar.Collapse>
       </Container>

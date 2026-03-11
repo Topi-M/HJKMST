@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../components/SupaBaseClient";
+import { useTheme } from "../components/ThemeContext"; // <- theme context, katsoo onko dark mode päällä vai ei
 import AuthForm from "../components/AuthFrom"; // <- komponentti joka käsittelee sign up / login / logout funktiot
 import ErrorMessage from "../components/ErrorMessage"; // <- error jos jokin menee pieleen
 import "../css/login.css";
-
 
 export default function AuthPage() {
   const navigate = useNavigate(); // <- ohjaa käyttäjän toisille sivuille
   const [error, setError] = useState(""); // <- pitää muistissa errorit
   const [user, setUser] = useState(null); // <- sisäänkirjautuneen käyttäjän tiedot
+  const { isDarkMode } = useTheme(); // <- Katsoo onko dark mode päällä 
+
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [isDarkMode]);
+
 
   // Katsoo onko käyttäjä kirjautunut sisään
   // auth.getsessions https://supabase.com/docs/guides/auth/sessions
@@ -19,6 +30,7 @@ export default function AuthPage() {
         setUser(data.session.user);
       }
     });
+
 
     // Kuuntelee käyttäjän tilaa (login, logout jne) 
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -42,7 +54,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="sivunTausta">
+    <div className="tausta">
       <div className="authDiv">
         <h2 className="authTitle">Kirjaudu sisään / luo tili</h2>
 
