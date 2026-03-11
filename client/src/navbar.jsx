@@ -3,13 +3,13 @@ import Container from 'react-bootstrap/Container';
 import RBNavbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import { useTheme } from './components/ThemeContext.jsx';
+import './css/navbar.css';
 
 const AppNavbar = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   return (
-    <RBNavbar bg="primary" variant="dark" expand="lg">
+    <RBNavbar variant="dark" expand="lg" style={{ backgroundColor: '#3d62f7' }}>
       <Container fluid>
         <RBNavbar.Brand as={NavLink} to="/">
           Minipelialusta
@@ -36,6 +36,16 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/whitetiles">
               White Tiles
             </Nav.Link>
+          </Nav>
+
+          {/*vasen reuna*/}
+          <Nav className="ms-auto align-items-center gap-2">
+            <div
+              className={`theme-toggle-track ${isDarkMode ? 'dark' : 'light'}`}
+              onClick={toggleTheme}
+            >
+              <div className={`theme-toggle-thumb ${isDarkMode ? 'dark' : 'light'}`} />
+            </div>
 
             <Nav.Link as={NavLink} to="/profiili">
               Profiili
@@ -44,16 +54,6 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/Login">
               Login
             </Nav.Link>
-
-          </Nav>
-          <Nav className="ms-auto">
-            <Button
-              variant="outline-light"
-              onClick={toggleTheme}
-              style={{ borderRadius: '10px', padding: '5px 10px' }}
-            >
-              {isDarkMode ? '☀️ Light ' : '🌙 Dark '}
-            </Button>
           </Nav>
         </RBNavbar.Collapse>
       </Container>
