@@ -27,7 +27,7 @@ function Game() {
       .list(theme, { limit: 100 });
 
     console.log("List data:", data);
-    console.log("List error:", error);  
+    console.log("List error:", error);
 
     if (error) {
       console.error(error);
@@ -49,8 +49,8 @@ function Game() {
       .slice(0, difficulty)
       .map(file => file.name);
 
-      console.log("Kaikki kuvat:", imageFiles.length);
-      console.log("Valitut kuvat:", selectedImages.length);
+    console.log("Kaikki kuvat:", imageFiles.length);
+    console.log("Valitut kuvat:", selectedImages.length);
 
     const duplicated = [...selectedImages, ...selectedImages];
 
@@ -58,7 +58,7 @@ function Game() {
       const { data } = supabase
         .storage
         .from("muistipeliKuvat")
-        .getPublicUrl(`${theme}/${fileName}`); 
+        .getPublicUrl(`${theme}/${fileName}`);
 
       return {
         id: index + 1,
@@ -67,10 +67,10 @@ function Game() {
         isFlipped: false,
         passed: false,
       };
-  });
+    });
 
-  return cards.sort(() => Math.random() - 0.5);
-};
+    return cards.sort(() => Math.random() - 0.5);
+  };
 
   const startGame = async () => {
     console.log("Difficulty:", difficulty);
@@ -85,7 +85,7 @@ function Game() {
     setCardsState(newCards);
     setGameStarted(true);
   };
-    
+
   const checker = async (card) => {
     if (card.pairId === firstCard.pairId) {
       console.log("hellooo");
@@ -131,11 +131,11 @@ function Game() {
   };
 
   useEffect(() => {
-  const allPassed = cardsState.every(card => card.passed === true);
-  if (allPassed && cardsState.length > 0) {
-    setHasWon(true);
-  }
-}, [cardsState]);
+    const allPassed = cardsState.every(card => card.passed === true);
+    if (allPassed && cardsState.length > 0) {
+      setHasWon(true);
+    }
+  }, [cardsState]);
 
   const goBackToMenu = () => {
     setGameStarted(false);
@@ -146,83 +146,82 @@ function Game() {
     setTheme(e.target.value);
   };
 
-const resetGame = async () => {
+  const resetGame = async () => {
 
-  setHasWon(false);
-  setFirstCard(null);
-  setSecondClick(false);
-  setWait(false);
+    setHasWon(false);
+    setFirstCard(null);
+    setSecondClick(false);
+    setWait(false);
 
-  setCardsState([]);
+    setCardsState([]);
 
-  setTimeout(async () => {
-    const newCards = await generateCards(difficulty, theme);
-    setCardsState(newCards);
-  }, 100);
-};
-
-useEffect(() => {
-  return () => {
-    resetGame();
+    setTimeout(async () => {
+      const newCards = await generateCards(difficulty, theme);
+      setCardsState(newCards);
+    }, 100);
   };
-}, []);
+
+  useEffect(() => {
+    return () => {
+      resetGame();
+    };
+  }, []);
 
 
 
   return (
-    <div className="d-flex flex-column align-items-center py-5" style={{ backgroundColor: '#0b0c10', minHeight: '100vh', color: 'white' }}>
+    <div className="muistipeli-root d-flex flex-column align-items-center py-5">
       {!gameStarted && (
-    <div className="muistipeliMenu">
-      <h2>Valitse vaikeusaste</h2>
+        <div className="muistipeliMenu">
+          <h2 className="MuistipelinTekstit">Valitse vaikeusaste</h2>
 
-      <select
-        value={difficulty}
-        onChange={(e) => setDifficulty(Number(e.target.value))}
-      >
-        <option value={4}>Helppo (4 paria)</option>
-        <option value={6}>Keskitaso (6 paria)</option>
-        <option value={8}>Vaikea (8 paria)</option>
-      </select>
+          <select
+            value={difficulty}
+            onChange={(e) => setDifficulty(Number(e.target.value))}
+          >
+            <option value={4}>Helppo (4 paria)</option>
+            <option value={6}>Keskitaso (6 paria)</option>
+            <option value={8}>Vaikea (8 paria)</option>
+          </select>
 
-      <h2>Valitse teema</h2>
+          <h2 className="MuistipelinTekstit">Valitse teema</h2>
 
-      <select value = {theme} onChange={(e) => setTheme(e.target.value)}>
-        <option value="Elaimet">Eläimet</option>
-        <option value="Autot">Autot</option>
-        <option value="Dinosaurukset">Dinosaurukset</option>
-      </select>
+          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+            <option value="Elaimet">Eläimet</option>
+            <option value="Autot">Autot</option>
+            <option value="Dinosaurukset">Dinosaurukset</option>
+          </select>
 
-      <button  onClick={startGame}>Aloita peli</button>
+          <button onClick={startGame}>Aloita peli</button>
+        </div>
+      )}
+      {gameStarted && (
+        <>
+          <button className="btn btn-outline-info back-button"
+            onClick={goBackToMenu}
+          >
+            ⬅ Takaisin
+          </button>
+          {hasWon && (
+            <div className="win-message">
+              <h2 className="MuistipelinTekstit">🎉 Voitit pelin!</h2>
+              <button className="btn btn-outline-info" onClick={resetGame}>Pelaa uudestaan</button>
+            </div>
+          )}
+          <section style={{ gridTemplateColumns: `repeat(${Math.ceil(Math.sqrt(cardsState.length))}, 1fr)` }} className="memory-game">
+            {cardsState?.map((card) => {
+              return (
+                <Card
+                  key={card.id}
+                  card={card}
+                  onClick={(e) => handleClick(e, card)}
+                />
+              );
+            })}
+          </section>
+        </>
+      )}
     </div>
-  )}
-    {gameStarted && (
-    <>
-      <button className="btn btn-outline-info"
-      onClick={goBackToMenu}
-      style={{ marginBottom: "20px" }}
-    >
-      ⬅ Takaisin
-    </button>
-      {hasWon && (
-          <div className="win-message">
-            <h2>🎉 Voitit pelin!</h2>
-            <button className="btn btn-outline-info" onClick={resetGame}>Pelaa uudestaan</button>
-          </div>
-        )}   
-      <section style={{gridTemplateColumns: `repeat(${Math.ceil(Math.sqrt(cardsState.length))}, 1fr)`}} className="memory-game">
-        {cardsState?.map((card) => {
-          return (
-            <Card
-              key={card.id}
-              card={card}
-              onClick={(e) => handleClick(e, card)}
-            />
-          );
-        })}
-      </section>
-    </>  
-    )}
-    </div>  
   );
 }
 

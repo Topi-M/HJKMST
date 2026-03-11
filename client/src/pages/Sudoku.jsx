@@ -14,7 +14,7 @@ export default function Sudoku() {
   const [board, setBoard] = useState(
     Array(GRID).fill(null).map(() => Array(GRID).fill(null))
   );
-  
+
   const [initialBoard, setInitialBoard] = useState(
     Array(GRID).fill(null).map(() => Array(GRID).fill(null))
   );
@@ -97,7 +97,7 @@ export default function Sudoku() {
     for (let i = 0; i < GRID; i++) {
       const row = str.substring(i * GRID, i * GRID + GRID).split('').map(char => {
         const num = parseInt(char);
-        return num === 0 ? null : num; 
+        return num === 0 ? null : num;
       });
       grid.push(row);
     }
@@ -111,14 +111,14 @@ export default function Sudoku() {
     setFetchingLevel(level);
 
     try {
-      const {data, error} = await supabase
+      const { data, error } = await supabase
         .from('sudokupuzzles')
         .select('puzzle, solution')
         .eq('difficulty', level)
         .limit(1)
 
       if (error) throw error;
-      
+
       if (data && data.length > 0) {
         const game = data[0];
         const newGrid = stringToGrid(game.puzzle);
@@ -194,10 +194,10 @@ export default function Sudoku() {
     const duration = (sudokuEndTime - sudokuStartTime);
 
     console.log(
-    "Sudoku on oikein ratkaistu! Aloitus aika:", sudokuStartTime,
-    "Lopetusaika:", sudokuEndTime,
-    "Ratkaisu aika (ms):", duration,
-    "Vaikeustaso:", difficultyNames[difficulty] || difficulty
+      "Sudoku on oikein ratkaistu! Aloitus aika:", sudokuStartTime,
+      "Lopetusaika:", sudokuEndTime,
+      "Ratkaisu aika (ms):", duration,
+      "Vaikeustaso:", difficultyNames[difficulty] || difficulty
     );
 
     const lahetaTulos = await tallennaTulos(2, sudokuStartTime, sudokuEndTime, difficultyNames[difficulty], duration);
@@ -228,28 +228,28 @@ export default function Sudoku() {
               </div>
             )}
           </div>
-        
+
           {!difficulty && (
             <div className="sudoku-difficulty-selection">
               <p>Valitse vaikeustaso:</p>
               <ButtonGroup aria-label="Difficulty level" className="sudoku-difficulty-buttons">
-                <Button 
+                <Button
                   variant="outline-primary"
-                  onClick={() => fetchSudoku(4)} 
-                  disabled={loading}> 
+                  onClick={() => fetchSudoku(4)}
+                  disabled={loading}>
                   {fetchingLevel === 4 ? "Ladataan..." : "Easy"}
                 </Button>
 
-                <Button 
-                  variant="outline-primary" 
-                  onClick={() => fetchSudoku(5)} 
+                <Button
+                  variant="outline-primary"
+                  onClick={() => fetchSudoku(5)}
                   disabled={loading}>
                   {fetchingLevel === 5 ? "Ladataan..." : "Medium"}
                 </Button>
 
-                <Button 
-                  variant="outline-primary" 
-                  onClick={() => fetchSudoku(6)} 
+                <Button
+                  variant="outline-primary"
+                  onClick={() => fetchSudoku(6)}
                   disabled={loading}>
                   {fetchingLevel === 6 ? "Ladataan..." : "Hard"}
                 </Button>
@@ -268,7 +268,7 @@ export default function Sudoku() {
           )}
         </div>
 
-        <div 
+        <div
           className={`sudoku-grid ${!difficulty ? 'sudoku-grid-placeholder' : ''}`}
           onClick={(e) => e.stopPropagation()}
         >
@@ -276,15 +276,15 @@ export default function Sudoku() {
             const isPreFilled = initialBoard[rowIndex][colIndex] !== null;
             const isSelected = selected && selected[0] === rowIndex && selected[1] === colIndex;
             const cellIndex = rowIndex * GRID + colIndex;
-          
+
             return (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              className={`sudoku-cell ${isPreFilled ? 'pre-filled-cell' : ''} ${cellIndex < greenCells ? 'green-cell' : ''} ${isSelected ? 'selected-cell' : ''}`}
-              onClick={(e) => handleCellClick(e, rowIndex, colIndex)}
-            >
-              {cell || ""}
-            </div>
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`sudoku-cell ${isPreFilled ? 'pre-filled-cell' : ''} ${cellIndex < greenCells ? 'green-cell' : ''} ${isSelected ? 'selected-cell' : ''}`}
+                onClick={(e) => handleCellClick(e, rowIndex, colIndex)}
+              >
+                {cell || ""}
+              </div>
             );
           }))}
         </div>
@@ -310,7 +310,7 @@ export default function Sudoku() {
             </Button>
           </div>
         )}
-            
+
         {difficulty && (
           <div className="sudoku-buttons">
             <Button variant="outline-primary" onClick={reset}>
@@ -326,11 +326,11 @@ export default function Sudoku() {
         )}
       </div>
       <div className="sudoku-leaderboard">
-        <Leaderboard 
-          table = 'sudoku_leaderboard' 
-          difficulty = {difficultyNames[difficulty]} 
-          time_conversion = {true} 
-          format = 'raw'
+        <Leaderboard
+          table='sudoku_leaderboard'
+          difficulty={difficultyNames[difficulty]}
+          time_conversion={true}
+          format='raw'
         />
       </div>
     </div>

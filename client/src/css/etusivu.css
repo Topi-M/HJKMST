@@ -1,0 +1,9 @@
+.etusivunTausta {
+    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
+    min-height: 100vh;
+    color: white;
+}
+
+body.dark-mode .etusivunTausta {
+    background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
+}
