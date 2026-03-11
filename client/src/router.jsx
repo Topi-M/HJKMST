@@ -7,6 +7,8 @@ import Etusivu from "./pages/Etusivu";
 import Login from "./pages/Login";
 import Muistipeli from "./pages/Muistipeli";
 import Profiili from "./pages/Profiili";
+import Ristinolla from "./pages/Ristinolla";
+import Lobby from "./pages/Lobby";
 
 export const router = createBrowserRouter(
   [
@@ -37,6 +39,14 @@ export const router = createBrowserRouter(
         {
           path: "Muistipeli",
           element: <Muistipeli />
+        },
+        {
+          path: "Lobby",
+          element: <Lobby />
+        },
+        {
+          path: "Ristinolla/:id",
+          element: <Ristinolla/>
         },
         {
           path: "profiili",
