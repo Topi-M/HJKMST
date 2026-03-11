@@ -36,6 +36,10 @@ const AppNavbar = () => {
             <Nav.Link as={NavLink} to="/whitetiles">
               White Tiles
             </Nav.Link>
+
+            <Nav.Link as={NavLink} to="/Lobby">
+              Moninpeli
+            </Nav.Link>
           </Nav>
 
           {/*vasen reuna*/}
@@ -46,10 +50,6 @@ const AppNavbar = () => {
             >
               <div className={`theme-toggle-thumb ${isDarkMode ? 'dark' : 'light'}`} />
             </div>
-
-            <Nav.Link as={NavLink} to="/Lobby">
-              Lobby
-            </Nav.Link>
 
             <Nav.Link as={NavLink} to="/profiili">
               Profiili
