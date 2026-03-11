@@ -45,7 +45,7 @@ const Etusivu = () => {
 
   return (
     <div className="etusivunTausta">
-      <header className="text-center mb-5">
+      <header className="text-center mb-5" style={{ paddingTop: '3rem' }}>
         <h1 className="display-4 fw-bold text-info">Valitse peli</h1>
         <p className="lead text-secondary"></p>
       </header>
