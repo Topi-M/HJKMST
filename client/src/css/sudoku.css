@@ -23,20 +23,6 @@
 
 }
 
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 .glass-header {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(12px);
@@ -184,7 +170,7 @@
 .sudoku-difficulty-buttons {
     display: flex !important;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(240, 32, 32, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -274,7 +260,7 @@
     font-weight: 600;
 }
 
-body.dark-mode .sudoku-container {
+body.dark-mode .sudoku-page {
     background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) !important;
     background-size: 400% 400%;
 }
@@ -379,4 +365,8 @@ body.dark-mode .badge {
     font-size: 1.2rem;
     font-weight: bold;
     color: #2c3e50;
+}
+
+body.dark-mode .sudoku-timer {
+    color: #fcfcfc !important;
 }
