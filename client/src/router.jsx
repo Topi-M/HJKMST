@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Muistipeli from "./pages/Muistipeli";
 import Profiili from "./pages/Profiili";
 
+
 export const router = createBrowserRouter(
   [
     {
