@@ -1,0 +1,247 @@
+.wt-shell {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+body.dark-mode .wt-shell {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) !important;
+  background-size: 400% 400%;
+}
+
+/* ---- Aika ja pisteet ---- */
+.wt-stats-row {
+  display: flex;
+  gap: 64px;
+  justify-content: center;
+  align-items: center;
+}
+
+.wt-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.wt-stat-label {
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.wt-stat-value {
+  color: #0dcaf0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.wt-time-urgent {
+  color: crimson;
+  animation: wt-pulse 0.5s ease infinite alternate;
+}
+
+@keyframes wt-pulse {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.4;
+  }
+}
+
+/* ---- Sisältöalue ---- */
+.wt-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px;
+  gap: 20px;
+}
+
+/* ---- Mode-napit ---- */
+.wt-modes {
+  display: flex;
+  gap: 8px;
+}
+
+.wt-mode-btn {
+  padding: 6px 22px;
+  border-radius: 6px;
+  border: 1px solid #2d4153;
+  background: #10141a;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.wt-mode-btn:hover {
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.wt-mode-btn.active {
+  background: #3498db;
+  color: #fff;
+  border-color: #3498db;
+}
+
+/* ---- Pelilauta + leaderboard rinnakkain ---- */
+.wt-main-row {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.wt-leaderboard-panel {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+/* ---- Pelilauta ---- */
+.wt-board-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.wt-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: min(88vw, 560px);
+  height: min(88vw, 560px);
+  gap: 6px;
+  background: #10141a;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #10141a;
+}
+
+/* ---- Ruudut ---- */
+.wt-tile {
+  position: relative;
+  background: #e8edf2;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.07s ease, transform 0.05s ease;
+  user-select: none;
+}
+
+.wt-tile--black {
+  background: #0b0c10;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.wt-tile--black:active {
+  transform: scale(0.95);
+  background: #1a1d24;
+}
+
+/* ---- Start overlay (sama tyyli kuin palapeli) ---- */
+.wt-start-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 6px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wt-hit-white {
+  color: crimson;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.wt-gameover-score {
+  color: #0dcaf0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.wt-start-btn {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  color: #0b0c10;
+  background: #0dcaf0;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+
+.wt-start-btn:hover {
+  filter: brightness(1.08);
+}
+
+.wt-start-btn:active {
+  transform: translateY(1px);
+}
+
+/* ---- +1 float-animaatio ---- */
+.wt-pop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #0dcaf0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 10;
+  animation: wt-pop-float 0.7s ease forwards;
+}
+
+@keyframes wt-pop-float {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(-50%, -120%) scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -190%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ---- Pisteiden hyppäysanimaatio ---- */
+.wt-score-jump {
+  display: inline-block;
+  animation: wt-score-jump 0.3s ease;
+}
+
+@keyframes wt-score-jump {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

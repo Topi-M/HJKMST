@@ -70,6 +70,10 @@ useEffect(() => {
       if (mounted) {
         setEntries(list);
         setDifficulties(uniqueDifficulties); // <-- Muistiin vaikeudet, niiden kautta luodaan filtteri painikkeet
+        
+        // Tämä näyttää pienimmän (helpoimman) difficultyn oletuksena
+        const matched = uniqueDifficulties.find((d) => d == difficulty) ?? uniqueDifficulties[0];
+        setDifficulty(matched);
       }
     } catch (err) {
       console.error("Leaderboard fetch error:", err);

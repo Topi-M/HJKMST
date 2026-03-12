@@ -6,9 +6,12 @@
   padding: 12px;
   display: flex;
   flex-direction: column;
-  width: 100%;           /* full width of container */
-  max-width: 400px;      /* optional max width for sidebars */
-  max-height: 500px;     /* limit height on larger screens */
+  width: 100%;
+  /* full width of container */
+  max-width: 400px;
+  /* optional max width for sidebars */
+  max-height: 500px;
+  /* limit height on larger screens */
   box-sizing: border-box;
   transition: all 0.2s ease;
 }
@@ -46,11 +49,11 @@
   color: #0b0c10;
   border-color: #3498db;
   cursor: default;
-  box-shadow: 0 0 0 2px rgba(52,152,219,0.25);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
 }
 
 .leaderboard .button:hover:not(.active) {
-  background: rgba(52,152,219,0.15);
+  background: rgba(52, 152, 219, 0.15);
 }
 
 .leaderboard .button:disabled {
@@ -62,7 +65,8 @@
 .leaderboard .list {
   flex: 1;
   overflow-y: auto;
-  padding-right: 4px; /* prevent scrollbar overlap */
+  padding-right: 4px;
+  /* prevent scrollbar overlap */
 }
 
 /* Empty state */
@@ -104,7 +108,8 @@
 
 @media (max-width: 900px) {
   .leaderboard {
-    width: 90%;          /* almost full width on mobile */
+    width: 90%;
+    /* almost full width on mobile */
     max-width: none;
     max-height: 400px;
     margin: 0 auto;
