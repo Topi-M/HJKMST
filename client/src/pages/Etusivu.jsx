@@ -46,8 +46,9 @@ const Etusivu = () => {
   return (
     <div className="etusivunTausta">
       <header className="text-center mb-5" style={{ paddingTop: '3rem' }}>
-        <h1 className="display-4 fw-bold text-info">Valitse peli</h1>
-        <p className="lead text-secondary"></p>
+        <div className="etusivu-title-panel">
+          <h1 className="display-4 fw-bold etusivu-title">Valitse peli</h1>
+        </div>
       </header>
 
       {/* row-cols varmistaa, että kortit ovat samanlevyisiä ja h-100 pitää ne samanpituisina */}

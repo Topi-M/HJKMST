@@ -118,16 +118,18 @@ export default function WhiteTile() {
     <div className="wt-shell">
       <div className="wt-content">
         {/* Aika ja pisteet */}
-        <div className="wt-stats-row">
-          <div className="wt-stat">
-            <span className="wt-stat-label">Aika</span>
-            <span className={`wt-stat-value${timeLeft <= 5 && isGameActive ? " wt-time-urgent" : ""}`}>
-              {timeLeft}s
-            </span>
-          </div>
-          <div className="wt-stat">
-            <span className="wt-stat-label">Pisteet</span>
-            <span key={score} className="wt-stat-value wt-score-jump">{score}</span>
+        <div className="wt-stats-panel">
+          <div className="wt-stats-row">
+            <div className="wt-stat">
+              <span className="wt-stat-label">Aika</span>
+              <span className={`wt-stat-value${timeLeft <= 5 && isGameActive ? " wt-time-urgent" : ""}`}>
+                {timeLeft}s
+              </span>
+            </div>
+            <div className="wt-stat">
+              <span className="wt-stat-label">Pisteet</span>
+              <span key={score} className="wt-stat-value wt-score-jump">{score}</span>
+            </div>
           </div>
         </div>
 
