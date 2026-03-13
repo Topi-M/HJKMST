@@ -230,10 +230,7 @@ const NonogramGame = () => {
         </div>
 
         <div className="col-xl-3 col-lg-4">
-          <div className="p-4 shadow-lg rounded" style={{ backgroundColor: '#05070a', border: '1px solid #161a24', minHeight: '500px' }}>
-            <h5 className="text-info mb-4 text-uppercase fw-bold border-bottom border-secondary pb-2" style={{ letterSpacing: '1px' }}>
-              Leaderboard
-            </h5>
+          <div className="p-4 shadow-lg rounded" /*style={{ backgroundColor: '#05070a', border: '1px solid #161a24', minHeight: '500px' }}>*/>
             <Leaderboard
               table="nonogram"
               difficulty={size}

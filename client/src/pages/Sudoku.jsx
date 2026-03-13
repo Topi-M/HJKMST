@@ -316,7 +316,7 @@ export default function Sudoku() {
             <Button variant="outline-primary" onClick={reset}>
               Reset ↩
             </Button>
-            <Button variant="outline-success" onClick={check}>
+            <Button variant="outline-primary" onClick={check}>
               Check ✓
             </Button>
             <Button variant="outline-primary" onClick={newSudoku}>

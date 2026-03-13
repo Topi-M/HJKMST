@@ -39,7 +39,7 @@
     font-weight: 800;
     margin: 0;
     letter-spacing: 4px;
-    color: #2c3e50;
+    color: #152433;
 }
 
 .sudoku-difficulty-selection {
@@ -138,13 +138,23 @@
     flex-wrap: wrap;
 }
 
+.sudoku-num-pad .btn {
+    color: #152433;
+    border: 1px solid #152433;
+}
+
+.sudoku-num-pad .btn:hover {
+    background: #152433;
+    color: #f0f0f0;
+    border-color: #152433;
+}
+
 .sudoku-num-button {
     width: 40px;
     height: 40px;
     font-size: 12px;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease;
 }
 
 .sudoku-num-button:hover {
@@ -163,7 +173,7 @@
 .sudoku-difficulty-selection p {
     margin: 0;
     font-weight: 600;
-    color: #2c3e50;
+    color: #152433;
     font-size: 1.1rem;
 }
 
@@ -180,7 +190,14 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    color: #152433;
+    border: 1px solid #152433;
+}
+
+.sudoku-difficulty-buttons .btn:hover {
+    background: #152433;
+    color: #f0f0f0;
+    border-color: #152433;
 }
 
 .sudoku-cell:nth-child(3n) {
@@ -226,8 +243,14 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     border: 1px solid rgba(0, 0, 0, 0.5) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    color: #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #152433;
+    border: 2px solid #152433;
+}
+
+.sudoku-buttons .btn:hover {
+    background-color: #152433;
+    color: #f0f0f0;
 }
 
 .pre-filled-cell {
@@ -321,11 +344,11 @@ body.dark-mode .pre-filled-cell {
 body.dark-mode .selected-cell {
     background-color: #1e3a5f !important;
     /* Tumman sininen valinta */
-    outline: 2px solid #00d4ff !important;
+    /*outline: 2px solid #00d4ff !important;*/
 }
 
 body.dark-mode .green-cell {
-    background-color: #1b4d1b !important;
+    background-color: #11a4c2 /*#79a879 #1b4d1b*/ !important;
     /* Tummanvihreä onnistuminen */
     color: #fff !important;
 }
@@ -340,7 +363,8 @@ body.dark-mode .sudoku-difficulty-buttons .btn {
 }
 
 body.dark-mode .sudoku-num-button:hover,
-body.dark-mode .sudoku-buttons .btn:hover {
+body.dark-mode .sudoku-buttons .btn:hover,
+body.dark-mode .sudoku-difficulty-buttons .btn:hover {
     background-color: #2e2f5e !important;
 }
 
@@ -364,9 +388,14 @@ body.dark-mode .badge {
 .sudoku-timer {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #2c3e50;
+    color: #152433;
 }
 
 body.dark-mode .sudoku-timer {
     color: #fcfcfc !important;
+}
+
+body.dark-mode .status-banner.success {
+    background-color: #11a4c2 !important;
+    color: white !important;
 }
