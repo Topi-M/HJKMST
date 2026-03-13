@@ -1,3 +1,28 @@
+.etusivu-title-panel {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 12px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.etusivu-title {
+  color: rgb(0, 0, 0) !important;
+  margin: 0;
+}
+
+body.dark-mode .etusivu-title-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .etusivu-title {
+  color: #0dcaf0 !important;
+}
+
 .etusivunTausta {
     background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
     min-height: 100vh;

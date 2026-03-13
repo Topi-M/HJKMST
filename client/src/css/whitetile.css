@@ -10,7 +10,32 @@ body.dark-mode .wt-shell {
   background-size: 400% 400%;
 }
 
-/* ---- Aika ja pisteet ---- */
+/* ---- Aika ja pisteet paneeli ---- */
+.wt-stats-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 12px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .wt-stats-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.wt-stats-panel .wt-stat-label,
+.wt-stats-panel .wt-stat-value {
+  color: rgb(0, 0, 0);
+}
+
+body.dark-mode .wt-stats-panel .wt-stat-label,
+body.dark-mode .wt-stats-panel .wt-stat-value {
+  color: #0dcaf0;
+}
+
 .wt-stats-row {
   display: flex;
   gap: 64px;
