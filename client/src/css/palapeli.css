@@ -32,20 +32,44 @@ body.dark-mode .puzzle-shell {
   justify-content: flex-end;
 }
 
+
+
+body.dark-mode .side-panel .btn {
+  background-color: #202242 !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+body.dark-mode .side-panel .btn:hover {
+  background-color: #2e2f5e !important;
+}
+
+
 .side-panel {
   position: sticky;
   top: 16px;
   width: 100%;
   height: 70%;
   /*background: #fafafa;*/
-  border: 1px solid #10141a;
-  border-radius: 8px;
+  /*border: 1px solid #f0f0f0  #10141a*/;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 12px;
-  background-color: #10141a;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3),
+              0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  /*background-color: #10141a;*/
 }
 
 .side-panel>* {
   margin-bottom: 12px;
+}
+
+.side-panel .btn { 
+  color: #f0f0f0;
+  background-color: #152433;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: none;
+  width: 100%;
 }
 
 
