@@ -42,6 +42,7 @@ function addRandomBlack(existing, exclude = -1) {
 // Pelin varsinainen logiikka
 //
 export default function WhiteTile() {
+  const [mode, setMode] = useState("10s"); // "10s" tai "Endurance"
   const [isGameActive, setIsGameActive] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [hitWhite, setHitWhite] = useState(false);
@@ -52,7 +53,7 @@ export default function WhiteTile() {
   const blackTilesRef = useRef(new Set());
   const scoreRef = useRef(0);
 
-  // Countdown-ajastin
+  // Countdown-ajastin (molemmat modet)
   useEffect(() => {
     if (!isGameActive) return;
     if (timeLeft <= 0) {
@@ -60,12 +61,12 @@ export default function WhiteTile() {
       setGameOver(true);
       blackTilesRef.current = new Set();
       setBlackTiles(new Set());
-      tallennaTulos(6, Date.now(), Date.now(), "10s", scoreRef.current);
+      tallennaTulos(6, Date.now(), Date.now(), mode === "Endurance" ? "Endurance" : "10s", scoreRef.current);
       return;
     }
     const id = setInterval(() => setTimeLeft(t => t - 1), 1000);
     return () => clearInterval(id);
-  }, [isGameActive, timeLeft]);
+  }, [isGameActive, timeLeft, mode]);
 
   // Kutsutaan uutta peliä aloittaessa. Nollaa mustien ruutujen sijainnin, ajan, pisteet ja muut tilat.
   function handleStart() {
@@ -85,13 +86,16 @@ export default function WhiteTile() {
     if (!isGameActive) return;
     const current = blackTilesRef.current;
 
-    // Jos klikattu ruutu ei ole mustien ruutujen joukossa -> peli loppuu 
+    // Jos klikattu ruutu ei ole mustien ruutujen joukossa -> peli loppuu
     if (!current.has(idx)) {
       setIsGameActive(false);
       setGameOver(true);
       setHitWhite(true);
       blackTilesRef.current = new Set();
       setBlackTiles(new Set());
+      if (mode === "Endurance") {
+        tallennaTulos(6, Date.now(), Date.now(), "Endurance", scoreRef.current);
+      }
       return;
     }
 
@@ -106,6 +110,11 @@ export default function WhiteTile() {
     scoreRef.current += 1;
     setScore(s => s + 1);
 
+    // Endurance: joka 35 pisteen kohdalla +10s aikaa
+    if (mode === "Endurance" && scoreRef.current % 35 === 0) {
+      setTimeLeft(t => t + 10);
+    }
+
     // "+1" animaation lisäys
     const popId = Date.now() + Math.random();
     setPops(p => [...p, { id: popId, idx }]);
@@ -117,8 +126,24 @@ export default function WhiteTile() {
   return (
     <div className="wt-shell">
       <div className="wt-content">
-        {/* Aika ja pisteet */}
+        {/* Mode-valinta ja stats */}
         <div className="wt-stats-panel">
+          <div className="wt-mode-row">
+            <button
+              className={`wt-mode-btn${mode === "10s" ? " wt-mode-btn--active" : ""}`}
+              onClick={() => { if (!isGameActive) setMode("10s"); }}
+              disabled={isGameActive}
+            >
+              10s
+            </button>
+            <button
+              className={`wt-mode-btn${mode === "Endurance" ? " wt-mode-btn--active" : ""}`}
+              onClick={() => { if (!isGameActive) setMode("Endurance"); }}
+              disabled={isGameActive}
+            >
+              Endurance
+            </button>
+          </div>
           <div className="wt-stats-row">
             <div className="wt-stat">
               <span className="wt-stat-label">Aika</span>
@@ -141,7 +166,12 @@ export default function WhiteTile() {
             {showOverlay && (
               <div className="wt-start-overlay">
                 {gameOver && hitWhite && (
-                  <div className="wt-hit-white">Osuit valkoiseen ruutuun!</div>
+                  <>
+                    <div className="wt-hit-white">Osuit valkoiseen ruutuun!</div>
+                    {mode === "Endurance" && (
+                      <div className="wt-gameover-score">Pisteet: {score}</div>
+                    )}
+                  </>
                 )}
                 {gameOver && !hitWhite && (
                   <div className="wt-gameover-score">Pisteet: {score}</div>
