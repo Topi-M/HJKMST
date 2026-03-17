@@ -154,6 +154,10 @@ body.dark-mode .side-panel .btn:hover {
   .puzzle-left {
     grid-template-columns: 1fr;
   }
+
+  .side-panel {
+    height: auto;
+  }
 }
 
 
