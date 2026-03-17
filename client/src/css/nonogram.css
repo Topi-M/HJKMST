@@ -8,17 +8,15 @@ body.dark-mode .nonogram-container {
     background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
 }
 
-/* Tämä on vain ruudukon kehys ja taustaväri */
 .nonogram-grid-container {
-    display: grid;
-    position: relative;
     display: grid;
     gap: 2px;
     background-color: #455a64;
-    /* Ruudukon "viivojen" väri */
     padding: 5px;
     border: 2px solid #455a64;
     margin: 20px auto;
+    /* Pidetään ruudukko kasassa */
+    width: fit-content; 
 }
 
 .grid-corner {
@@ -34,6 +32,7 @@ body.dark-mode .nonogram-container {
     font-size: 14px;
 }
 
+/* TIETOKONE: Alkuperäinen 75px koko */
 .pixel-75 {
     width: 75px;
     height: 75px;
@@ -42,92 +41,55 @@ body.dark-mode .nonogram-container {
     justify-content: center;
     cursor: pointer;
     user-select: none;
+    background-color: #ffffff;
+}
+
+/* MOBIILI: Muutetaan koko pienemmäksi, jos näyttö on kapea */
+@media (max-width: 768px) {
+    .pixel-75 {
+        width: clamp(30px, 8vw, 60px);
+        height: clamp(30px, 8vw, 60px);
+    }
+    
+    .hint-cell {
+        font-size: 10px;
+        padding: 2px;
+    }
+
+    .nonogram-grid-container {
+        gap: 1px;
+        padding: 2px;
+    }
 }
 
 .pixel-black {
     background-color: #000000 !important;
 }
 
-.pixel-white {
-    background-color: #ffffff !important;
-}
-
 .pixel-x {
     color: #d32f2f;
-}
-
-.start-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(11, 12, 16, 0.6);
-    z-index: 10;
-    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .btn-aloita {
     background-color: #00bcd4 !important;
     color: #000000 !important;
-    /* Pakotettu musta teksti */
     border: none;
     padding: 12px 30px;
     font-weight: bold;
     border-radius: 8px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
 }
 
-.btn-aloita:hover {
-    background-color: #33c9dc !important;
-    color: #000000 !important;
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 188, 212, 0.6);
-}
-
-.nonogram-grid-container {
-    position: relative;
-    display: grid;
-    gap: 2px;
-    background-color: #455a64;
-    padding: 5px;
-    border: 2px solid #455a64;
-    margin: 20px auto;
-}
-
-/* Ohjepainike */
 .btn-ohjeet {
     background-color: transparent;
     color: #ffffff !important;
-    /* Vaihdettu valkoiseksi pyynnöstä */
     border: 1px solid #00bcd4;
     padding: 8px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-ohjeet:hover {
-    background-color: #00bcd4;
-    color: #000000 !important;
-}
-
-.instructions-box {
-    background-color: #1c1e22;
-    border-left: 4px solid #00bcd4;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px 0;
-    max-width: 500px;
-    text-align: left;
-    line-height: 1.6;
-    animation: fadeIn 0.3s ease-in;
 }
 
 .NonogramOtsikko {
@@ -136,21 +98,4 @@ body.dark-mode .nonogram-container {
     color: #414f9f;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
-}
-
-body.dark-mode .NonogramOtsikko {
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
