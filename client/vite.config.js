@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/HJKMST/',
+  server: {
+    allowedHosts: true
+  },
   test: {
   globals: true,           
   environment: 'jsdom' 

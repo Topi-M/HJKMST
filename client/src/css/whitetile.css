@@ -1,11 +1,41 @@
 .wt-shell {
   min-height: 100vh;
-  background: #0b0c10;
+  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%);
   display: flex;
   flex-direction: column;
 }
 
-/* ---- Aika ja pisteet ---- */
+body.dark-mode .wt-shell {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) !important;
+  background-size: 400% 400%;
+}
+
+/* ---- Aika ja pisteet paneeli ---- */
+.wt-stats-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 12px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .wt-stats-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.wt-stats-panel .wt-stat-label,
+.wt-stats-panel .wt-stat-value {
+  color: rgb(0, 0, 0);
+}
+
+body.dark-mode .wt-stats-panel .wt-stat-label,
+body.dark-mode .wt-stats-panel .wt-stat-value {
+  color: #0dcaf0;
+}
+
 .wt-stats-row {
   display: flex;
   gap: 64px;
@@ -41,8 +71,13 @@
 }
 
 @keyframes wt-pulse {
-  from { opacity: 1; }
-  to   { opacity: 0.4; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.4;
+  }
 }
 
 /* ---- Sisältöalue ---- */
@@ -56,31 +91,54 @@
 }
 
 /* ---- Mode-napit ---- */
-.wt-modes {
+.wt-mode-row {
   display: flex;
   gap: 8px;
+  justify-content: center;
+  margin-bottom: 8px;
 }
 
 .wt-mode-btn {
   padding: 6px 22px;
   border-radius: 6px;
-  border: 1px solid #2d4153;
-  background: #10141a;
-  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(0, 0, 0);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: border-color 0.15s, color 0.15s;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.wt-mode-btn:hover {
-  border-color: #3498db;
-  color: #3498db;
+body.dark-mode .wt-mode-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
 }
 
-.wt-mode-btn.active {
-  background: #3498db;
-  color: #fff;
-  border-color: #3498db;
+.wt-mode-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+body.dark-mode .wt-mode-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.wt-mode-btn--active {
+  background: #0dcaf0;
+  color: #0b0c10;
+  border-color: #0dcaf0;
+}
+
+body.dark-mode .wt-mode-btn--active {
+  background: #0dcaf0;
+  color: #0b0c10;
+  border-color: #0dcaf0;
+}
+
+.wt-mode-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 /* ---- Pelilauta + leaderboard rinnakkain ---- */
@@ -94,6 +152,39 @@
 .wt-leaderboard-panel {
   width: 200px;
   flex-shrink: 0;
+}
+
+/* ---- Mobiili ---- */
+@media (max-width: 700px) {
+  .wt-content {
+    padding: 16px 8px;
+    gap: 14px;
+  }
+
+  .wt-main-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .wt-board {
+    width: min(92vw, 400px);
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+
+  .wt-leaderboard-panel {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .wt-stats-panel {
+    padding: 10px 16px;
+  }
+
+  .wt-stats-row {
+    gap: 32px;
+  }
 }
 
 /* ---- Pelilauta ---- */
@@ -200,9 +291,20 @@
 }
 
 @keyframes wt-pop-float {
-  0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
-  50%  { transform: translate(-50%, -120%) scale(1.15); opacity: 1; }
-  100% { transform: translate(-50%, -190%) scale(1); opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(-50%, -120%) scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -190%) scale(1);
+    opacity: 0;
+  }
 }
 
 /* ---- Pisteiden hyppäysanimaatio ---- */
@@ -212,7 +314,15 @@
 }
 
 @keyframes wt-score-jump {
-  0%   { transform: scale(1); }
-  45%  { transform: scale(1.5); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

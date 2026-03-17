@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PelienTimer from '../components/PelienTimer';
-import { tallennaTulos } from '../components/TuloksenTallennus'; 
+import { tallennaTulos } from '../components/TuloksenTallennus';
 import Leaderboard from '../components/Leaderboard';
 import '../css/nonogram.css';
 import '../css/leaderboard.css';
@@ -18,7 +18,7 @@ const NonogramGame = () => {
   const [isSolved, setIsSolved] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
-  
+
   const [resetTrigger, setResetTrigger] = useState(false);
   const [finalTimeMs, setFinalTimeMs] = useState(null);
   const [gameStartTime, setGameStartTime] = useState(null);
@@ -28,12 +28,12 @@ const NonogramGame = () => {
   const handleGameFinish = async (durationMs, startTime) => {
     setFinalTimeMs(durationMs);
     const endTime = Date.now();
-    const actualStartTime = gameStartTime || startTime; 
+    const actualStartTime = gameStartTime || startTime;
     const difficultyId = size;
 
     // Huom: varmista että minigameId on oikein (tässä 5)
     const result = await tallennaTulos(5, actualStartTime, endTime, difficultyId);
-    
+
     if (result.success) {
       setSaveStatus('Tulos tallennettu!');
       setLeaderboardKey(prev => prev + 1);
@@ -70,7 +70,7 @@ const NonogramGame = () => {
 
   const calculateHints = (targetGrid, gameSize) => {
     const rowHints = targetGrid.map(row => getSequence(row.map(p => p.solution)));
-    const colHints = Array.from({ length: gameSize }, (_, i) => 
+    const colHints = Array.from({ length: gameSize }, (_, i) =>
       getSequence(targetGrid.map(row => row[i].solution))
     );
     setHints({ rows: rowHints, cols: colHints });
@@ -91,14 +91,14 @@ const NonogramGame = () => {
     if (isSolved || !gameStarted) return;
     const newGrid = [...grid];
     const pixel = { ...newGrid[r][c] };
-    pixel.current = isRightClick 
+    pixel.current = isRightClick
       ? (pixel.current === PIXEL_STATES.X ? PIXEL_STATES.WHITE : PIXEL_STATES.X)
       : (pixel.current === PIXEL_STATES.BLACK ? PIXEL_STATES.WHITE : PIXEL_STATES.BLACK);
-    
+
     newGrid[r][c] = pixel;
     setGrid(newGrid);
-    
-    if (newGrid.every(row => row.every(p => 
+
+    if (newGrid.every(row => row.every(p =>
       p.solution === PIXEL_STATES.BLACK ? p.current === PIXEL_STATES.BLACK : p.current !== PIXEL_STATES.BLACK
     ))) {
       setIsSolved(true);
@@ -106,16 +106,16 @@ const NonogramGame = () => {
   };
 
   return (
-    
+
     <div className="container-fluid py-5 nonogram-container" style={{ backgroundColor: '#0b0e14', minHeight: '100vh', color: '#e0e0e0' }}>
       <div className="row g-4 justify-content-center">
-        
+
         <div className="col-xl-9 col-lg-8 d-flex flex-column align-items-center">
           <h2 className="mb-4 fw-bold text-info" style={{ letterSpacing: '1px' }}>NONOGRAM</h2>
 
           {/* Ohjeet-painike */}
-          <button 
-            className="btn-ohjeet mb-3 fw-bold" 
+          <button
+            className="btn-ohjeet mb-3 fw-bold"
             onClick={() => setShowInstructions(!showInstructions)}
           >
             {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
@@ -134,9 +134,9 @@ const NonogramGame = () => {
             </div>
           )}
 
-          <PelienTimer 
-            isRunning={gameStarted && !isSolved} 
-            onFinish={handleGameFinish} 
+          <PelienTimer
+            isRunning={gameStarted && !isSolved}
+            onFinish={handleGameFinish}
             resetTrigger={resetTrigger}
             setGameStartTime={setGameStartTime}
           />
@@ -144,9 +144,9 @@ const NonogramGame = () => {
           {/* Koko-valinta painikkeet */}
           <div className="btn-group my-4 shadow-lg">
             {[5, 7, 9].map((s) => (
-              <button 
-                key={s} 
-                className={`btn ${size === s ? 'btn-info fw-bold' : 'btn-outline-info text-white'} px-4`} 
+              <button
+                key={s}
+                className={`btn ${size === s ? 'btn-info fw-bold' : 'btn-outline-info text-white'} px-4`}
                 /* Pakotetaan musta teksti aktiiviseen nappiin inline-tyylillä varmuuden vuoksi */
                 style={size === s ? { color: '#000000', backgroundColor: '#00bcd4', borderColor: '#00bcd4' } : { borderColor: '#0dcaf0' }}
                 onClick={() => setSize(s)}
@@ -158,9 +158,9 @@ const NonogramGame = () => {
           </div>
 
           <div className="position-relative p-4 rounded shadow-lg" style={{ backgroundColor: '#05070a', border: '1px solid #1f232e' }}>
-            <div 
-              className="nonogram-grid-container" 
-              style={{ 
+            <div
+              className="nonogram-grid-container"
+              style={{
                 display: 'grid',
                 gridTemplateColumns: `minmax(75px, auto) repeat(${size}, 75px)`,
                 filter: !gameStarted ? 'blur(4px)' : 'none',
@@ -184,14 +184,14 @@ const NonogramGame = () => {
                       onClick={() => handlePixelClick(rIdx, cIdx, false)}
                       onContextMenu={(e) => { e.preventDefault(); handlePixelClick(rIdx, cIdx, true); }}
                       className={`pixel-75 ${pixel.current === PIXEL_STATES.BLACK ? 'pixel-black' : 'pixel-white'}`}
-                      style={{ 
-                        width: '75px', 
-                        height: '75px', 
-                        border: '1px solid #1f232e', 
-                        cursor: 'pointer', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center' 
+                      style={{
+                        width: '75px',
+                        height: '75px',
+                        border: '1px solid #1f232e',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
                       {pixel.current === PIXEL_STATES.X && <span className="text-danger fs-3 fw-bold">X</span>}
@@ -204,8 +204,8 @@ const NonogramGame = () => {
             {/* Aloita-nappi kerroksessa */}
             {!gameStarted && !isSolved && (
               <div className="start-overlay d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 rounded">
-                <button 
-                  className="btn-aloita shadow-lg" 
+                <button
+                  className="btn-aloita shadow-lg"
                   onClick={() => setGameStarted(true)}
                 >
                   Aloita
@@ -220,8 +220,8 @@ const NonogramGame = () => {
                 Peli ratkaistu! Aikasi: {formatFinalTime(finalTimeMs)}
               </div>
             )}
-            <button 
-              className="btn-ohjeet fw-bold px-4" 
+            <button
+              className="btn-ohjeet fw-bold px-4"
               onClick={() => generateNewGame()}
             >
               {isSolved ? 'Pelaa uudelleen' : 'Nollaa peli'}
@@ -230,11 +230,8 @@ const NonogramGame = () => {
         </div>
 
         <div className="col-xl-3 col-lg-4">
-          <div className="p-4 shadow-lg rounded" style={{ backgroundColor: '#05070a', border: '1px solid #161a24', minHeight: '500px' }}>
-            <h5 className="text-info mb-4 text-uppercase fw-bold border-bottom border-secondary pb-2" style={{ letterSpacing: '1px' }}>
-              Leaderboard
-            </h5>
-            <Leaderboard 
+          <div className="p-4 shadow-lg rounded" /*style={{ backgroundColor: '#05070a', border: '1px solid #161a24', minHeight: '500px' }}>*/>
+            <Leaderboard
               table="nonogram"
               difficulty={size}
               time_conversion={true}

@@ -9,7 +9,7 @@ const PalaPeliSizeMenu = ({ selectedSize, onSelectSize }) => {
 
   return (
     <Dropdown onSelect={(eventKey) => onSelectSize(Number(eventKey))}>
-      <Dropdown.Toggle variant="success" id="puzzle-size-dropdown">
+      <Dropdown.Toggle variant="primary" id="puzzle-size-dropdown">
         {label}
       </Dropdown.Toggle>
 
