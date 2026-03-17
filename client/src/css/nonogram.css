@@ -86,7 +86,7 @@ body.dark-mode .nonogram-container {
 .btn-ohjeet {
     background-color: transparent;
     color: #ffffff !important;
-    border: 1px solid #00bcd4;
+    border: 3px solid #000000;
     padding: 8px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -95,7 +95,53 @@ body.dark-mode .nonogram-container {
 .NonogramOtsikko {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #414f9f;
+    color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
+}
+
+/* Koonvalintanappien ryhmä */
+.btn-group.nonogram-sizes {
+    background-color: #1c1e22; /* Tumma, läpinäkymätön pohja */
+    padding: 4px;
+    border-radius: 10px;
+    border: 3px solid #000000; /* Paksu musta reunus koko ryhmän ympärillä */
+    display: inline-flex;
+}
+
+/* Yksittäinen kokonappi */
+.btn-group.nonogram-sizes .btn {
+    /* Alkuperäinen valkoinen/turkoosi tyyli */
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important; /* Hieman ohuempi sisäreuna */
+    margin: 0 2px;
+    font-weight: bold;
+    opacity: 1 !important;
+    transition: all 0.2s ease;
+}
+
+/* Aktiivinen valittu nappi (Sama turkoosi kuin Aloita-napissa) */
+.btn-group.nonogram-sizes .btn.active-size {
+    background-color: #00bcd4 !important; /* Sivuston tunnusväri */
+    color: #000000 !important;
+    border: 3px solid #000000 !important; /* Paksumpi reunus valitulle */
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+}
+
+/* Hover-efekti joka sopii muuhun sivustoon */
+.btn-group.nonogram-sizes .btn:hover:not(:disabled) {
+    background-color: #33c9dc !important;
+    transform: translateY(-1px);
+}
+
+/* Ohjelaatikon varmistus (että sekin on läpinäkymätön) */
+.instructions-box {
+    background-color: #1c1e22;
+    border: 3px solid #000000;
+    border-left: 6px solid #00bcd4;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ffffff;
+    opacity: 1; /* Ei läpinäkyvyyttä */
 }

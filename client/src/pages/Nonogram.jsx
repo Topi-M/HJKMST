@@ -75,10 +75,21 @@ return (
       <div className="row g-4 justify-content-center">
         <div className="col-xl-9 col-lg-8 d-flex flex-column align-items-center text-center">
           <h2 className="NonogramOtsikko">NONOGRAM</h2>
-
           <button className="btn-ohjeet mb-3" onClick={() => setShowInstructions(!showInstructions)}>
             {showInstructions ? 'Sulje ohjeet' : 'Ohjeet'}
           </button>
+          {/* Ohjelaatikko - Renderöidään vain jos showInstructions on true */}
+{showInstructions && (
+  <div className="instructions-box mb-4 shadow-sm text-start">
+    <h6 style={{ color: '#00bcd4', fontWeight: 'bold' }}>Kuinka pelata:</h6>
+    <ul className="small mb-0 text-white" style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+      <li>Numerot rivin/sarakkeen vieressä kertovat mustien ruutujen määrän peräkkäin.</li>
+      <li>Usean numeron välissä (esim. 3 1) on oltava vähintään yksi tyhjä ruutu.</li>
+      <li><strong>Klikkaa ruutua:</strong> Väritä ruutu mustaksi.</li>
+      <li>Peli on voitettu, kun kaikki oikeat ruudut on täytetty!</li>
+    </ul>
+  </div>
+)}
 
           {/* Timer ja koon valinta säilyvät ennallaan */}
           <PelienTimer 
@@ -88,19 +99,19 @@ return (
             setGameStartTime={setGameStartTime}
           />
 
-          <div className="btn-group my-4 shadow-lg">
-            {[5, 7, 9].map((s) => (
-              <button 
-                key={s} 
-                className={`btn ${size === s ? 'btn-info fw-bold' : 'btn-outline-info text-white'}`}
-                style={size === s ? { color: '#000000', backgroundColor: '#00bcd4', borderColor: '#00bcd4' } : {}}
-                onClick={() => setSize(s)}
-                disabled={gameStarted && !isSolved}
-              >
-                {s}x{s}
-              </button>
-            ))}
-          </div>
+          {/* Koko-valinta painikkeet */}
+        <div className="btn-group nonogram-sizes my-4 shadow-lg">
+        {[5, 7, 9].map((s) => (
+        <button
+          key={s}
+          className={`btn ${size === s ? 'active-size' : ''} px-4`}
+          onClick={() => setSize(s)}
+          disabled={gameStarted && !isSolved}
+          >
+          {s}x{s}
+        </button>
+        ))}
+        </div>
 
           <div className="position-relative p-4 rounded shadow-lg" style={{ backgroundColor: '#05070a', border: '1px solid #1f232e' }}>
             <div 
