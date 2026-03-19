@@ -12,11 +12,11 @@ https://hjkmst.topim.fi/
 | Testaus | - |
 
 #### Projektin hakemistorakenne
-src
-├── components  - Komponentit kuten leaderboard
-├── css         - Tyylitiedostot
-├── tests         - Testit <-- puuttuu
-└── pages       - Varsinaiset sivut
+src\
+├── components  - Komponentit kuten leaderboard\
+├── css         - Tyylitiedostot\
+├── tests         - Testit <-- puuttuu\
+└── pages       - Varsinaiset sivu
 
 #### CI/CD
 Projektissa käytetään GitHub Actionsia automatisoituun testaukseen. Kun mainiin tehdään pull request, pipeline asentaa riippuvuudet, kääntää projektin ja ajaa Vitest-testit.
