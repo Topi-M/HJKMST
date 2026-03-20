@@ -80,7 +80,7 @@ export default function Layout() {
         <main className="main-content">
           <Outlet />
           <footer className="docs-footer">
-            Dokumentaation luonnissa käytetty tekoälyä
+            Dokumentaation luonnissa on käytetty tekoälyä
           </footer>
         </main>
       </div>

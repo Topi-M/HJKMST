@@ -8,7 +8,7 @@ export default function PelienTimerDoc() {
       </div>
       <div className="page-header">
         <h1>⏱️ PelienTimer</h1>
-        <p>Ajastinkomponentti peleille senttisekunnin tarkkuudella.</p>
+        <p>Ajastinkomponentti peleille millisekunnin tarkkuudella.</p>
       </div>
 
       <div className="file-path">📄 client/src/components/PelienTimer.jsx</div>

@@ -12,7 +12,7 @@ const games = [
 const components = [
   { to: '/komponentit/leaderboard', icon: '🏆', title: 'Leaderboard', desc: 'Tuloslistat vaikeustason mukaan suodatettuna' },
   { to: '/komponentit/tuloksentallennus', icon: '💾', title: 'TuloksenTallennus', desc: 'Pelitulosten tallennus Supabaseen' },
-  { to: '/komponentit/pelientimer', icon: '⏱️', title: 'PelienTimer', desc: 'Ajastin peleille senttisekunnin tarkkuudella' },
+  { to: '/komponentit/pelientimer', icon: '⏱️', title: 'PelienTimer', desc: 'Ajastin peleille millisekunnin tarkkuudella' },
   { to: '/komponentit/themecontext', icon: '🌗', title: 'ThemeContext', desc: 'Tumma/vaalea teeman hallinta' },
 ]
 
