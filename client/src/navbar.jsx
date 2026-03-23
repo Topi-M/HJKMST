@@ -4,6 +4,8 @@ import RBNavbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from './components/ThemeContext.jsx';
+import lightmodeIcon from './assets/lightmodeIcon.svg';
+import darkmodeIcon from './assets/darkmodeIcon.svg';
 import './css/navbar.css';
 
 const AppNavbar = () => {
@@ -48,7 +50,13 @@ const AppNavbar = () => {
               className={`theme-toggle-track ${isDarkMode ? 'dark' : 'light'}`}
               onClick={toggleTheme}
             >
-              <div className={`theme-toggle-thumb ${isDarkMode ? 'dark' : 'light'}`} />
+              <div className={`theme-toggle-thumb ${isDarkMode ? 'dark' : 'light'}`}>
+                <img
+                  src={isDarkMode ? darkmodeIcon : lightmodeIcon}
+                  alt={isDarkMode ? 'Dark mode' : 'Light mode'}
+                  className="theme-toggle-icon"
+                />
+              </div>
             </div>
 
             <Nav.Link as={NavLink} to="/profiili">
