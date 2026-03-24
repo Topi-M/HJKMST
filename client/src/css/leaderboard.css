@@ -1,8 +1,8 @@
 /* ---- Modular Leaderboard ---- */
 .leaderboard {
-  background-color: #111827;
-  border: 1px solid #3498db;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -14,11 +14,24 @@
   /* limit height on larger screens */
   box-sizing: border-box;
   transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
+/* .glass-header {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 20px 40px;
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 20px 0 20px 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+} */
 
 /* Title */
 .leaderboard .title {
-  color: #3498db;
+  color: #152433;
+  /*color: #3498db;*/
   font-size: 1.1rem;
   font-weight: 600;
   text-align: center;
@@ -28,15 +41,18 @@
 /* Buttons filterit */
 .leaderboard .buttons {
   display: flex;
-  gap: 8px;
+  gap: 20px;
+  justify-content: center;
   margin: 8px 0 12px;
   flex-wrap: wrap;
 }
 
 .leaderboard .button {
   background: transparent;
-  color: #3498db;
-  border: 2px solid #3498db;
+  /*color: #3498db;
+  border: 2px solid #3498db;*/
+  color: #152433;
+  border: 1px solid #152433;
   padding: 6px 12px;
   border-radius: 6px;
   font-weight: 600;
@@ -45,15 +61,19 @@
 }
 
 .leaderboard .button.active {
-  background: #3498db;
+  /*background: #3498db;
   color: #0b0c10;
-  border-color: #3498db;
+  border-color: #3498db;*/
+  background: #152433;
+  color: #f0f0f0;
+  border-color: #152433;
   cursor: default;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+  /*box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);*/
 }
 
 .leaderboard .button:hover:not(.active) {
-  background: rgba(52, 152, 219, 0.15);
+  background: #152433;
+  color: #f0f0f0;
 }
 
 .leaderboard .button:disabled {
@@ -81,7 +101,8 @@
   display: flex;
   justify-content: space-between;
   padding: 6px 4px;
-  border-bottom: 1px solid #eee;
+  /*border-bottom: 1px solid #eee;*/
+  border-bottom: 1px solid #152433;
   font-size: 0.875rem;
 }
 
@@ -91,12 +112,16 @@
 
 .leaderboard .name {
   font-weight: 500;
-  color: #f0f0f0;
+  color: #152433;
+  font-weight: bold;
+  /*color: #f0f0f0;*/
 }
 
 .leaderboard .score {
   font-weight: 700;
-  color: #f0f0f0;
+  color: #152433;
+  font-weight: bold;
+  /*color: #f0f0f0;*/
 }
 
 /* ---- Responsive adjustments ---- */
@@ -114,4 +139,44 @@
     max-height: 400px;
     margin: 0 auto;
   }
+}
+
+body.dark-mode .leaderboard {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .leaderboard .title {
+  color: #ffffff !important;
+}
+
+body.dark-mode .leaderboard .button {
+  background-color: #202242 !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+body.dark-mode .leaderboard .button.active {
+  background-color: #2e2f5e !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+body.dark-mode .leaderboard .button:hover:not(.active) {
+  background-color: #2e2f5e !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+body.dark-mode .leaderboard .entry {
+  border-bottom: 1px solid #ffffff !important;
+}
+
+body.dark-mode .leaderboard .name {
+  color: #ffffff !important;
+}
+
+body.dark-mode .leaderboard .score {
+  color: #ffffff !important;
 }

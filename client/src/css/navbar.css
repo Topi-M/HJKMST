@@ -44,13 +44,20 @@
 }
 
 .theme-toggle-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  transition: left 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-icon {
   width: 16px;
   height: 16px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
-  top: 2px;
-  transition: left 0.3s;
 }
 
 .theme-toggle-thumb.dark {
