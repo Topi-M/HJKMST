@@ -1,78 +1,96 @@
-/* Login.jsx -css */
+/* Tausta pysyy samana dynaamisena elementtinä */
+.tausta {
+    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.5s ease;
+}
+
+body.dark-mode .tausta {
+    background: linear-gradient(135deg, #0f0c29 0%, #24243e 100%) no-repeat fixed !important;
+}
+
+/* Kirjautumisalue: Kevyt ja minimalistinen */
 .authDiv {
-  max-width: 500px;
-  margin: 100px auto;
-  justify-content: center;
+    width: 90%;
+    max-width: 320px;
+    background-color: rgba(255, 255, 255, 0.95); /* Hieman läpikuultava valkoinen */
+    padding: 2.5rem;
+    border-radius: 12px;
+    /* Erittäin hienovarainen varjo tuomaan irtonaisuutta */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
-.sivunTausta {
-  /* TÄRKEÄ: Tämä tekee taustasta dynaamisen */
-  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding-top: 60px;
-  transition: background 0.5s ease;
+body.dark-mode .authDiv {
+    background-color: #161625; /* Erittäin tumma lilahtava harmaa */
+    border: 1px solid #4a2b9d; /* Hyvin ohut, hienovarainen lila reunus */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* KUN DARK MODE ON PÄÄLLÄ, VAIHDETAAN TAUSTA TÄSSÄ */
-body.dark-mode .sivunTausta {
-  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat fixed !important;
-}
-
+/* Otsikko: Pieni ja siisti */
 .authTitle {
-  /* Light mode väri */
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 20px;
-  transition: color 0.3s ease;
+    font-size: 1rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
 }
 
-/* Dark mode väri otsikolle */
 body.dark-mode .authTitle {
-  color: #3498db;
+    color: #b197fc; /* Pehmeä lila */
 }
 
-.welcomeText {
-  /* Light mode väri */
-  color: #2c3e50;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 16px;
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
+/* Minimalistiset napit */
+.authDiv button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    
+    /* Light mode napit */
+    background-color: #000000;
+    color: #ffffff;
 }
 
-/* Dark mode väri tervetulotekstille */
-body.dark-mode .welcomeText {
-  color: #ffffff;
+body.dark-mode .authDiv button {
+    /* Dark mode napit: Tumma lila pohja, vaalea teksti */
+    background-color: #6b41d3;
+    color: #ffffff;
 }
 
-.authLogoutBtn {
-  width: 100%;
-  background-color: #3498db;
-  color: #ffffff;
-  /* Teksti valkoiseksi light modessa */
-  border: none;
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: all 0.2s ease;
+/* Hillityt hover-efektit */
+.authDiv button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
-/* Dark mode logout-nappi */
-body.dark-mode .authLogoutBtn {
-  background-color: #2980b9;
-  color: #ffffff;
+.authDiv button:active {
+    transform: translateY(0);
 }
 
-.authLogoutBtn:hover:not(:disabled) {
-  background-color: #48a6e4;
+/* Tekstikentät (jos AuthForm antaa muokata) */
+.authDiv input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.9rem;
 }
 
-.authLogoutBtn:active:not(:disabled) {
-  transform: translateY(1px);
+body.dark-mode .authDiv input {
+    background: #0b0c10;
+    border: 1px solid #333;
+    color: #fff;
 }
