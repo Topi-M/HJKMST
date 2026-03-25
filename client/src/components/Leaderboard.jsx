@@ -62,10 +62,17 @@ useEffect(() => {
         difficulty: row.difficulty,
       }));
 
-      // Extract unique difficulties from the fetched data
+      // Lajittelee vaikeudet Easy -> Medium -> Hard, jos ei ole nämä olettaa että on numero 
+      // ja lajittelee pienimmästä -> suurimpaan
+      const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
+
       const uniqueDifficulties = Array.from(
         new Set(list.map((row) => row.difficulty))
-      ).sort((a, b) => a - b); 
+      ).sort((a, b) => {
+        const aVal = difficultyOrder[a] ?? Number(a);
+        const bVal = difficultyOrder[b] ?? Number(b);
+        return aVal - bVal;
+      });
 
       if (mounted) {
         setEntries(list);
