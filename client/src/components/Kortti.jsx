@@ -1,5 +1,5 @@
 
-import supabase from '../components/SupaBaseClient'
+import {supabase} from '../components/SupaBaseClient'
 
 
 const { data } = supabase

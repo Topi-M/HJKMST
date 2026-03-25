@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Kortti";
-import supabase from '../components/SupaBaseClient'
+import {supabase} from '../components/SupaBaseClient'
 
 function Game() {
   let [cardsState, setCardsState] = useState([]);
