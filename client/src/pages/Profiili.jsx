@@ -3,10 +3,15 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../components/SupaBaseClient";
 import { Link } from "react-router-dom";
 
+/**
+ * Näyttää pelisuoritusten määrän kun on kirjatunut
+ */
 export default function Profiili() {
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [submissionCount, setSubmissionCount] = useState(0);
+    const [stats, setStats] = useState({
+        palapeli: 0, sudoku: 0, nonogram: 0, whiteTiles: 0,
+    });
     const [errorMsg, setErrorMsg] = useState("");
 
     useEffect(() => {
@@ -25,32 +30,35 @@ export default function Profiili() {
                 if (!user) {
                     if (mounted) {
                         setLoggedIn(false);
-                        setSubmissionCount(0);
+                        setStats({ palapeli: 0, sudoku: 0, nonogram: 0, whiteTiles: 0 });
                     }
                     return;
                 }
 
-                // 2) Hae profiili_tilastot -näkymästä oma count (minigame_id=1)
+                // 2) Hae profiili_tilastot -näkymästä kaikki countit
                 const { data, error } = await supabase
                     .from("profiili_tilastot")
-                    .select("palapeli_submission_count")
+                    .select("palapeli_submission_count, sudoku_submission_count, nonogram_submission_count, white_tiles_submission_count")
                     .eq("user_id", user.id)
                     .maybeSingle();
 
                 if (error) throw error;
 
-                const count = data?.palapeli_submission_count ?? 0;
-
                 if (mounted) {
                     setLoggedIn(true);
-                    setSubmissionCount(count);
+                    setStats({
+                        palapeli: data?.palapeli_submission_count ?? 0,
+                        sudoku: data?.sudoku_submission_count ?? 0,
+                        nonogram: data?.nonogram_submission_count ?? 0,
+                        whiteTiles: data?.white_tiles_submission_count ?? 0,
+                    });
                 }
             } catch (e) {
                 console.error("Profiili-sivun latausvirhe:", e);
                 if (mounted) {
                     setErrorMsg(e.message || "Tietojen hakeminen epäonnistui.");
                     setLoggedIn(false);
-                    setSubmissionCount(0);
+                    setStats({ palapeli: 0, sudoku: 0, nonogram: 0, whiteTiles: 0 });
                 }
             } finally {
                 if (mounted) setLoading(false);
@@ -63,24 +71,29 @@ export default function Profiili() {
         const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
             if (!session?.user) {
                 setLoggedIn(false);
-                setSubmissionCount(0);
+                setStats({ palapeli: 0, sudoku: 0, nonogram: 0, whiteTiles: 0 });
             } else {
                 (async () => {
                     try {
                         setLoading(true);
                         const { data, error } = await supabase
                             .from("profiili_tilastot")
-                            .select("palapeli_submission_count")
+                            .select("palapeli_submission_count, sudoku_submission_count, nonogram_submission_count, white_tiles_submission_count")
                             .eq("user_id", session.user.id)
                             .maybeSingle();
                         if (error) throw error;
                         setLoggedIn(true);
-                        setSubmissionCount(data?.palapeli_submission_count ?? 0);
+                        setStats({
+                            palapeli: data?.palapeli_submission_count ?? 0,
+                            sudoku: data?.sudoku_submission_count ?? 0,
+                            nonogram: data?.nonogram_submission_count ?? 0,
+                            whiteTiles: data?.white_tiles_submission_count ?? 0,
+                        });
                     } catch (e) {
                         console.error(e);
                         setErrorMsg(e.message || "Tietojen hakeminen epäonnistui.");
                         setLoggedIn(false);
-                        setSubmissionCount(0);
+                        setStats({ palapeli: 0, sudoku: 0, nonogram: 0, whiteTiles: 0 });
                     } finally {
                         setLoading(false);
                     }
@@ -123,8 +136,22 @@ export default function Profiili() {
                     {/* Kirjautunut */}
                     {!loading && loggedIn && !errorMsg && (
                         <div className="profiili-statsCard">
-                            <span className="profiili-statsLabel">Palapelejä ratkaistu yhteensä:</span>
-                            <span className="profiili-statsValue">{submissionCount}</span>
+                            <div className="profiili-statsRow">
+                                <span className="profiili-statsLabel">Palapelejä ratkaistu yhteensä:</span>
+                                <span className="profiili-statsValue">{stats.palapeli}</span>
+                            </div>
+                            <div className="profiili-statsRow">
+                                <span className="profiili-statsLabel">Sudokuja ratkaistu yhteensä:</span>
+                                <span className="profiili-statsValue">{stats.sudoku}</span>
+                            </div>
+                            <div className="profiili-statsRow">
+                                <span className="profiili-statsLabel">Nonogrammeja ratkaistu yhteensä:</span>
+                                <span className="profiili-statsValue">{stats.nonogram}</span>
+                            </div>
+                            <div className="profiili-statsRow">
+                                <span className="profiili-statsLabel">Don't Tap the White tiles pelejä pelattu</span>
+                                <span className="profiili-statsValue">{stats.whiteTiles}</span>
+                            </div>
                         </div>
                     )}
                 </div>

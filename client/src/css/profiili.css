@@ -3,6 +3,7 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
 body.dark-mode .tausta {
@@ -11,24 +12,32 @@ body.dark-mode .tausta {
 
 /* Keskitetty sisältölaatikko */
 .profiili-content {
-    max-width: 640px;
+    max-width: 800px;
+    width: 100%;
     margin: 0 auto;
-    padding: 16px;
+    padding: 40px 16px;
 }
 
 /* Otsikko */
 .profiili-title {
-    color: #3498db;
+    color: #2c3e50;
     margin-bottom: 12px;
     font-size: 1.5rem;
     font-weight: 700;
 }
 
+body.dark-mode .profiili-title {
+    color: #b197fc;
+}
+
 /* Latausviesti */
 .profiili-loading {
-    color: #cbd5e1;
-    /* vaalea harmaa */
+    color: #555;
     font-size: 0.95rem;
+}
+
+body.dark-mode .profiili-loading {
+    color: #cbd5e1;
 }
 
 /* Virheviesti */
@@ -41,46 +50,91 @@ body.dark-mode .tausta {
 /* Vierailija/ei kirjautunut -boksi */
 .profiili-guest {
     padding: 12px 16px;
-    border: 1px dashed #2d4153;
+    border: 1px dashed #ccc;
     border-radius: 8px;
-    color: #3498db;
+    color: #2c3e50;
+    background: rgba(0, 0, 0, 0.03);
+}
+
+body.dark-mode .profiili-guest {
+    border-color: #2d4153;
+    color: #b197fc;
     background: rgba(52, 152, 219, 0.06);
 }
 
 /* Stats-kortti kirjautuneelle */
 .profiili-statsCard {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    border: 1px solid #2d4153;
-    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #ddd;
+    padding: 20px 24px;
     border-radius: 8px;
-    background: rgba(52, 152, 219, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 100%;
+}
+
+body.dark-mode .profiili-statsCard {
+    background: #161625;
+    border-color: #4a2b9d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.profiili-statsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profiili-statsRow + .profiili-statsRow {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 12px;
+}
+
+body.dark-mode .profiili-statsRow + .profiili-statsRow {
+    border-top-color: rgba(177, 151, 252, 0.2);
 }
 
 /* Label ja arvo */
 .profiili-statsLabel {
-    color: #3498db;
+    color: #2c3e50;
     font-weight: 600;
+}
+
+body.dark-mode .profiili-statsLabel {
+    color: #b197fc;
 }
 
 .profiili-statsValue {
     font-variant-numeric: tabular-nums;
-    color: #3498db;
-    /* sama sininen kuin napit */
+    color: #000;
     font-weight: 700;
 }
 
+body.dark-mode .profiili-statsValue {
+    color: #e0d4fc;
+}
+
 .profiili-loginLink {
-    color: #3498db;
+    color: #2c3e50;
     font-weight: 600;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.2s ease;
 }
 
+body.dark-mode .profiili-loginLink {
+    color: #b197fc;
+}
+
 .profiili-loginLink:hover {
-    border-bottom: 1px solid #3498db;
-    color: #48a6e4;
-    /* sama hover-sävy kuin napeissa */
+    border-bottom: 1px solid #2c3e50;
+    color: #3498db;
+}
+
+body.dark-mode .profiili-loginLink:hover {
+    border-bottom-color: #b197fc;
+    color: #d4c4fc;
 }
