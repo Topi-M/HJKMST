@@ -2,7 +2,9 @@
 https://topi-m.github.io/HJKMST/
 https://hjkmst.topim.fi/
 
-#### Projektin toteutus
+Dokumentaatio: https://docs.hjkmst.topim.fi/
+
+### Projektin toteutus
 | Osa | Toteutus |
 |---|---|
 | Frontend | React 19, Vite 7, React Bootstrap |
@@ -11,14 +13,14 @@ https://hjkmst.topim.fi/
 | Deploy | Cloudflare Page / GitHub Pages |
 | Testaus | - |
 
-#### Projektin hakemistorakenne
+### Projektin hakemistorakenne
 src\
 ├── components  - Komponentit kuten leaderboard\
 ├── css         - Tyylitiedostot\
 ├── tests         - Testit <-- puuttuu\
 └── pages       - Varsinaiset sivu
 
-#### CI/CD
+### CI/CD
 Projektissa käytetään GitHub Actionsia automatisoituun testaukseen. Kun mainiin tehdään pull request, pipeline asentaa riippuvuudet, kääntää projektin ja ajaa Vitest-testit.
 
 ## Sovelluksen ajaminen
