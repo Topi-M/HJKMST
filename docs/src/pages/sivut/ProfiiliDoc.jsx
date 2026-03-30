@@ -7,11 +7,11 @@ export default function ProfiiliDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Profiili</span>
       </div>
       <div className="page-header">
-        <h1>👤 Profiili</h1>
+        <h1>Profiili</h1>
         <p>Käyttäjän profiilisivu pelitilastoilla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Profiili.jsx</div>
+      <div className="file-path">client/src/pages/Profiili.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,17 +22,14 @@ export default function ProfiiliDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">🔒</div>
             <h3>Autentikaatiotarkistus</h3>
             <p>Tarkistaa kirjautumistilan ennen datan hakua</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📊</div>
             <h3>Pelitilastot</h3>
             <p>Ratkaistut palapelit ja muut tilastot</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">⏳</div>
             <h3>Lataus- ja virhetilat</h3>
             <p>Loading spinner ja virheilmoitukset</p>
           </div>

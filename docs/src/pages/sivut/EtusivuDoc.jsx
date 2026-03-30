@@ -7,11 +7,11 @@ export default function EtusivuDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Etusivu</span>
       </div>
       <div className="page-header">
-        <h1>🎮 Etusivu</h1>
+        <h1>Etusivu</h1>
         <p>Sovelluksen pääsivu, joka esittelee kaikki pelivalinnat korttinäkymänä.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Etusivu.jsx</div>
+      <div className="file-path">client/src/pages/Etusivu.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,17 +22,14 @@ export default function EtusivuDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">🃏</div>
             <h3>Pelikortit</h3>
             <p>5 pelikorttia kuvineen, otsikoineen ja kuvauksineen</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📱</div>
             <h3>Responsiivinen</h3>
             <p>1 sarake mobiililla, 2 tabletilla, 3 desktopilla</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔗</div>
             <h3>Navigointi</h3>
             <p>Klikkaus vie suoraan pelin sivulle React Routerin kautta</p>
           </div>

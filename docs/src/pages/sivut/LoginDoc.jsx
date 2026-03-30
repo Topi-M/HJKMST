@@ -7,11 +7,11 @@ export default function LoginDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Kirjautuminen</span>
       </div>
       <div className="page-header">
-        <h1>🔐 Kirjautuminen (Login)</h1>
+        <h1>Kirjautuminen</h1>
         <p>Käyttäjätunnistautumissivu kirjautumis- ja rekisteröitymislomakkeilla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Login.jsx</div>
+      <div className="file-path">client/src/pages/Login.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,22 +22,18 @@ export default function LoginDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📧</div>
             <h3>Sähköposti + salasana</h3>
             <p>Kirjautuminen sähköpostilla ja salasanalla</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📝</div>
             <h3>Rekisteröityminen</h3>
             <p>Uuden tilin luonti käyttäjänimellä</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🌗</div>
             <h3>Tumma tila</h3>
             <p>Tukee ThemeContext-tummatilaa</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔄</div>
             <h3>Tilan seuranta</h3>
             <p>Supabase auth state listener tunnistaa käyttäjän</p>
           </div>

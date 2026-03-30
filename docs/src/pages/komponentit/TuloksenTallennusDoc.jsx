@@ -7,11 +7,11 @@ export default function TuloksenTallennusDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>TuloksenTallennus</span>
       </div>
       <div className="page-header">
-        <h1>💾 TuloksenTallennus</h1>
+        <h1>TuloksenTallennus</h1>
         <p>Apufunktio pelitulosten tallentamiseen Supabase-tietokantaan.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/TuloksenTallennus.jsx</div>
+      <div className="file-path">client/src/components/TuloksenTallennus.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>

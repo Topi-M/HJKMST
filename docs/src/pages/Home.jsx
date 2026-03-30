@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom'
 
 const games = [
-  { to: '/sivut/palapeli', icon: '🧩', title: 'Palapeli', desc: 'Drag & drop -palapeli vaihtuvilla kuvilla ja vaikeustasoilla' },
-  { to: '/sivut/sudoku', icon: '🔢', title: 'Sudoku', desc: '9x9 logiikkapeli kolmella vaikeustasolla' },
-  { to: '/sivut/nonogram', icon: '🖼️', title: 'Nonogram', desc: 'Kuva-logiikkapeli vihjeiden perusteella' },
-  { to: '/sivut/muistipeli', icon: '🃏', title: 'Muistipeli', desc: 'Korttien muistipeli eri teemoilla' },
-  { to: '/sivut/whitetile', icon: '🎹', title: 'White Tiles', desc: 'Nopea reaktiopeli kahdella pelimuodolla' },
-  { to: '/sivut/ristinolla', icon: '❌', title: 'Ristinolla', desc: 'Moninpeli reaaliajassa Supabase Realtimella' },
+  { to: '/sivut/palapeli', title: 'Palapeli', desc: 'Drag & drop -palapeli vaihtuvilla kuvilla ja vaikeustasoilla' },
+  { to: '/sivut/sudoku', title: 'Sudoku', desc: '9x9 logiikkapeli kolmella vaikeustasolla' },
+  { to: '/sivut/nonogram', title: 'Nonogram', desc: 'Kuva-logiikkapeli vihjeiden perusteella' },
+  { to: '/sivut/muistipeli', title: 'Muistipeli', desc: 'Korttien muistipeli eri teemoilla' },
+  { to: '/sivut/whitetile', title: 'White Tiles', desc: 'Nopea reaktiopeli kahdella pelimuodolla' },
+  { to: '/sivut/ristinolla', title: 'Ristinolla', desc: 'Moninpeli reaaliajassa Supabase Realtimella' },
 ]
 
 const components = [
-  { to: '/komponentit/leaderboard', icon: '🏆', title: 'Leaderboard', desc: 'Tuloslistat vaikeustason mukaan suodatettuna' },
-  { to: '/komponentit/tuloksentallennus', icon: '💾', title: 'TuloksenTallennus', desc: 'Pelitulosten tallennus Supabaseen' },
-  { to: '/komponentit/pelientimer', icon: '⏱️', title: 'PelienTimer', desc: 'Ajastin peleille millisekunnin tarkkuudella' },
-  { to: '/komponentit/themecontext', icon: '🌗', title: 'ThemeContext', desc: 'Tumma/vaalea teeman hallinta' },
+  { to: '/komponentit/leaderboard', title: 'Leaderboard', desc: 'Tuloslistat vaikeustason mukaan suodatettuna' },
+  { to: '/komponentit/tuloksentallennus', title: 'TuloksenTallennus', desc: 'Pelitulosten tallennus Supabaseen' },
+  { to: '/komponentit/pelientimer', title: 'PelienTimer', desc: 'Ajastin peleille millisekunnin tarkkuudella' },
+  { to: '/komponentit/themecontext', title: 'ThemeContext', desc: 'Tumma/vaalea teeman hallinta' },
 ]
 
 export default function Home() {
@@ -21,33 +21,34 @@ export default function Home() {
     <>
       <div className="home-hero">
         <h1>HJKMST Dokumentaatio</h1>
-        <p>Minipelialusta, jossa on 6 peliä, käyttäjätunnistautuminen, tuloslistat ja moninpeli. Rakennettu Reactilla ja Supabasella.</p>
-        <div className="home-stats">
-          <div className="home-stat">
-            <div className="home-stat-number">6</div>
-            <div className="home-stat-label">Peliä</div>
-          </div>
-          <div className="home-stat">
-            <div className="home-stat-number">10</div>
-            <div className="home-stat-label">Sivua</div>
-          </div>
-          <div className="home-stat">
-            <div className="home-stat-number">14</div>
-            <div className="home-stat-label">Komponenttia</div>
-          </div>
-        </div>
+        <p>Minipelialusta, jossa on 6 peliä, käyttäjätunnistautuminen, leaderboardit ja moninpeli. Toteutettu Reactilla ja Supabasella.</p>
       </div>
 
       <div className="doc-section">
-        <h2 className="home-section-title">Teknologiat</h2>
-        <div className="tech-list">
-          <span className="tech-badge">⚛️ React 18</span>
-          <span className="tech-badge">⚡ Vite</span>
-          <span className="tech-badge">🛣️ React Router v6</span>
-          <span className="tech-badge">🗄️ Supabase</span>
-          <span className="tech-badge">🎨 React Bootstrap</span>
-          <span className="tech-badge">🖱️ @dnd-kit</span>
-          <span className="tech-badge">📡 Supabase Realtime</span>
+        <h2 className="home-section-title">Toteutus</h2>
+        <div className="tech-stack">
+          <div className="tech-group">
+            <span className="tech-group-label">Frontend</span>
+            <div className="tech-list">
+              <span className="tech-badge">React 18</span>
+              <span className="tech-badge">React Router v6</span>
+              <span className="tech-badge">React Bootstrap</span>
+              <span className="tech-badge">@dnd-kit</span>
+            </div>
+          </div>
+          <div className="tech-group">
+            <span className="tech-group-label">Backend</span>
+            <div className="tech-list">
+              <span className="tech-badge">Supabase</span>
+              <span className="tech-badge">Supabase Realtime</span>
+            </div>
+          </div>
+          <div className="tech-group">
+            <span className="tech-group-label">Rakennustyökalut</span>
+            <div className="tech-list">
+              <span className="tech-badge">Vite</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -56,7 +57,6 @@ export default function Home() {
         <div className="game-grid">
           {games.map((g) => (
             <Link key={g.to} to={g.to} className="game-card">
-              <div className="game-card-icon">{g.icon}</div>
               <h3>{g.title}</h3>
               <p>{g.desc}</p>
             </Link>
@@ -69,7 +69,6 @@ export default function Home() {
         <div className="game-grid">
           {components.map((c) => (
             <Link key={c.to} to={c.to} className="game-card">
-              <div className="game-card-icon">{c.icon}</div>
               <h3>{c.title}</h3>
               <p>{c.desc}</p>
             </Link>

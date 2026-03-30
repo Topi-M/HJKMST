@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import { NavLink, Outlet, Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { NavLink, Outlet, Link, useLocation } from 'react-router-dom'
 
 const sidebarSections = [
   {
     title: 'Yleiskatsaus',
     links: [
-      { to: '/', label: 'Etusivu' },
+      { to: '/', label: 'HJKMST Dokumentaatio' },
     ]
   },
   {
     title: 'Sivut',
     links: [
-      { to: '/sivut/etusivu', label: 'Etusivu (Pelit)' },
+      { to: '/sivut/etusivu', label: 'Etusivu' },
       { to: '/sivut/palapeli', label: 'Palapeli' },
       { to: '/sivut/sudoku', label: 'Sudoku' },
       { to: '/sivut/nonogram', label: 'Nonogram' },
@@ -40,6 +40,11 @@ const sidebarSections = [
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   return (
     <>

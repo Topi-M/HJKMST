@@ -7,11 +7,11 @@ export default function NavbarDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>Navbar</span>
       </div>
       <div className="page-header">
-        <h1>📌 Navbar</h1>
+        <h1>Navbar</h1>
         <p>Sovelluksen navigointipalkki linkein ja teeman vaihdolla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/navbar.jsx</div>
+      <div className="file-path">client/src/navbar.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -42,17 +42,14 @@ export default function NavbarDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">🌗</div>
             <h3>Teeman vaihto</h3>
             <p>Tumma/vaalea tila ThemeContextin kautta</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📱</div>
             <h3>Responsiivinen</h3>
             <p>Bootstrap Navbar.Toggle hampurilaisvalikko</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔗</div>
             <h3>NavLink</h3>
             <p>Aktiivisen sivun korostus React Router NavLinkillä</p>
           </div>

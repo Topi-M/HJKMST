@@ -7,11 +7,11 @@ export default function WhiteTileDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>White Tiles</span>
       </div>
       <div className="page-header">
-        <h1>🎹 White Tiles</h1>
+        <h1>White Tiles</h1>
         <p>Piano tiles -tyylinen reaktiopeli kahdella pelimuodolla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/WhiteTile.jsx</div>
+      <div className="file-path">client/src/pages/WhiteTile.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,12 +22,10 @@ export default function WhiteTileDoc() {
         <h2>Pelimuodot</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">⏰</div>
             <h3>10 sekuntia</h3>
             <p>Klikkaa mahdollisimman monta mustaa laattaa 10 sekunnissa</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">💪</div>
             <h3>Kestävyys (Endurance)</h3>
             <p>+10s joka 35 pisteen välein. Valkoisen osuminen lopettaa pelin.</p>
           </div>

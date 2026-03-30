@@ -7,11 +7,11 @@ export default function LeaderboardDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>Leaderboard</span>
       </div>
       <div className="page-header">
-        <h1>🏆 Leaderboard</h1>
+        <h1>Leaderboard</h1>
         <p>Tuloslistakomponentti, joka näyttää parhaita tuloksia vaikeustason mukaan suodatettuna.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/Leaderboard.jsx</div>
+      <div className="file-path">client/src/components/Leaderboard.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>

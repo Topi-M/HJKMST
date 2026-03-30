@@ -7,11 +7,11 @@ export default function ThemeContextDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>ThemeContext</span>
       </div>
       <div className="page-header">
-        <h1>🌗 ThemeContext</h1>
+        <h1>ThemeContext</h1>
         <p>Globaali konteksti tumman ja vaalean teeman hallintaan.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/ThemeContext.jsx</div>
+      <div className="file-path">client/src/components/ThemeContext.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -62,7 +62,7 @@ function MyComponent() {
 
   return (
     <button onClick={toggleTheme}>
-      {isDarkMode ? '☀️ Vaalea' : '🌙 Tumma'}
+      {isDarkMode ? 'Vaalea' : 'Tumma'}
     </button>
   )
 }`}

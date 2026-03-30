@@ -7,11 +7,11 @@ export default function RistinollaDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Ristinolla</span>
       </div>
       <div className="page-header">
-        <h1>❌ Ristinolla</h1>
+        <h1>Ristinolla</h1>
         <p>Moninpeli-ristinolla reaaliajassa Supabase Realtimella.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Ristinolla.tsx</div>
+      <div className="file-path">client/src/pages/Ristinolla.tsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -26,32 +26,26 @@ export default function RistinollaDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📡</div>
             <h3>Reaaliaikainen</h3>
             <p>Supabase Realtime broadcast siirtojen synkronointiin</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">👥</div>
             <h3>Presence-seuranta</h3>
             <p>Näyttää yhdistettyjen pelaajien määrän</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🎭</div>
             <h3>Automaattinen rooli</h3>
             <p>X/O jaetaan automaattisesti liittymisjärjestyksen mukaan</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">👁️</div>
             <h3>Katselutila</h3>
             <p>Jos huone täynnä (2+ pelaajaa), muut ovat katsojia</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔄</div>
             <h3>Nollaus</h3>
             <p>Lauta voidaan nollata kaikille pelaajille</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🏆</div>
             <h3>Voittajan tunnistus</h3>
             <p>8 mahdollista voittolinjaa tarkistetaan</p>
           </div>

@@ -7,11 +7,11 @@ export default function NonogramDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Nonogram</span>
       </div>
       <div className="page-header">
-        <h1>🖼️ Nonogram</h1>
+        <h1>Nonogram</h1>
         <p>Kuva-logiikkapeli (Picross), jossa täytetään ruudukkoa vihjeiden perusteella.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Nonogram.jsx</div>
+      <div className="file-path">client/src/pages/Nonogram.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,32 +22,26 @@ export default function NonogramDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📐</div>
             <h3>Ruudukkokoot</h3>
             <p>5×5, 7×7 ja 9×9</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🖱️</div>
             <h3>Hiiren napit</h3>
             <p>Vasen = musta, oikea = X-merkintä</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔢</div>
             <h3>Vihjeet</h3>
             <p>Rivi- ja sarakevihjeet peräkkäisistä mustista soluista</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🎯</div>
             <h3>Automaattinen voitto</h3>
             <p>Peli tunnistaa automaattisesti oikean ratkaisun</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🌫️</div>
             <h3>Blur-efekti</h3>
             <p>Ruudukko on sumennettu ennen pelin aloitusta</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📖</div>
             <h3>Ohjeet</h3>
             <p>Ohjeikkuna uusille pelaajille</p>
           </div>

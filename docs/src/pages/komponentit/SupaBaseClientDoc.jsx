@@ -7,11 +7,11 @@ export default function SupaBaseClientDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>SupaBaseClient</span>
       </div>
       <div className="page-header">
-        <h1>🗄️ SupaBaseClient</h1>
+        <h1>SupaBaseClient</h1>
         <p>Supabase-asiakkaan alustus ja yhteyden hallinta.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/SupaBaseClient.jsx</div>
+      <div className="file-path">client/src/components/SupaBaseClient.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -63,22 +63,18 @@ const { data } = await supabase.storage.from('bucket').list()`}
         <h2>Supabase-palvelut käytössä</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">🗃️</div>
             <h3>Database</h3>
             <p>Pelitulokset, sudoku-puzzlet, huoneet</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔐</div>
             <h3>Auth</h3>
             <p>Käyttäjätunnistautuminen sähköpostilla</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📁</div>
             <h3>Storage</h3>
             <p>Palapelin kuvat ja muistipelin kortit</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📡</div>
             <h3>Realtime</h3>
             <p>Ristinollan broadcast ja Lobbyn postgres_changes</p>
           </div>

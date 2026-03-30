@@ -7,11 +7,11 @@ export default function PelienTimerDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>PelienTimer</span>
       </div>
       <div className="page-header">
-        <h1>⏱️ PelienTimer</h1>
+        <h1>PelienTimer</h1>
         <p>Ajastinkomponentti peleille millisekunnin tarkkuudella.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/PelienTimer.jsx</div>
+      <div className="file-path">client/src/components/PelienTimer.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>

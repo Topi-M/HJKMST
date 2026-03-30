@@ -7,11 +7,11 @@ export default function AuthFormDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Komponentit</span> <span>/</span> <span>AuthForm</span>
       </div>
       <div className="page-header">
-        <h1>📝 AuthForm</h1>
+        <h1>AuthForm</h1>
         <p>Kirjautumis- ja rekisteröitymislomakekomponentti.</p>
       </div>
 
-      <div className="file-path">📄 client/src/components/AuthFrom.jsx</div>
+      <div className="file-path">client/src/components/AuthFrom.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>

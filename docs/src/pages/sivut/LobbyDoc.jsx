@@ -7,11 +7,11 @@ export default function LobbyDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Lobby</span>
       </div>
       <div className="page-header">
-        <h1>🚪 Lobby</h1>
+        <h1>Lobby</h1>
         <p>Moninpelin pelilobby huoneiden luomiseen ja liittymiseen.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Lobby.tsx</div>
+      <div className="file-path">client/src/pages/Lobby.tsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -26,22 +26,18 @@ export default function LobbyDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">➕</div>
             <h3>Huoneen luonti</h3>
             <p>Nimi, pelityyppi ja valinnainen salasana</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📋</div>
             <h3>Huonelistaus</h3>
             <p>Kaikki saatavilla olevat huoneet reaaliajassa</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔒</div>
             <h3>Salasanasuojaus</h3>
             <p>Huoneet voivat olla salasanasuojattuja</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">📡</div>
             <h3>Reaaliaikaiset päivitykset</h3>
             <p>Supabase postgres_changes kuuntelee muutoksia</p>
           </div>

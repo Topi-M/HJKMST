@@ -7,11 +7,11 @@ export default function SudokuDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Sudoku</span>
       </div>
       <div className="page-header">
-        <h1>🔢 Sudoku</h1>
+        <h1>Sudoku</h1>
         <p>Klassinen 9×9 Sudoku-peli kolmella vaikeustasolla ja tarkistustoiminnolla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Sudoku.jsx</div>
+      <div className="file-path">client/src/pages/Sudoku.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,22 +22,18 @@ export default function SudokuDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📊</div>
             <h3>Vaikeustasot</h3>
             <p>Easy (4), Medium (5), Hard (6) — määrittää tyhjien solujen määrän</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🗄️</div>
             <h3>Tietokantaintegraatio</h3>
             <p>Puzzlet haetaan <code>sudokupuzzles</code>-taulusta Supabasesta</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">✅</div>
             <h3>Tarkistus</h3>
             <p>Ratkaisun oikeellisuuden tarkistus animaatiolla</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🧹</div>
             <h3>Pyyhintä</h3>
             <p>Yksittäisten solujen tyhjentäminen eraser-painikkeella</p>
           </div>

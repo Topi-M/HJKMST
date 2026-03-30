@@ -7,11 +7,11 @@ export default function PalapeliDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Palapeli</span>
       </div>
       <div className="page-header">
-        <h1>🧩 Palapeli</h1>
+        <h1>Palapeli</h1>
         <p>Drag & drop -palapeli, jossa voi valita kuvan ja vaikeustason.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Palapeli.jsx</div>
+      <div className="file-path">client/src/pages/Palapeli.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,32 +22,26 @@ export default function PalapeliDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📐</div>
             <h3>Vaikeustasot</h3>
             <p>3×3, 5×5 ja 7×7 ruudukkokoot</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🖼️</div>
             <h3>Kuvien valinta</h3>
             <p>Valitse kuva Supabase-tallennustilasta</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🖱️</div>
             <h3>Drag & Drop</h3>
             <p>@dnd-kit-kirjastolla toteutettu raahauslogiikka</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">⏱️</div>
             <h3>Ajastin</h3>
             <p>PelienTimer-komponentti mittaa suoritusajan</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🏆</div>
             <h3>Tulostaulu</h3>
             <p>Leaderboard vaikeustason mukaan suodatettuna</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🎉</div>
             <h3>Voittoanimaatio</h3>
             <p>Visuaalinen palaute pelin voittamisesta</p>
           </div>

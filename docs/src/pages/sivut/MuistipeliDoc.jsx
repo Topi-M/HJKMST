@@ -7,11 +7,11 @@ export default function MuistipeliDoc() {
         <Link to="/">Docs</Link> <span>/</span> <span>Sivut</span> <span>/</span> <span>Muistipeli</span>
       </div>
       <div className="page-header">
-        <h1>🃏 Muistipeli</h1>
+        <h1>Muistipeli</h1>
         <p>Korttien muistipeli eri teemoilla ja vaikeustasoilla.</p>
       </div>
 
-      <div className="file-path">📄 client/src/pages/Muistipeli.jsx</div>
+      <div className="file-path">client/src/pages/Muistipeli.jsx</div>
 
       <div className="doc-section">
         <h2>Yleiskuvaus</h2>
@@ -22,22 +22,18 @@ export default function MuistipeliDoc() {
         <h2>Ominaisuudet</h2>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-card-icon">📊</div>
             <h3>Vaikeustasot</h3>
             <p>4, 6 tai 8 paria</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🎨</div>
             <h3>Teemat</h3>
             <p>Eläimet, Autot, Dinosaurukset</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🖼️</div>
             <h3>Supabase-kuvat</h3>
             <p>Kuvat haetaan <code>muistipeliKuvat</code>-bucketista</p>
           </div>
           <div className="feature-card">
-            <div className="feature-card-icon">🔄</div>
             <h3>Kääntöanimaatio</h3>
             <p>CSS-pohjainen kortin kääntöefekti</p>
           </div>

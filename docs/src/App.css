@@ -373,11 +373,6 @@
   border-color: var(--color-primary-light);
 }
 
-.feature-card-icon {
-  font-size: 1.75rem;
-  margin-bottom: 10px;
-}
-
 .feature-card h3 {
   font-size: 1rem;
   margin-bottom: 6px;
@@ -461,11 +456,6 @@
   border-color: var(--color-primary-light);
 }
 
-.game-card-icon {
-  font-size: 2rem;
-  margin-bottom: 12px;
-}
-
 .game-card h3 {
   font-size: 1.1rem;
   margin-bottom: 6px;
@@ -486,22 +476,43 @@
 }
 
 /* ===== TECH STACK ===== */
+.tech-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.tech-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tech-group-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
 .tech-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 16px 0;
+  gap: 8px;
 }
 
 .tech-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  padding: 4px 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--color-text);
 }
