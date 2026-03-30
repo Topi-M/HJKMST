@@ -24,9 +24,9 @@
 .muistipeliMenu button,
 .muistipeliMenu select,
 .muistipeliUI {
-  background-color: #ffffff;
+  background-color: rgb(125, 220, 174);
   color: #333;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   padding: 8px 14px;
   border-radius: 8px;
   margin: 10px 15px;
