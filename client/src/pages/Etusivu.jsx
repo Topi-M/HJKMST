@@ -56,35 +56,37 @@ const Etusivu = () => {
         {pelit.map((peli) => (
           <div key={peli.id} className="col" style={{ maxWidth: '350px' }}>
             <div
-              className="card h-100 border-0 shadow-lg"
+              className="card h-100 border-0 etusivu-card"
               onClick={() => navigate(peli.route)}
-              style={{
+              /*style={{
                 cursor: 'pointer',
                 backgroundColor: '#1f2833',
                 borderRadius: '15px',
                 transition: 'transform 0.2s'
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}*/
             >
               {/* Kuva-alue vakiokorkeudella */}
-              <div className="d-flex align-items-center justify-content-center" style={{
+              {/*<div className="d-flex align-items-center justify-content-center" style={{
                 height: '200px',
-                backgroundColor: '#1c1e22',
+                backgroundColor: '#1f2833',
                 borderTopLeftRadius: '15px',
                 borderTopRightRadius: '15px',
                 overflow: 'hidden'
-              }}>
+              }}>*/}
+              <div className='etusivu-kortin-kuva'>
                 {peli.img ? (
                   <img
                     src={peli.img}
                     alt={peli.name}
-                    style={{
+                    className='etusivu-kuva'
+                    /*style={{
                       maxHeight: '100%',
                       maxWidth: '100%',
                       objectFit: 'contain',
                       imageRendering: 'pixelated'
-                    }}
+                    }}*/
                   />
                 ) : (
                   <div className="text-muted">Ei kuvaa</div>
@@ -92,9 +94,11 @@ const Etusivu = () => {
               </div>
 
               <div className="card-body d-flex flex-column text-center">
-                <h5 className="card-title fw-bold text-info">{peli.name}</h5>
-                <p className="card-text text-secondary flex-grow-1">{peli.description}</p>
-                <button className="btn btn-outline-info w-100 mt-auto">Pelaa</button>
+                <h5 className="card-title fw-bold">{peli.name}</h5>
+                <p className="card-text flex-grow-1">{peli.description}</p>
+                <button className="btn etusivu-button w-100 mt-auto">
+                  Pelaa
+                </button>
               </div>
             </div>
           </div>
