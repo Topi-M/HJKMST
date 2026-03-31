@@ -10,6 +10,7 @@ import Profiili from "./pages/Profiili";
 import Ristinolla from "./pages/Ristinolla";
 import Lobby from "./pages/Lobby";
 import WhiteTile from "./pages/WhiteTile";
+import Palaute from "./pages/Palaute";
 
 
 export const router = createBrowserRouter(
@@ -57,6 +58,10 @@ export const router = createBrowserRouter(
         {
           path: "profiili",
           element: <Profiili />
+        },
+        {
+          path: "palaute",
+          element: <Palaute />
         }
       ],
     },
