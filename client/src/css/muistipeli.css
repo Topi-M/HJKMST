@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   padding: 1.5rem 10px;
-  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat center center fixed !important;
+  background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
   background-size: cover !important;
   transition: background 0.5s ease-in-out;
   box-sizing: border-box;
@@ -36,14 +36,14 @@
 .muistipeliMenu button,
 .muistipeliMenu select,
 .muistipeliUI,
-.back-button {
-  background-color: rgb(125, 220, 174);
+.btn.back-button {
+  background-color: transparent;
   color: #152433;
-  border: 2px solid #152433 !important;
+  border: 2px solid #152433;
   padding: 10px 20px;
   border-radius: 8px;
   margin: 10px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   width: 80%;
   max-width: 250px;
@@ -72,7 +72,7 @@
 }
 
 .muistipeliMenu option {
-  background-color: rgb(125, 220, 174);
+  background-color: transparent;
   color: #152433;
 }
 
@@ -92,7 +92,7 @@
 .memory-card {
   position: relative;
   aspect-ratio: 1 / 1;
-  width: 100%; 
+  width: 100%;
   transform-style: preserve-3d;
   transition: transform 0.5s;
   cursor: pointer;
@@ -127,9 +127,27 @@
 
 /* Takaisin-nappi pelin aikana */
 .back-button {
-  width: auto; /* Takaisin-nappi on pienempi kuin valikon napit */
+  /* 1. SUURENNETAAN FONTIN KOKO */
+  font-size: 5 rem;
+  /* Esim. 25% suurempi kuin oletus. Voit käyttää myös px, esim 20px */
+  font-weight: bold;
+  padding: 15px 35px !important;
+
+  /* REUNAT (aiemmat säädöt) */
+  border: 3px solid #152433 !important;
+  /* Pienennettiin hieman 15px:stä, jotta se näyttää siistimmältä isomman tekstin kanssa */
   border-radius: 20px;
+
+  /* MUUT ASETUKSET */
+  width: auto;
+  /* Antaa tekstin määrittää leveyden */
+  display: inline-block;
+  /* Varmistaa, että padding toimii oikein */
   margin-bottom: 20px;
+
+  /* Värit (jotta erottuu Bootstrapin alta) */
+  background-color: transparent;
+  color: #152433;
 }
 
 /* --- 4. VOITTOVIESTI JA KESKITYS --- */
@@ -213,12 +231,12 @@ body.dark-mode .back-face {
   .MuistipelinTekstit {
     font-size: 1.5rem;
   }
-  
+
   .memory-game {
     gap: 8px;
   }
 
-  .muistipeliMenu button, 
+  .muistipeliMenu button,
   .muistipeliMenu select {
     width: 90%;
     max-width: none;

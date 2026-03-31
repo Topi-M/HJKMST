@@ -1,101 +1,105 @@
 /* Tausta pysyy samana dynaamisena elementtinä */
 .tausta {
-    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 80px;
-    transition: background 0.5s ease;
+  background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  transition: background 0.5s ease;
 }
 
 body.dark-mode .tausta {
-    background: linear-gradient(135deg, #0f0c29 0%, #24243e 100%) no-repeat fixed !important;
+  background: linear-gradient(135deg, #0f0c29 0%, #24243e 100%) no-repeat fixed !important;
 }
 
 /* Kirjautumisalue: Kevyt ja minimalistinen */
 .authDiv {
-    width: 90%;
-    max-width: 320px;
-    background-color: rgba(255, 255, 255, 0.95); /* Hieman läpikuultava valkoinen */
-    padding: 2.5rem;
-    border-radius: 12px;
-    /* Erittäin hienovarainen varjo tuomaan irtonaisuutta */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 90%;
+  max-width: 320px;
+  background-color: rgba(255, 255, 255, 0.95);
+  /* Hieman läpikuultava valkoinen */
+  padding: 2.5rem;
+  border-radius: 12px;
+  /* Erittäin hienovarainen varjo tuomaan irtonaisuutta */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 body.dark-mode .authDiv {
-    background-color: #161625; /* Erittäin tumma lilahtava harmaa */
-    border: 1px solid #4a2b9d; /* Hyvin ohut, hienovarainen lila reunus */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background-color: #161625;
+  /* Erittäin tumma lilahtava harmaa */
+  border: 1px solid #4a2b9d;
+  /* Hyvin ohut, hienovarainen lila reunus */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Otsikko: Pieni ja siisti */
 .authTitle {
-    font-size: 1rem;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
+  font-size: 1rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
 }
 
 body.dark-mode .authTitle {
-    color: #b197fc; /* Pehmeä lila */
+  color: #b197fc;
+  /* Pehmeä lila */
 }
 
 /* Minimalistiset napit */
 .authDiv button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s ease;
-    
-    /* Light mode napit */
-    background-color: #000000;
-    color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+
+  /* Light mode napit */
+  background-color: #000000;
+  color: #ffffff;
 }
 
 body.dark-mode .authDiv button {
-    /* Dark mode napit: Tumma lila pohja, vaalea teksti */
-    background-color: #6b41d3;
-    color: #ffffff;
+  /* Dark mode napit: Tumma lila pohja, vaalea teksti */
+  background-color: #6b41d3;
+  color: #ffffff;
 }
 
 /* Hillityt hover-efektit */
 .authDiv button:hover {
-    filter: brightness(1.1);
-    transform: translateY(-1px);
+  filter: brightness(1.1);
+  transform: translateY(-1px);
 }
 
 .authDiv button:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 /* Tekstikentät (jos AuthForm antaa muokata) */
 .authDiv input {
-    width: 100%;
-    padding: 8px 12px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: #fff;
-    font-size: 0.9rem;
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 0.9rem;
 }
 
 body.dark-mode .authDiv input {
-    background: #0b0c10;
-    border: 1px solid #333;
-    color: #fff;
+  background: #0b0c10;
+  border: 1px solid #333;
+  color: #fff;
 }
 
 body.dark-mode .welcomeText {
-    color: #b197fc;
+  color: #b197fc;
 }
