@@ -70,7 +70,7 @@
 }
 
 .ristinolla-root .text-success {
-  color: #152433 !important; /* Muutettu mustaksi/tummaksi näkyvyyden parantamiseksi */
+  color: #ff4d4d !important; /* Muutettu mustaksi/tummaksi näkyvyyden parantamiseksi */
   font-weight: bold;
 }
 
@@ -100,5 +100,5 @@ body.dark-mode .btn-reset-game {
 }
 
 body.dark-mode .ristinolla-root .text-success {
-  color: #ffffff !important; 
+  color: #ff4d4d !important; 
 }

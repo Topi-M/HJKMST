@@ -50,7 +50,17 @@ export default function Ristinolla() {
           .map((p: any) => p.playerId)
           .sort();
         
-        setPlayersCount(players.length);
+        // TALLENNETAAN AIEMPI PELAAJAMÄÄRÄ VERTAILUA VARTEN
+        setPlayersCount((prevCount) => {
+          const newCount = players.length;
+          
+          // JOS PELAAJA POISTUU (määrä vähenee), NOLLATAAN PELI PAIKALLISESTI
+          // JA LÄHETETÄÄN RESET-VIESTI MUILLE
+          if (newCount < prevCount && newCount > 0) {
+            reset(); 
+          }
+          return newCount;
+        });
         
         const index = players.indexOf(myId.current);
         if (index === 0) setMyPlayer("X");
@@ -82,7 +92,9 @@ export default function Ristinolla() {
   }, [id]);
 
   function handleClick(index: number) {
-    if (!myPlayer || winner || currentTurn !== myPlayer || board[index]) return;
+    if (playersCount < 2 || !myPlayer || winner || currentTurn !== myPlayer || board[index]) {
+      return;
+    }
 
     const nextTurn = myPlayer === "X" ? "O" : "X";
     setBoard(prev => {
@@ -129,12 +141,19 @@ export default function Ristinolla() {
         <p className="text-muted">Huoneen ID: {id}</p>
         
         <div className="mb-3">
-          <h5>Pelaajia huoneessa: {playersCount}</h5>
-          <h4>Sinä olet: <span className="fw-bold">{myPlayer || "Katsoja"}</span></h4>
+        <h5>Pelaajia huoneessa: {playersCount}</h5>
+        <h4>Sinä olet: <span className="fw-bold">{myPlayer || "Katsoja"}</span></h4>
+        
+        {playersCount < 2 ? (
+          <h4 className="text-warning fw-bold animate-pulse">
+            Odotetaan vastustajaa...
+          </h4>
+        ) : (
           <h4 className={currentTurn === myPlayer ? "text-success fw-bold" : "text-danger fw-bold"}>
             Vuoro: {currentTurn} {currentTurn === myPlayer && "(Sinun vuorosi!)"}
           </h4>
-        </div>
+        )}
+      </div>
 
         {winner && (
           <div className="alert lobby-card border-2 shadow-sm mb-4">
