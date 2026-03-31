@@ -56,12 +56,11 @@ export default function Lobby() {
       return alert("Et ole kirjautunut sisään!");
     }
 
-    // Tässä on alkuperäinen insert ilman game_type-saraketta
     const { data, error } = await supabase
       .from("rooms")
       .insert([
         { 
-          name: name, // Tämä toimii, jos 'name' sarake on olemassa
+          name: name,
           code: password
         }
       ])
