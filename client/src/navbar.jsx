@@ -59,6 +59,10 @@ const AppNavbar = () => {
               </div>
             </div>
 
+            <Nav.Link as={NavLink} to="/palaute">
+              Palaute
+            </Nav.Link>
+
             <Nav.Link as={NavLink} to="/profiili">
               Profiili
             </Nav.Link>
