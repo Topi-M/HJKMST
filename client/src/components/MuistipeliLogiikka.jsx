@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Kortti";
-import {supabase} from '../components/SupaBaseClient'
+import { supabase } from '../components/SupaBaseClient'
 
 function Game() {
   let [cardsState, setCardsState] = useState([]);
@@ -192,10 +192,10 @@ function Game() {
       )}
       {gameStarted && (
         <>
-          <button className="btn btn-outline-info back-button"
+          <button className="btn  back-button fw-bold"
             onClick={goBackToMenu}
           >
-            ⬅ Takaisin
+            Takaisin
           </button>
           {hasWon && (
             <div className="win-message">

@@ -5,13 +5,13 @@
     gap: 20px;
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%);
+    background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
     animation: gradientBG 15s ease infinite;
     padding: 20px;
     box-sizing: border-box;
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
     .sudoku-page {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
@@ -393,7 +393,9 @@ body.dark-mode .selected-cell {
 }
 
 body.dark-mode .green-cell {
-    background-color: #11a4c2 /*#79a879 #1b4d1b*/ !important;
+    background-color: #11a4c2
+        /*#79a879 #1b4d1b*/
+        !important;
     /* Tummanvihreä onnistuminen */
     color: #fff !important;
 }
