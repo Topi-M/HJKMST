@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../components/SupaBaseClient";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Card, ListGroup, Container, Row, Col, Badge } from "react-bootstrap";
-import "../css/lobby.css"; 
+import "../css/lobby.css";
 
 interface Room {
   id: string;
-  code: string;  
+  code: string;
   status: string;
   created_at: string;
+  minigame_id: number; // Lisätty minigame_id
+  name?: string;
 }
 
 export default function Lobby() {
@@ -18,21 +20,20 @@ export default function Lobby() {
   const [gameType, setGameType] = useState<string>("ristinolla");
   const navigate = useNavigate();
 
+  // Määritellään ID:t, jotka vastaavat tietokantasi minigames-taulua
+  const GAME_MAP: Record<string, number> = {
+    "ristinolla": 7,
+    "connect4": 9
+  };
+
   useEffect(() => {
     fetchRooms();
-
     const channel = supabase
       .channel("lobby-updates")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "rooms" },
-        () => fetchRooms()
-      )
+      .on("postgres_changes", { event: "*", schema: "public", table: "rooms" }, () => fetchRooms())
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   async function fetchRooms() {
@@ -51,27 +52,25 @@ export default function Lobby() {
     }
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return alert("Et ole kirjautunut sisään!");
-    }
+    if (authError || !user) return alert("Et ole kirjautunut sisään!");
 
-    // Tässä on alkuperäinen insert ilman game_type-saraketta
+    // Haetaan oikea ID valitulle pelille
+    const selectedId = GAME_MAP[gameType as keyof typeof GAME_MAP];
+
     const { data, error } = await supabase
       .from("rooms")
       .insert([
-        { 
-          name: name, // Tämä toimii, jos 'name' sarake on olemassa
-          code: password
+        {
+          name: name,
+          code: password,
+          minigame_id: selectedId, // TÄRKEÄ: Tallentaa pelin tyypin
+          status: 'waiting'
         }
       ])
       .select()
       .single();
 
-    if (error) {
-      alert("Virhe: " + error.message);
-      return;
-    }
+    if (error) return alert("Virhe: " + error.message);
 
     if (data) {
       navigate(`/${gameType}/${data.id}`);
@@ -81,50 +80,56 @@ export default function Lobby() {
   function handleJoin(room: Room) {
     if (room.code && room.code !== "") {
       const inputPassword = prompt("Syötä huoneen salasana:");
-      if (inputPassword !== room.code) {
-        alert("Väärä salasana!");
-        return;
-      }
+      if (inputPassword !== room.code) return alert("Väärä salasana!");
     }
-    
-    const targetGame = (room as any).game_type || "ristinolla";
-    navigate(`/${targetGame}/${room.id}`);
+
+    // Tunnistetaan peli ID:n perusteella
+    let targetPath = "ristinolla";
+    if (Number(room.minigame_id) === 9) targetPath = "connect4";
+
+    navigate(`/${targetPath}/${room.id}`);
   }
 
   return (
     <div className="lobby-root">
       <Container className="pt-4">
         <Row>
+          {/* VASEN SARAKE: Huoneen luonti */}
           <Col md={4}>
             <Card className="p-3 mb-4 lobby-card shadow-sm">
               <h4 className="fw-bold mb-3">Luo uusi huone</h4>
+
               <Form.Group className="mb-2">
                 <Form.Label>Huoneen nimi</Form.Label>
-                <Form.Control 
+                <Form.Control
                   className="lobby-input"
-                  placeholder="Esim. Matin peli" 
-                  onChange={(e) => setName(e.target.value)} 
+                  placeholder="Esim. Matin peli"
+                  value={name} // Hyvä lisätä hallitun inputin takia
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
 
               <Form.Group className="mb-2">
                 <Form.Label>Valitse peli</Form.Label>
-                <Form.Select 
+                <Form.Select
                   className="lobby-select"
-                  value={gameType} 
+                  value={gameType}
                   onChange={(e) => setGameType(e.target.value)}
                 >
-                  <option value="ristinolla">Ristinolla</option>
+                  {/* Käytetään numeroita arvoina, jotta ne vastaavat tietokantaa */}
+                  <option value="7">Ristinolla</option>
+                  <option value="9">Connect 4 (Neljän suora)</option>
                 </Form.Select>
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Salasana (valinnainen)</Form.Label>
-                <Form.Control 
+                <Form.Control
                   className="lobby-input"
                   type="password"
-                  placeholder="Salasana" 
-                  onChange={(e) => setPassword(e.target.value)} 
+                  placeholder="Salasana"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Group>
 
@@ -134,45 +139,47 @@ export default function Lobby() {
             </Card>
           </Col>
 
+          {/* OIKEA SARAKE: Huonelistaus */}
           <Col md={8}>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h4 className="fw-bold">Avoimet pelihuoneet</h4>
-              <Button className="lobby-button-sm" size="sm" onClick={fetchRooms}> Päivitä </Button>
+              <Button className="lobby-button-sm" size="sm" onClick={fetchRooms}>
+                Päivitä
+              </Button>
             </div>
-            
+
             <ListGroup className="shadow-sm lobby-card">
               {rooms.length === 0 ? (
-                <ListGroup.Item className="text-center p-5 text-muted lobby-list-item">
-                  Ei avoimia huoneita. Ole ensimmäinen ja luo uusi peli!
+                <ListGroup.Item className="text-center p-4 text-muted">
+                  Ei avoimia huoneita.
                 </ListGroup.Item>
               ) : (
                 rooms.map((room) => (
-                  <ListGroup.Item key={room.id} className="d-flex justify-content-between align-items-center p-3 lobby-list-item">
+                  <ListGroup.Item
+                    key={room.id}
+                    className="d-flex justify-content-between align-items-center p-3 lobby-list-item"
+                  >
                     <div>
                       <div className="d-flex align-items-center gap-2">
                         <h5 className="mb-0 fw-bold">
-                          {(room as any).name || room.code || "Nimetön huone"}
+                          {room.name || "Nimetön huone"}
                         </h5>
-                        <Badge bg="info" className="text-uppercase">
-                          {(room as any).game_type || "Ristinolla"}
+                        <Badge
+                          bg={Number(room.minigame_id) === 9 ? "primary" : "info"}
+                          className="text-uppercase"
+                        >
+                          {Number(room.minigame_id) === 9 ? "Connect 4" : "Ristinolla"}
                         </Badge>
                       </div>
-                      
                       <small className="text-muted d-block mt-1">
-                        Luotu: {new Date(room.created_at).toLocaleString('fi-FI', { 
-                          hour: '2-digit', 
-                          minute: '2-digit',
-                          day: '2-digit',
-                          month: '2-digit'
-                        })}
-                      </small>
-                      
-                      <small className="text-success d-block fw-bold">
-                        Tila: {room.status === 'waiting' ? 'Odottaa pelaajia' : 'Käynnissä'}
+                        Luotu: {new Date(room.created_at).toLocaleTimeString("fi-FI")}
                       </small>
                     </div>
-
-                    <Button className="lobby-button" size="lg" onClick={() => handleJoin(room)}>
+                    <Button
+                      className="lobby-button"
+                      size="lg"
+                      onClick={() => handleJoin(room)}
+                    >
                       Liity peliin
                     </Button>
                   </ListGroup.Item>
