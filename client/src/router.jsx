@@ -12,6 +12,7 @@ import Lobby from "./pages/Lobby";
 import WhiteTile from "./pages/WhiteTile";
 import Connect4 from "./pages/Connect4";
 
+
 export const router = createBrowserRouter(
   [
     {

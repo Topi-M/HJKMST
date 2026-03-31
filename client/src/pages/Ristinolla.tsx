@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../components/SupaBaseClient";
 import { Button, Container } from "react-bootstrap";
+import "../css/Ristinolla.css"
 
 type Player = "X" | "O";
 type Cell = Player | null;
@@ -94,6 +95,9 @@ export default function Ristinolla() {
     if (playersCount < 2 || !myPlayer || winner || currentTurn !== myPlayer || board[index]) {
       return;
     }
+    if (playersCount < 2 || !myPlayer || winner || currentTurn !== myPlayer || board[index]) {
+      return;
+    }
 
     const nextTurn = myPlayer === "X" ? "O" : "X";
     setBoard(prev => {
@@ -159,7 +163,6 @@ export default function Ristinolla() {
             <h2 className="mb-0 text-dark">Voittaja: {winner} 🎉</h2>
           </div>
         )}
-
         <div className="game-grid"> {/* Käytetään CSS-tiedoston gridiä */}
           {board.map((cell, i) => (
             <button
@@ -178,7 +181,6 @@ export default function Ristinolla() {
             Nollaa peli kaikille
           </Button>
         </div>
-
         {!myPlayer && playersCount >= 2 && (
           <p className="mt-3 text-warning fw-bold">Huone on täynnä. Olet katsojatilassa.</p>
         )}
