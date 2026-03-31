@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../components/SupaBaseClient";
 import { Button, Container } from "react-bootstrap";
+import "../css/Ristinolla.css"
 
 type Player = "X" | "O";
 type Cell = Player | null;
@@ -112,73 +113,57 @@ export default function Ristinolla() {
   
   const navigate = useNavigate();
 
-  /*const handleBackToLobby = () => {
-    navigate("/Lobby"); 
-  };*/
-
   return (
-    <Container className="text-center mt-5">
-      <div className="d-flex justify-content-start mb-3">
-        <Button variant="outline-secondary" onClick={() => navigate("/Lobby")}>
-          ← Takaisin Lobbyyn
-        </Button>
-      </div>
-
-      <h1>Ristinolla</h1>
-      <p className="text-muted">Huoneen ID: {id}</p>
-      
-      <div className="mb-3">
-        <h5>Pelaajia huoneessa: {playersCount}</h5>
-        <h4>Sinä olet: <span className="text-primary">{myPlayer || "Katsoja"}</span></h4>
-        <h4 className={currentTurn === myPlayer ? "text-success" : "text-danger"}>
-          Vuoro: {currentTurn} {currentTurn === myPlayer && "(Sinun vuorosi!)"}
-        </h4>
-      </div>
-
-      {winner && (
-        <div className="alert alert-success">
-          <h2>Voittaja: {winner} 🎉</h2>
-        </div>
-      )}
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 100px)",
-          gap: "10px",
-          justifyContent: "center",
-          margin: "20px 0"
-        }}
-      >
-        {board.map((cell, i) => (
-          <button
-            key={i}
-            onClick={() => handleClick(i)}
-            style={{
-              width: "100px",
-              height: "100px",
-              fontSize: "2.5rem",
-              fontWeight: "bold",
-              cursor: winner || board[i] ? "default" : "pointer",
-              backgroundColor: "#e9ecef",
-              border: "2px solid #343a40",
-              borderRadius: "8px"
-            }}
+    <div className="ristinolla-root"> {/* Lisätty wrapperi taustaa varten */}
+      <Container className="text-center mt-0">
+        <div className="d-flex justify-content-start mb-3">
+          <Button 
+            className="btn-back-lobby" 
+            onClick={() => navigate("/Lobby")}
           >
-            {cell}
-          </button>
-        ))}
-      </div>
+            ← Takaisin Lobbyyn
+          </Button>
+        </div>
 
-      <div className="mt-4">
-        <Button variant="warning" size="lg" onClick={reset}>
-          Nollaa peli kaikille
-        </Button>
-      </div>
+        <h1 className="fw-bold">Ristinolla</h1>
+        <p className="text-muted">Huoneen ID: {id}</p>
+        
+        <div className="mb-3">
+          <h5>Pelaajia huoneessa: {playersCount}</h5>
+          <h4>Sinä olet: <span className="fw-bold">{myPlayer || "Katsoja"}</span></h4>
+          <h4 className={currentTurn === myPlayer ? "text-success fw-bold" : "text-danger fw-bold"}>
+            Vuoro: {currentTurn} {currentTurn === myPlayer && "(Sinun vuorosi!)"}
+          </h4>
+        </div>
 
-      {!myPlayer && playersCount >= 2 && (
-        <p className="mt-3 text-warning">Huone on täynnä. Olet katsojatilassa.</p>
-      )}
-    </Container>
-  );
-}
+        {winner && (
+          <div className="alert lobby-card border-2 shadow-sm mb-4">
+            <h2 className="mb-0 text-dark">Voittaja: {winner} 🎉</h2>
+          </div>
+        )}
+
+        <div className="game-grid"> {/* Käytetään CSS-tiedoston gridiä */}
+          {board.map((cell, i) => (
+            <button
+              key={i}
+              onClick={() => handleClick(i)}
+              disabled={!!winner || !!board[i]}
+              className="cell-button" // Uusi tyyli tässä
+            >
+              {cell}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4">
+          <Button className="btn-reset-game" size="lg" onClick={reset}>
+            Nollaa peli kaikille
+          </Button>
+        </div>
+
+        {!myPlayer && playersCount >= 2 && (
+          <p className="mt-3 text-warning fw-bold">Huone on täynnä. Olet katsojatilassa.</p>
+        )}
+      </Container>
+    </div>
+  );}
