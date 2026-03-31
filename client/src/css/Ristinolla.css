@@ -1,0 +1,104 @@
+/* --- RISTINOLLA ROOT (SAMA KUIN LOBBY) --- */
+.ristinolla-root {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem 15px;
+  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat center center fixed !important;
+  background-size: cover !important;
+  transition: background 0.5s ease-in-out;
+  color: #152433;
+}
+
+/* --- PELILAUTA JA RUUDUT --- */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.cell-button {
+  width: 100px;
+  height: 100px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: rgb(125, 220, 174) !important; /* Lobby-vihreä */
+  color: #152433 !important;
+  border: 3px solid #152433 !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cell-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background-color: #152433 !important;
+  color: #ffffff !important;
+}
+
+.cell-button:disabled {
+  cursor: default;
+}
+
+/* --- NAPIT --- */
+.btn-back-lobby {
+  background-color: transparent !important;
+  color: #152433 !important;
+  border: 2px solid #152433 !important;
+  font-weight: bold !important;
+  margin-bottom: 20px;
+}
+
+.btn-reset-game {
+  /* Käytetään kuvasta poimittua kirkasta oranssinpunaista sävyä */
+  background-color: #ff4d4d !important; 
+  color: #ffffff !important;           /* Valkoinen teksti erottuu paremmin tästä väristä */
+  border: 2px solid #152433 !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+  padding: 10px 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-reset-game:hover {
+  /* Hover-tilassa painike tummuu hieman tai vaihtuu teemaväriin */
+  background-color: #152433 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.ristinolla-root .text-success {
+  color: #152433 !important; /* Muutettu mustaksi/tummaksi näkyvyyden parantamiseksi */
+  font-weight: bold;
+}
+
+/* --- DARK MODE --- */
+body.dark-mode .ristinolla-root {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat center center fixed !important;
+  color: #ffffff;
+}
+
+body.dark-mode .cell-button {
+  background-color: #202242 !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .btn-back-lobby {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.dark-mode .text-muted {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark-mode .btn-reset-game {
+  border-color: #ffffff !important;
+}
+
+body.dark-mode .ristinolla-root .text-success {
+  color: #ffffff !important; 
+}
