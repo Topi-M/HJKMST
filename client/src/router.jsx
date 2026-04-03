@@ -14,7 +14,6 @@ import Connect4 from "./pages/Connect4";
 import Palaute from "./pages/Palaute";
 import Wordle from "./pages/Wordle";
 
-
 export const router = createBrowserRouter(
   [
     {
