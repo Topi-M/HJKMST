@@ -33,7 +33,6 @@ describe("PalapeliSizeMenu", () => {
 
         const toggle = screen.getByRole("button", { name: /Valitse koko/i })
         fireEvent.click(toggle)
-
         
         expect(screen.getByText("3x3")).toBeInTheDocument()
         expect(screen.getByText("5x5")).toBeInTheDocument()
@@ -74,4 +73,4 @@ describe("PalapeliSizeMenu", () => {
         expect(mockSelect).toHaveBeenCalledWith(5)
     })
 
-}) 
+})

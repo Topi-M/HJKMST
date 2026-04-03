@@ -12,7 +12,7 @@ import Lobby from "./pages/Lobby";
 import WhiteTile from "./pages/WhiteTile";
 import Connect4 from "./pages/Connect4";
 import Palaute from "./pages/Palaute";
-
+import Wordle from "./pages/Wordle";
 
 export const router = createBrowserRouter(
   [
@@ -67,7 +67,11 @@ export const router = createBrowserRouter(
         {
           path: "palaute",
           element: <Palaute />
-        }
+        },
+        {
+          path: "wordle",
+          element: <Wordle />
+        },
       ],
     },
   ],
