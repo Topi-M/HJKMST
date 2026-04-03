@@ -81,6 +81,7 @@
     letter-spacing: 2px;
     margin: 0;
     background: linear-gradient(45deg, #1e3c72, #2a5298);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-transform: uppercase;
@@ -88,12 +89,14 @@
 
 .c4-winner-text.red-wins {
     background: linear-gradient(45deg, #d63031, #ff7675);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .c4-winner-text.yellow-wins {
     background: linear-gradient(45deg, #f39c12, #f1c40f);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
