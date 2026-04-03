@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 0;
-  /* Käytetään gradienttia oletuksena */
-  background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat center center fixed !important;
+  padding: 1.5rem 10px;
+  background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
   background-size: cover !important;
   transition: background 0.5s ease-in-out;
+  box-sizing: border-box;
 }
 
 .MuistipelinTekstit {
@@ -18,94 +18,81 @@
   transition: color 0.3s ease;
   margin-bottom: 15px;
   font-weight: bold;
+  text-align: center;
 }
 
-/* Valikon napit ja select-kentät */
-.muistipeliMenu button,
-.muistipeliMenu select,
-.muistipeliUI {
-  background-color: #ffffff;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 8px 14px;
-  border-radius: 8px;
-  margin: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Kortin selkämys */
-.back-face {
-  background-color: #dee2e6;
-  border: 1px solid #ced4da;
-}
-
-/* Takaisin-nappi */
-.back-button {
-  background-color: transparent;
-  color: #000001 !important;
-  border: 2px solid #000000 !important;
-  margin-bottom: 20px;
-  border-radius: 20px;
-  padding: 5px 15px;
-  font-size: 18px;
-}
-
-/* --- 2. DARK MODE MUUTOKSET --- */
-
-/* Pohja tummaksi gradientiksi */
-body.dark-mode .muistipeli-root {
-  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat center center fixed !important;
-  background-size: cover !important;
-}
-
-/* Tekstit valkoiseksi */
-body.dark-mode .MuistipelinTekstit {
-  color: #ffffff !important;
-}
-
-/* Valikon elementit tummiksi */
-body.dark-mode .muistipeliMenu button,
-body.dark-mode .muistipeliMenu select,
-body.dark-mode .muistipeliUI {
-  background-color: #202242 !important;
-  color: white !important;
-  border: 1px solid #444 !important;
-}
-
-/* Kortin selkämys tummaksi */
-body.dark-mode .back-face {
-  background-color: #202242 !important;
-  border: 1px solid #444 !important;
-}
-
-/* Takaisin-nappi kirkkaaksi */
-body.dark-mode .back-button {
-  background-color: #202242 !important;
-  color: white !important;
-  border: 2px solid #444 !important;
-}
-
-/* --- 3. PELIN LOGIIKKA (ÄLÄ MUUTA) --- */
+/* --- 2. VALIKKO (SELECT JA NAPIT) --- */
 
 .muistipeliMenu {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
 }
+
+.muistipeliMenu button,
+.muistipeliMenu select,
+.muistipeliUI,
+.btn.back-button {
+  background-color: transparent;
+  color: #152433;
+  border: 2px solid #152433;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  width: 80%;
+  max-width: 250px;
+  font-weight: bold;
+  transition: all 0.3s ease !important;
+  outline: none;
+}
+
+/* VAIN NAPIT: Pomppaus-efekti ja varjo */
+.muistipeliMenu button:hover,
+.muistipeliUI:hover,
+.back-button:hover,
+.win-message button:hover {
+  background-color: #152433 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* VAIN SELECT-VALIKOT: Vain värin vaihto, ei pomppausta */
+.muistipeliMenu select:hover {
+  background-color: #152433 !important;
+  color: #ffffff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.muistipeliMenu option {
+  background-color: transparent;
+  color: #152433;
+}
+
+/* --- 3. PELIALUEEN SKAALAUTUVUUS --- */
 
 .memory-game {
   display: grid;
-  gap: 15px;
-  grid-template-columns: repeat(auto-fit, 180px);
+  grid-template-columns: repeat(auto-fit, min(180px, 42vw));
+  gap: 12px;
   justify-content: center;
+  width: 100%;
   max-width: 900px;
   margin: 20px auto;
+  padding: 10px;
 }
 
 .memory-card {
   position: relative;
-  width: 180px;
-  height: 180px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
   transform-style: preserve-3d;
   transition: transform 0.5s;
   cursor: pointer;
@@ -121,6 +108,11 @@ body.dark-mode .back-button {
   object-fit: cover;
 }
 
+.back-face {
+  background-color: #dee2e6;
+  border: 1px solid #ced4da;
+}
+
 .front-face {
   transform: rotateY(180deg);
 }
@@ -131,4 +123,122 @@ body.dark-mode .back-button {
 
 .memory-card:active {
   transform: scale(0.97);
+}
+
+/* Takaisin-nappi pelin aikana */
+.back-button {
+  /* 1. SUURENNETAAN FONTIN KOKO */
+  font-size: 5 rem;
+  /* Esim. 25% suurempi kuin oletus. Voit käyttää myös px, esim 20px */
+  font-weight: bold;
+  padding: 15px 35px !important;
+
+  /* REUNAT (aiemmat säädöt) */
+  border: 3px solid #152433 !important;
+  /* Pienennettiin hieman 15px:stä, jotta se näyttää siistimmältä isomman tekstin kanssa */
+  border-radius: 20px;
+
+  /* MUUT ASETUKSET */
+  width: auto;
+  /* Antaa tekstin määrittää leveyden */
+  display: inline-block;
+  /* Varmistaa, että padding toimii oikein */
+  margin-bottom: 20px;
+
+  /* Värit (jotta erottuu Bootstrapin alta) */
+  background-color: transparent;
+  color: #152433;
+}
+
+/* --- 4. VOITTOVIESTI JA KESKITYS --- */
+
+.win-message {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin: 30px auto !important;
+  clear: both;
+}
+
+.win-message button {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+  color: #152433 !important;
+  border: 2px solid #152433 !important;
+  background-color: transparent !important;
+  padding: 10px 25px !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}
+
+/* --- 5. DARK MODE MUUTOKSET --- */
+
+body.dark-mode .muistipeli-root {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) no-repeat center center fixed !important;
+}
+
+body.dark-mode .MuistipelinTekstit {
+  color: #ffffff !important;
+}
+
+/* Dark mode napit ja selectit */
+body.dark-mode .muistipeliMenu button,
+body.dark-mode .muistipeliMenu select,
+body.dark-mode .muistipeliUI,
+body.dark-mode .back-button,
+body.dark-mode .win-message button {
+  background-color: #202242 !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+/* Dark mode napin hover */
+body.dark-mode .muistipeliMenu button:hover,
+body.dark-mode .back-button:hover,
+body.dark-mode .win-message button:hover {
+  background-color: #2e2f5e !important;
+  border-color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* Dark mode select hover (ei pomppausta) */
+body.dark-mode .muistipeliMenu select:hover {
+  background-color: #2e2f5e !important;
+  border-color: #ffffff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode .muistipeliMenu option {
+  background-color: #202242;
+  color: white;
+}
+
+body.dark-mode .back-face {
+  background-color: #202242 !important;
+  border: 1px solid #444 !important;
+}
+
+/* --- 6. MOBIILI-ERITYISSÄÄDÖT --- */
+
+@media (max-width: 600px) {
+  .MuistipelinTekstit {
+    font-size: 1.5rem;
+  }
+
+  .memory-game {
+    gap: 8px;
+  }
+
+  .muistipeliMenu button,
+  .muistipeliMenu select {
+    width: 90%;
+    max-width: none;
+  }
 }

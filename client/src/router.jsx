@@ -11,6 +11,8 @@ import Ristinolla from "./pages/Ristinolla";
 import Lobby from "./pages/Lobby";
 import WhiteTile from "./pages/WhiteTile";
 import Wordle from "./pages/Wordle";
+import Connect4 from "./pages/Connect4";
+import Palaute from "./pages/Palaute";
 
 
 export const router = createBrowserRouter(
@@ -48,8 +50,12 @@ export const router = createBrowserRouter(
           element: <Lobby />
         },
         {
-          path: "Ristinolla/:id",
-          element: <Ristinolla/>
+          path: "ristinolla/:id",
+          element: <Ristinolla />
+        },
+        {
+          path: "connect4/:id",
+          element: <Connect4 />
         },
         {
           path: "whitetiles",
@@ -63,6 +69,9 @@ export const router = createBrowserRouter(
           path: "wordle",
           element: <Wordle />
         },
+          path: "palaute",
+          element: <Palaute />
+        }
       ],
     },
   ],

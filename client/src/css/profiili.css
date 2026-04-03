@@ -1,5 +1,5 @@
 .tausta {
-    background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;
+    background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -70,7 +70,7 @@ body.dark-mode .profiili-guest {
     border: 1px solid #ddd;
     padding: 20px 24px;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(169, 185, 177, 0.5);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     width: 100%;
     max-width: 100%;
@@ -88,12 +88,12 @@ body.dark-mode .profiili-statsCard {
     align-items: center;
 }
 
-.profiili-statsRow + .profiili-statsRow {
+.profiili-statsRow+.profiili-statsRow {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 12px;
 }
 
-body.dark-mode .profiili-statsRow + .profiili-statsRow {
+body.dark-mode .profiili-statsRow+.profiili-statsRow {
     border-top-color: rgba(177, 151, 252, 0.2);
 }
 
