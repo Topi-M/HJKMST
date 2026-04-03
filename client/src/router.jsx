@@ -10,6 +10,7 @@ import Profiili from "./pages/Profiili";
 import Ristinolla from "./pages/Ristinolla";
 import Lobby from "./pages/Lobby";
 import WhiteTile from "./pages/WhiteTile";
+import Wordle from "./pages/Wordle";
 
 
 export const router = createBrowserRouter(
@@ -57,7 +58,11 @@ export const router = createBrowserRouter(
         {
           path: "profiili",
           element: <Profiili />
-        }
+        },
+        {
+          path: "wordle",
+          element: <Wordle />
+        },
       ],
     },
   ],
