@@ -183,14 +183,22 @@ export default function Connect4() {
                 </div>
 
                 {/* Pelilauta */}
-                <div className="c4-board-container">
+                <div className="c4-board-container shadow-lg">
                     <div className="c4-board">
-                        {board.map((cell, i) => (
-                            <div
-                                key={i}
-                                className={`c4-cell ${cell === "Punainen" ? "red" : cell === "Keltainen" ? "yellow" : ""}`}
-                            />
-                        ))}
+                        {board.map((cell, i) => {
+                            // Tarkistetaan, onko tämä solu osa voittosuoraa
+                            // winInfo sisältää yleensä tiedon 'line', joka on taulukko indekseistä (esim. [10, 11, 12, 13])
+                            const isWinnerCell = winInfo?.line?.includes(i);
+
+                            return (
+                                <div
+                                    key={i}
+                                    className={`c4-cell 
+                        ${cell === "Punainen" ? "red" : cell === "Keltainen" ? "yellow" : ""} 
+                        ${isWinnerCell ? "winner-highlight" : ""}`}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             </div>
