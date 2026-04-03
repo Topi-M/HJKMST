@@ -117,8 +117,8 @@ export default function Lobby() {
                   onChange={(e) => setGameType(e.target.value)}
                 >
                   {/* Käytetään numeroita arvoina, jotta ne vastaavat tietokantaa */}
-                  <option value="7">Ristinolla</option>
-                  <option value="9">Connect 4 (Neljän suora)</option>
+                  <option value="ristinolla">Ristinolla</option>
+                  <option value="connect4">Connect 4 (Neljän suora)</option>
                 </Form.Select>
               </Form.Group>
 

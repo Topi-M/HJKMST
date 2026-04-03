@@ -136,68 +136,78 @@ export default function Connect4() {
     };
 
     return (
-        <Container className="text-center mt-4 d-flex flex-column align-items-center c4-container">
-            <Button variant="outline-dark" size="sm" onClick={() => navigate("/Lobby")} className="mb-3">
-                ← Takaisin Lobbyyn
-            </Button>
-
-            <h2 className="c4-title">Neljän Suora</h2>
-            <small className="text-muted mb-3">Pelaajia huoneessa: {playersCount}</small>
-
-            <div className="mb-3">
-                Olet: <Badge
-                    bg={myPlayer === "Punainen" ? "danger" : myPlayer === "Keltainen" ? "warning" : "secondary"}
-                    className="text-dark c4-status-badge"
-                >
-                    {myPlayer}
-                </Badge>
+        <div className="c4-page-wrapper">
+            {/* Lasikupla otsikolle */}
+            <div className="c4-glass-header">
+                <h1 className="c4-title">Connect 4</h1>
             </div>
 
-            <h4 className="mb-4" style={{ minHeight: "40px" }}>
+            <Button
+                variant="link"
+                onClick={() => navigate("/Lobby")}
+                className="c4-back-btn"
+            >
+                Takaisin valikkoon
+            </Button>
+
+            {/* Vuoro- ja tilannetiedot */}
+            <div className="c4-status-box text-center">
                 {winner ? (
-                    <Badge bg="success" className="p-2 shadow">VOITTO: {winner.toUpperCase()}!</Badge>
+                    <div className="c4-winner-announcement shadow">
+                        <h3 className={`c4-winner-text ${winner === "Punainen" ? "red-wins" : "yellow-wins"}`}>
+                            VOITTAJA: {winner}!
+                        </h3>
+                    </div>
                 ) : (
-                    <span className={currentTurn === myPlayer ? "text-success fw-bold" : "text-secondary"}>
-                        Vuoro: {currentTurn} {currentTurn === myPlayer && "(Sinä)"}
+                    <span>
+                        <span className="h5">Vuoro: {currentTurn}</span>
+                        <br />
+                        <small className="opacity-75">Olet: {myPlayer} | Pelaajia: {playersCount}</small>
                     </span>
                 )}
-            </h4>
+            </div>
 
-            <div className="c4-game-wrapper">
-                {/* Pudotuspainikkeet */}
+            <div className="c4-game-area">
+                {/* Pudotusnapit */}
                 <div className="c4-drop-row">
                     {Array(COLS).fill(null).map((_, col) => (
-                        <Button
+                        <button
                             key={col}
-                            variant="outline-primary"
-                            disabled={!!winner || myPlayer === "Katsoja" || currentTurn !== myPlayer || findLowestFreeRow(col, board) === -1}
+                            className="c4-btn-drop"
+                            disabled={!!winner || myPlayer === "Katsoja" || currentTurn !== myPlayer}
                             onClick={() => dropDisc(col)}
-                            className="c4-drop-btn"
                         >
                             ↓
-                        </Button>
+                        </button>
                     ))}
                 </div>
 
                 {/* Pelilauta */}
-                <div className="c4-board shadow">
-                    {board.map((cell, i) => (
-                        <div
-                            key={i}
-                            className={`c4-cell 
-                            ${cell === "Punainen" ? "red" : cell === "Keltainen" ? "yellow" : "empty"} 
-                            ${winInfo?.line?.includes(i) ? "winner" : ""}`
-                            }
-                        />
-                    ))}
+                <div className="c4-board-container shadow-lg">
+                    <div className="c4-board">
+                        {board.map((cell, i) => {
+                            // Tarkistetaan, onko tämä solu osa voittosuoraa
+                            // winInfo sisältää yleensä tiedon 'line', joka on taulukko indekseistä (esim. [10, 11, 12, 13])
+                            const isWinnerCell = winInfo?.line?.includes(i);
+
+                            return (
+                                <div
+                                    key={i}
+                                    className={`c4-cell 
+                        ${cell === "Punainen" ? "red" : cell === "Keltainen" ? "yellow" : ""} 
+                        ${isWinnerCell ? "winner-highlight" : ""}`}
+                                />
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
-            <div className="mt-4 pb-5">
-                <Button variant="warning" onClick={reset} className="shadow px-4">
-                    Nollaa Pelilauta
-                </Button>
-            </div>
-        </Container>
+            {/* Bugien varalta: Nollausnappi */}
+            <button className="c4-reset-btn" onClick={reset}>
+                Nollaa Pelilauta
+            </button>
+        </div>
     );
+
 }
