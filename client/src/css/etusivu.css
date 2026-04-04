@@ -4,7 +4,7 @@
   backdrop-filter: blur(12px);
   border-radius: 12px;
   padding: 12px 32px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
@@ -29,7 +29,7 @@
 }
 
 .etusivu-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-5px) !important;
   background: rgba(255, 255, 255, 0.12) !important;
   border-color: rgba(180, 180, 180, 0.5) !important;
 }
@@ -90,6 +90,7 @@ body.dark-mode .etusivu-title {
   /*background: linear-gradient(135deg, rgb(125, 220, 174) 25%, rgb(14, 135, 131) 100%) no-repeat fixed;*/
   min-height: 100vh;
   color: white;
+  padding-bottom: 50px;
 }
 
 body.dark-mode .etusivunTausta {
@@ -109,14 +110,13 @@ body.dark-mode .etusivu-card:hover {
 
 body.dark-mode .btn.etusivu-button {
   /*background: #202242;*/
-  background: transparent;
-  color: white;
-  border: 1px solid white !important;
+  background-color: #202242 !important;
+  color: white !important;
+  border: 1px solid #444 !important;
 }
 
 body.dark-mode .btn.etusivu-button:hover {
-  background: #353663;
-  color: white;
+  background-color: #2e2f5e !important;
 }
 
 body.dark-mode .card-title {

@@ -1,19 +1,36 @@
-import React, { useRef, useState} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import "../css/wordle.css";
 import WordleGrid from "../components/WordleGrid.jsx";
 import Keyboard from "../components/WordleKeyboard.jsx";
 import { getKeyStatus, getLetterStatus } from "../wordleLogic.js";
 
-
+const WORDS = [
+  'trust', 'apple', 'beach', 'bread', 'cloud', 'dance', 'earth', 'field', 
+  'fruit', 'glass', 'heart', 'house', 'juice', 'light', 'money', 'music', 
+  'night', 'ocean', 'party', 'piano', 'pilot', 'plane', 'river', 'smile', 
+  'space', 'stone', 'table', 'tiger', 'trees', 'water', 'world', 'write'
+];
 
 export default function Wordle() {
     
     const [guesses, setGuesses] = useState([]);
     const [currentGuess, setCurrentGuess] = useState('');
-    const [solution, setSolution] = useState('trust');
+    const [solution, setSolution] = useState('');
     const [isGameOver, setIsGameOver] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
 
+    useEffect(() => {
+        startNewGame();
+    }, []);
+
+    const startNewGame = () => {
+        const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        setSolution(randomWord);
+        setGuesses([]);
+        setCurrentGuess('');
+        setIsGameOver(false);
+        setStatusMessage('');
+    };
 
     const handleKeyPress = (key) => {
         if (guesses.length >= 6) {
@@ -55,8 +72,11 @@ export default function Wordle() {
                 </div>
                 <div className="wordle-status">
                     {statusMessage ? (
-                        <div className={`status-banner ${statusMessage.includes("Onnittelut") ? "success" : "warning"}`}>
-                            {statusMessage}
+                        <div className="wordle-status-container">
+                            <div className={`status-banner ${statusMessage.includes("Onnittelut") ? "success" : "warning"}`}>
+                                {statusMessage}
+                            </div>
+                            <button className="wordle-new-game-button" onClick={startNewGame}>Uusi peli</button>
                         </div>
                     ) : (
                 <div className="wordle-status-banner"></div>
