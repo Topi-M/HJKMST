@@ -40,6 +40,12 @@ const Etusivu = () => {
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/whitetiles.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC93aGl0ZXRpbGVzLnBuZyIsImlhdCI6MTc3Mjk5NjE4OCwiZXhwIjo0OTI2NTk2MTg4fQ.Kj0hQhHiOpPK_gGhrTL3GOagzzpMEEZduS3SlTxPlSg",
       route: '/whitetiles',
       description: 'Klikkaa kaikki mustat ruudut.'
+    },
+    {
+      id: 'wordle',
+      name: 'Wordle',
+      route: '/wordle',
+      description: 'Arvaa sana kuudella yrityksellä.',
     }
   ];
 
@@ -51,42 +57,20 @@ const Etusivu = () => {
         </div>
       </header>
 
-      {/* row-cols varmistaa, että kortit ovat samanlevyisiä ja h-100 pitää ne samanpituisina */}
-      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center px-md-5">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5 justify-content-center px-md-5 mx-auto"
+           style={{ maxWidth: '1200px' }}>
         {pelit.map((peli) => (
-          <div key={peli.id} className="col" style={{ maxWidth: '350px' }}>
+          <div key={peli.id} className="col">
             <div
-              className="card h-100 border-0 etusivu-card"
+              className="card h-100 etusivu-card"
               onClick={() => navigate(peli.route)}
-              /*style={{
-                cursor: 'pointer',
-                backgroundColor: '#1f2833',
-                borderRadius: '15px',
-                transition: 'transform 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}*/
             >
-              {/* Kuva-alue vakiokorkeudella */}
-              {/*<div className="d-flex align-items-center justify-content-center" style={{
-                height: '200px',
-                backgroundColor: '#1f2833',
-                borderTopLeftRadius: '15px',
-                borderTopRightRadius: '15px',
-                overflow: 'hidden'
-              }}>*/}
-              <div className='etusivu-kortin-kuva'>
+              <div className="etusivu-kortin-kuva">
                 {peli.img ? (
                   <img
                     src={peli.img}
                     alt={peli.name}
-                    className='etusivu-kuva'
-                    /*style={{
-                      maxHeight: '100%',
-                      maxWidth: '100%',
-                      objectFit: 'contain',
-                      imageRendering: 'pixelated'
-                    }}*/
+                    className="etusivu-kuva"
                   />
                 ) : (
                   <div className="text-muted">Ei kuvaa</div>
