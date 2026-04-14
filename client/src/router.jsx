@@ -13,6 +13,7 @@ import WhiteTile from "./pages/WhiteTile";
 import Connect4 from "./pages/Connect4";
 import Palaute from "./pages/Palaute";
 import Wordle from "./pages/Wordle";
+import Colorgame from "./pages/Colorgame";
 
 export const router = createBrowserRouter(
   [
@@ -71,6 +72,10 @@ export const router = createBrowserRouter(
         {
           path: "wordle",
           element: <Wordle />
+        },
+        {
+          path: "colorgame",
+          element: <Colorgame />
         },
       ],
     },
