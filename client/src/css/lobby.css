@@ -54,7 +54,7 @@
 }
 
 .lobby-select option {
-  background-color: rgb(125, 220, 174) !important;
+  background-color: rgb(148, 190, 214) !important;
   /* Vaaleanvihreä tausta listassa */
   color: #152433 !important;
   /* Tumma teksti listassa */
@@ -69,7 +69,7 @@
 }
 
 .lobby-input:focus {
-  background-color: rgb(125, 220, 174) !important;
+  background-color: rgb(148, 190, 214) !important;
   /* Ei muutu valkoiseksi */
   border-color: #152433 !important;
   outline: none !important;
@@ -81,6 +81,20 @@
   color: #ffffff !important;
   outline: none !important;
   box-shadow: none !important;
+}
+
+/* --- DARK MODE --- */
+body.dark-mode .lobby-card {
+  background-color: rgba(26, 27, 58, 0.8) !important;
+  border-color: #444 !important;
+  color: white !important;
+}
+
+/* LISÄÄ TÄMÄ: Varmistaa että ListGroup.Item perii värit */
+body.dark-mode .lobby-card .list-group-item {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: #444 !important;
 }
 
 /* --- DARK MODE --- */

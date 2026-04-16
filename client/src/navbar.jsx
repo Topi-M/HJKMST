@@ -39,13 +39,14 @@ const AppNavbar = () => {
               White Tiles
             </Nav.Link>
 
+            <Nav.Link as={NavLink} to="/Wordle">
+              Wordle
+            </Nav.Link>
+
             <Nav.Link as={NavLink} to="/Lobby">
               Moninpeli
             </Nav.Link>
 
-            <Nav.Link as={NavLink} to="/Wordle">
-              Wordle
-            </Nav.Link>
           </Nav>
 
           {/*vasen reuna*/}
