@@ -46,6 +46,12 @@ const Etusivu = () => {
       name: 'Wordle',
       route: '/wordle',
       description: 'Arvaa sana kuudella yrityksellä.',
+    },
+    {
+      id: 'colorgame',
+      name: 'Väripeli',
+      route: '/colorgame',
+      description: 'Värimuistipeli',
     }
   ];
 

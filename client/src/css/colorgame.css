@@ -1,0 +1,326 @@
+.cg-shell {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgb(148, 190, 214) 25%, rgb(27, 105, 168) 100%) no-repeat fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+body.dark-mode .cg-shell {
+  background: linear-gradient(135deg, #0f0c29 0%, #524c95 50%, #24243e 100%) !important;
+  background-size: 400% 400%;
+}
+
+.cg-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px;
+  gap: 24px;
+}
+
+.cg-title-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 12px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .cg-title-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.cg-title {
+  color: #0b0c10;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+body.dark-mode .cg-title {
+  color: #ffffff;
+}
+
+/* ---- Värin esikatselu ---- */
+.cg-preview-wrap {
+  position: relative;
+  width: min(92vw, 480px);
+  height: 220px;
+}
+
+.cg-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: background 0.15s ease;
+}
+
+.cg-idle-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  text-align: center;
+}
+
+.cg-instructions {
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.cg-instructions p {
+  margin: 0 0 6px 0;
+}
+
+.cg-instructions p:last-child {
+  margin-bottom: 0;
+}
+
+.cg-start-btn {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  color: #0b0c10;
+  background: #0dcaf0;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+
+.cg-start-btn:hover {
+  filter: brightness(1.08);
+}
+
+.cg-start-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 700px) {
+  .cg-instructions {
+    font-size: 0.85rem;
+  }
+}
+
+.cg-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* ---- Tulosalue ---- */
+.cg-result-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cg-result-split {
+  display: flex;
+  width: min(92vw, 480px);
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cg-result-half {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 8px;
+}
+
+.cg-result-label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.cg-score {
+  color: #0b0c10;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+body.dark-mode .cg-score {
+  color: #ffffff;
+}
+
+/* ---- Valmis / Uusi peli nappi ---- */
+.cg-submit-btn {
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 28px;
+  border-radius: 8px;
+  border: none;
+  color: #0b0c10;
+  background: #0dcaf0;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+
+.cg-submit-btn:hover {
+  filter: brightness(1.08);
+}
+
+.cg-submit-btn:active {
+  transform: translateY(1px);
+}
+
+/* ---- Sliderit ---- */
+.cg-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: min(92vw, 480px);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .cg-sliders {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cg-slider-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+}
+
+.cg-slider-label {
+  color: #0b0c10;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+body.dark-mode .cg-slider-label {
+  color: #ffffff;
+}
+
+.cg-slider-value {
+  color: #0b0c10;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+body.dark-mode .cg-slider-value {
+  color: #ffffff;
+}
+
+/* Slider base - poistetaan oletus ulkonäkö, jotta voidaan asettaa gradientit */
+.cg-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 32px;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+
+.cg-slider:disabled {
+  cursor: not-allowed;
+}
+
+.cg-sliders--disabled {
+  opacity: 0.55;
+}
+
+.cg-slider-row:first-child .cg-slider {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.cg-slider-row:last-child .cg-slider {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.cg-slider--hue {
+  background: linear-gradient(
+    to right,
+    hsl(0, 100%, 50%),
+    hsl(60, 100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+}
+
+/* WebKit thumb */
+.cg-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Firefox thumb */
+.cg-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Firefoxin oma track - varmistetaan että se näkyy 32px korkeana */
+.cg-slider::-moz-range-track {
+  height: 32px;
+  border-radius: 16px;
+  background: transparent;
+  border: none;
+}
+
+@media (max-width: 700px) {
+  .cg-slider-row {
+    grid-template-columns: 70px 1fr 36px;
+    gap: 8px;
+  }
+
+  .cg-slider-label {
+    font-size: 0.8rem;
+  }
+}
