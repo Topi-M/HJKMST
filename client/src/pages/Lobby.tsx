@@ -96,7 +96,7 @@ export default function Lobby() {
         <Row>
           {/* VASEN SARAKE: Huoneen luonti */}
           <Col md={4}>
-            <Card className="p-3 mb-4 lobby-card shadow-sm">
+            <Card className="p-3 lobby-card shadow-sm">
               <h4 className="fw-bold mb-3">Luo uusi huone</h4>
 
               <Form.Group className="mb-2">
@@ -104,7 +104,7 @@ export default function Lobby() {
                 <Form.Control
                   className="lobby-input"
                   placeholder="Esim. Matin peli"
-                  value={name} // Hyvä lisätä hallitun inputin takia
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
@@ -148,9 +148,9 @@ export default function Lobby() {
               </Button>
             </div>
 
-            <ListGroup className="shadow-sm lobby-card">
+            <ListGroup className="shadow-sm">
               {rooms.length === 0 ? (
-                <ListGroup.Item className="text-center p-4 text-muted">
+                <ListGroup.Item className="text-center lobby-card p-4">
                   Ei avoimia huoneita.
                 </ListGroup.Item>
               ) : (
