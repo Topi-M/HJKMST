@@ -3,13 +3,7 @@ import "../css/wordle.css";
 import WordleGrid from "../components/WordleGrid.jsx";
 import Keyboard from "../components/WordleKeyboard.jsx";
 import { getKeyStatus, getLetterStatus } from "../wordleLogic.js";
-
-const WORDS = [
-  'trust', 'apple', 'beach', 'bread', 'cloud', 'dance', 'earth', 'field', 
-  'fruit', 'glass', 'heart', 'house', 'juice', 'light', 'money', 'music', 
-  'night', 'ocean', 'party', 'piano', 'pilot', 'plane', 'river', 'smile', 
-  'space', 'stone', 'table', 'tiger', 'trees', 'water', 'world', 'write'
-];
+import { supabase } from "../components/SupaBaseClient";
 
 export default function Wordle() {
     
@@ -18,13 +12,44 @@ export default function Wordle() {
     const [solution, setSolution] = useState('');
     const [isGameOver, setIsGameOver] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
+    const [solutions, setSolutions] = useState([]);
+    const [validWords, setValidWords] = useState([]);
 
     useEffect(() => {
-        startNewGame();
+        const fetchWords = async () => {
+            const { data, error } = await supabase
+                .from("wordle_words")
+                .select("word, type");
+            
+            if (error) {
+                console.error("Supabase error:", error);
+                return;
+            }
+            
+            const solutions = data
+                .filter(w => w.type === "solution")
+                .map(w => w.word.trim().toLowerCase());
+
+            const valids = data
+                .map(w => w.word.trim().toLowerCase());
+
+            setSolutions(solutions);
+            setValidWords(valids);
+
+            if (solutions.length > 0) {
+                const randomWord = solutions[Math.floor(Math.random() * solutions.length)];
+                setSolution(randomWord);
+            }
+        };
+        fetchWords();
     }, []);
 
+
+
     const startNewGame = () => {
-        const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        if (solutions.length === 0) return;
+
+        const randomWord = solutions[Math.floor(Math.random() * solutions.length)];
         setSolution(randomWord);
         setGuesses([]);
         setCurrentGuess('');
@@ -33,32 +58,34 @@ export default function Wordle() {
     };
 
     const handleKeyPress = (key) => {
-        if (guesses.length >= 6) {
-            return;
-        }
+        if (isGameOver) return;
 
         if (key === 'ENTER') {
             if (currentGuess.length === 5) {
-                setGuesses([...guesses, currentGuess])
-                
-                if (currentGuess === solution) {
-                    setTimeout(() => {
-                        setStatusMessage('Onnittelut! Sait sanan oikein ' + (guesses.length + 1) + ' yrityksellä!');
-                    }, 100);
-                    
-                    setIsGameOver(true);
-                } else if (guesses.length === 5) {
-                    setTimeout(() => {
-                        setStatusMessage(`Game Over! The correct word was: "${solution.toUpperCase()}"`);
-                    }, 100);
-                    setIsGameOver(true);
+                const normalizedGuess = currentGuess.toLowerCase();
+
+                if (!validWords.includes(normalizedGuess)) {
+                    setStatusMessage("Sana ei ole listalla");
+                    setTimeout(() => setStatusMessage(""), 1500);
+                    return;
                 }
+
+                const newGuesses = [...guesses, normalizedGuess];
+                setGuesses(newGuesses);
                 setCurrentGuess('');
+
+                if (normalizedGuess === solution.toLowerCase()) {
+                    setIsGameOver(true);
+                    setStatusMessage(`Onnittelut! Arvasit sanan ${newGuesses.length}. yrityksellä!`);
+                } else if (newGuesses.length >= 6) {
+                    setIsGameOver(true);
+                    setStatusMessage(`Peli ohi! Oikea sana oli: ${solution.toUpperCase()}`);
+                }
             }
         } else if (key === 'BACKSPACE') {
-            setCurrentGuess(currentGuess.slice(0, -1));
-        } else if (currentGuess.length < 5) {
-            setCurrentGuess((prev) => prev + key.toLowerCase());
+            setCurrentGuess(prev => prev.slice(0, -1));
+        } else if (currentGuess.length < 5 && /^[A-ZÅÄÖ]$/.test(key)) {
+            setCurrentGuess(prev => prev + key.toLowerCase());
         }
     };
 

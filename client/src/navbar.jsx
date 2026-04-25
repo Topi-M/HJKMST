@@ -47,10 +47,6 @@ const AppNavbar = () => {
               Moninpeli
             </Nav.Link>
 
-            <Nav.Link as={NavLink} to="/Wordle">
-              Wordle
-            </Nav.Link>
-
             <Nav.Link as={NavLink} to="/colorgame">
               Väripeli
             </Nav.Link>

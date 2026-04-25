@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import "../css/wordleKeyboard.css";
 
 const KEYBOARD_ROWS = [
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Å'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ä', 'Ö'],
     ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace'],
 ];
 
@@ -12,17 +12,18 @@ const Keyboard = ({ isGameOver, onKeyPress, keyStatus }) => {
         const handleKeyDown = (event) => {
             if (!isGameOver) {
                 const key = event.key;
-
-                if (key === 'Enter' || key === 'Backspace' || /^[a-z]$/.test(key)) {
-                    event.preventDefault();
+                // Käytä case-insensitive tarkistusta
+                if (key === 'Enter' || key === 'Backspace' || /^[a-zåäöA-ZÅÄÖ]$/.test(key)) {
+                    // Estetään scrollaus enterillä/spacella
+                    if (key === 'Enter') event.preventDefault(); 
                     onKeyPress(key.toUpperCase());
                 }
             }
-        }
+        };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    });
+    }, [isGameOver, onKeyPress]);
 
 
 const handleKeyClick = (key) => {
