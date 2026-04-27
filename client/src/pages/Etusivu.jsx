@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/etusivu.css';
+import colorgamekuva from '../assets/colorgame.png';
+import wordlekuva from '../assets/wordle.png';
 
 const Etusivu = () => {
   const navigate = useNavigate();
@@ -11,45 +13,47 @@ const Etusivu = () => {
       name: 'Palapeli',
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/hjkmst_palapeli.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9oamttc3RfcGFsYXBlbGkucG5nIiwiaWF0IjoxNzcxNDE1NTE4LCJleHAiOjE4MDI5NTE1MTh9.tAJgGgw6WT6cRfiVarjg0ZRuOxcQlJMfK7n0ZRj5bq8",
       route: '/palapeli',
-      description: 'Ratkaise kuvioita logiikan avulla.'
+      description: 'Ratkaise kuvioita logiikan avulla'
     },
     {
       id: 'sudoku',
       name: 'Sudoku',
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/sudoku.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9zdWRva3UucG5nIiwiaWF0IjoxNzcxNTAwMTExLCJleHAiOjQ5MjUxMDAxMTF9.OyuWx0a5Un6TPH5QJu8aXFFwwr-tK91CpNJU3UulqSQ", // Lisää URL myöhemmin
       route: '/sudoku',
-      description: 'Täytä ruudukko numeroilla.'
+      description: 'Täytä ruudukko numeroilla'
     },
     {
       id: 'nonogram',
       name: 'Nonogram',
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/nonogram.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9ub25vZ3JhbS5wbmciLCJpYXQiOjE3NzE1MDAwODMsImV4cCI6NDkyNTEwMDA4M30.4ZQ_jhEYliyaXibsn6b1Ws6ap55UB5zA_jZqL7aNpp4", // lisää url myöhemmin
       route: '/nonogram',
-      description: 'Paljasta piilotettu kuva loogisella päättelyllä.'
+      description: 'Paljasta piilotettu kuva loogisella päättelyllä'
     },
     {
       id: 'muistipeli',
       name: 'Muistipeli',
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/muistipeli.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC9tdWlzdGlwZWxpLnBuZyIsImlhdCI6MTc3MTU5MTI3OSwiZXhwIjo0OTI1MTkxMjc5fQ.3A8_xn8zhHBW5OeHcDj2Si9IOU71HIjn8fLCoX7Rddk",
       route: '/muistipeli',
-      description: 'Etsi kuvaparit.'
+      description: 'Etsi kuvaparit'
     },
     {
       id: 'whitetiles',
       name: "Don't Tap the White Tiles",
       img: "https://zzeyhenubyohhtzbeoyv.supabase.co/storage/v1/object/sign/pelien%20pikkukuvat/whitetiles.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NWY3OWU2Ny1iM2U5LTRlNDQtYTZiMy0zY2QzYThiMTdkNzAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwZWxpZW4gcGlra3VrdXZhdC93aGl0ZXRpbGVzLnBuZyIsImlhdCI6MTc3Mjk5NjE4OCwiZXhwIjo0OTI2NTk2MTg4fQ.Kj0hQhHiOpPK_gGhrTL3GOagzzpMEEZduS3SlTxPlSg",
       route: '/whitetiles',
-      description: 'Klikkaa kaikki mustat ruudut.'
+      description: 'Klikkaa kaikki mustat ruudut'
     },
     {
       id: 'wordle',
       name: 'Wordle',
+      img: wordlekuva,
       route: '/wordle',
-      description: 'Arvaa sana kuudella yrityksellä.',
+      description: 'Arvaa sana kuudella yrityksellä',
     },
     {
       id: 'colorgame',
       name: 'Väripeli',
+      img: colorgamekuva,
       route: '/colorgame',
       description: 'Värimuistipeli',
     }
